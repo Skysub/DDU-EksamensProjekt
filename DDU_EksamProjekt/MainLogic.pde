@@ -1,8 +1,11 @@
 class MainLogic {
   Keyboard kb;
+  GameStateManager gameStateManager;
 
-  MainLogic() {
+  MainLogic(PApplet program) {
     kb = new Keyboard();
+    gameStateManager = new GameStateManager();
+    InitializeScreens(program);
   }
 
   void Update() {
@@ -10,5 +13,8 @@ class MainLogic {
 
   void HandleInput(int x, boolean y) {
     kb.setKey(x, y);
+  }
+
+  void InitializeScreens(PApplet program) {
   }
 }

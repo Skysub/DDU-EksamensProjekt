@@ -2,7 +2,7 @@ import java.util.Random;
 MainLogic mainLogic;
 
 void setup() {
-  mainLogic = new MainLogic();
+  mainLogic = new MainLogic(this);
   frameRate(144);
   size(1920, 1080);
 }
