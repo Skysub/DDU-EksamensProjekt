@@ -3,8 +3,6 @@ Det er jo en arraylist, så i denne rækkefølge er de følgende informationer g
 0: bredde
 1: højde/længde
 2: bane id
-3: bane navn?
-4: Skabers navn?
 n: ...
 
 

@@ -6,7 +6,7 @@ class MainLogic {
     kb = new Keyboard();
     gameStateManager = new GameStateManager();
     InitializeScreens(program);
-    gameStateManager.SkiftGameState("MenuScreen");
+    gameStateManager.SkiftGameState("BaneScreen");
   }
 
   void Update() {
@@ -19,10 +19,13 @@ class MainLogic {
 
   void HandleInput(int x, boolean y) {
     kb.setKey(x, y);
+    
+    //Uncomment nedenunder for at bestemme en keycode, husk at comment igen bagefter
+    //println(x);
   }
 
   void InitializeScreens(PApplet program) {
-    gameStateManager.AddGameState("MenuScreen", new MenuScreen(program));
-    gameStateManager.AddGameState("BaneScreen", new BaneScreen(program));
+    gameStateManager.AddGameState("MenuScreen", new MenuScreen(program, kb));
+    gameStateManager.AddGameState("BaneScreen", new BaneScreen(program, kb));
   }
 }
