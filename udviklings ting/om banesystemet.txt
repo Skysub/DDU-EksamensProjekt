@@ -1,0 +1,8 @@
+bane[0][0] er til info om banen, der er derfor aldrig nogen brik der.
+Det er jo en arraylist, så i denne rækkefølge er de følgende informationer gemt.
+0: bredde
+1: højde/længde
+2: bane id
+3: bane navn?
+4: Skabers navn?
+n: ...
