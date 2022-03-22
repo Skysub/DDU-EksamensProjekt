@@ -2,8 +2,8 @@ class Keyboard {
   private Key[] keys;
 
   public Keyboard() {
-    keys = new Key[256];
-    for (int i = 0; i < 256; i++) {
+    keys = new Key[1024];
+    for (int i = 0; i < 1024; i++) {
       keys[i] = new Key();
     }
   }
@@ -16,6 +16,7 @@ class Keyboard {
 
   public void setKey(int x, boolean y) {
     keys[x].setState(y);
+    if (Shift(x)) toggle(x);
   }
 
   public boolean getKey(int x) {
@@ -35,6 +36,10 @@ class Keyboard {
     if (getKey(x) && !getOldKey(x)) {
       keys[x].Toggle();
     }
+  }
+
+  public void setToggle(int x, boolean y) {
+      keys[x].setToggle(y);
   }
 
   public boolean getToggle(int x) {

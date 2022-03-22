@@ -15,16 +15,18 @@ class Blok {
       break;
 
     default:
-      DrawB0();
+      break;
     }
   }
 
   void DrawB0() {
-    println("0");
-    fill(255);
+    fill(250);
     stroke(20);
+    strokeWeight(1);
     square(0, 0, 40);
-    line(0, 0, 40, 40);
+    stroke(100);
+    strokeWeight(1);
+    //line(0, 0, 40, 40);
     line(0, 40, 40, 0);
   }
 }

@@ -1,4 +1,4 @@
-class Key { //<>//
+class Key { //<>// //<>//
   private boolean state = false;
   private boolean old_state = false;
   private boolean toggle = false;
@@ -24,6 +24,10 @@ class Key { //<>//
 
   public void Toggle() {
     toggle = !toggle;
+  }
+
+  public void setToggle(boolean x) {
+    toggle = x;
   }
 
   public boolean getToggle() {
