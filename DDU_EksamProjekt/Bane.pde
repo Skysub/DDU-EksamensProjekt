@@ -13,9 +13,15 @@ class Bane {
   }
 
   void Update() {
+    //ting der skal opdateres hver frame
   }
 
   void Draw() {
+    pushMatrix();
+    translate(0, 80);
+    //Kald funktioner her der tegner ting
+
+    popMatrix();
   }
 
 

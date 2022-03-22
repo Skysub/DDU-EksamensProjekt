@@ -6,9 +6,15 @@ class MainLogic {
     kb = new Keyboard();
     gameStateManager = new GameStateManager();
     InitializeScreens(program);
+    gameStateManager.SkiftGameState("MenuScreen");
   }
 
   void Update() {
+    gameStateManager.Update();
+  }
+
+  void Draw() {
+    gameStateManager.Draw();
   }
 
   void HandleInput(int x, boolean y) {

@@ -6,6 +6,9 @@ public class GameState
   public void Update() {
   }
 
+  public void Draw() {
+  }
+
   public void Reset() {
   }
 

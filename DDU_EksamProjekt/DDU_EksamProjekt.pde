@@ -10,6 +10,7 @@ void setup() {
 void draw() {
   background(180);
   mainLogic.Update();
+  mainLogic.Draw();
 }
 
 void keyPressed() {
