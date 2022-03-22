@@ -6,3 +6,11 @@ Det er jo en arraylist, så i denne rækkefølge er de følgende informationer g
 3: bane navn?
 4: Skabers navn?
 n: ...
+
+
+Kameraet er repræsenteret af et float array, det er opbygget af følgende informationer. Alle koordinater er ikke i pixels.
+0: x-pos (top left)
+1: y-pos (top left)
+2: scale af view
+3: bredde af view (1920)
+4: højde af view (1000)
