@@ -12,3 +12,12 @@ Kameraet er repræsenteret af et float array, det er opbygget af følgende infor
 2: scale af view
 3: bredde af view (1920)
 4: højde af view (1000)
+
+
+Guide til hvad CalcCollisions() returner og hvad det betyder
+-1: out of bounds / Not aplicaple
+0: nothing/background
+1: wall
+2: button
+3: hazard (saw?)
+n: ...

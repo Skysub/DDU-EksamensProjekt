@@ -26,6 +26,8 @@ class Bane {
     //ting der skal opdateres hver frame
   }
 
+
+
   int Draw(boolean tileTest, boolean hitboxDebug) {
     pushMatrix();
     translate(0, 80);
@@ -34,6 +36,14 @@ class Bane {
     if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
 
     popMatrix();
+    return 0;
+  }
+
+  //Beregner om et punkt p i worldspace kolliderer med en hitbox og returner hitboxens type som int
+  int CalcCollision(PVector p) {
+    
+    
+    
     return 0;
   }
 
@@ -70,25 +80,6 @@ class Bane {
     }
   }
 
-  //Til test og debugging
-  void LavTestBane() {
-    IntList[][] test = new IntList[45][20];
-    for (int i = 0; i < 45; i++) {
-      for (int j = 0; j < 20; j++) {
-        test[i][j] = new IntList();
-        if (i == 0 && j == 0) {
-          test[0][0].append(45);
-          test[0][0].append(20);
-          test[0][0].append(-1);
-        } else {
-          test[i][j].append(0);
-          test[i][j].append(0);
-        }
-      }
-    }
-    LoadBane(test);
-  }
-
   float[] getKamera() {
     return kamera;
   }
@@ -113,6 +104,25 @@ class Bane {
   //Konverterer world koordinater til grid koordinater
   PVector WorldToGrid(PVector p) {
     return new PVector(floor(p.x/gridSize), floor(p.y/gridSize));
+  }
+
+  //Til test og debugging
+  void LavTestBane() {
+    IntList[][] test = new IntList[45][20];
+    for (int i = 0; i < 45; i++) {
+      for (int j = 0; j < 20; j++) {
+        test[i][j] = new IntList();
+        if (i == 0 && j == 0) {
+          test[0][0].append(45);
+          test[0][0].append(20);
+          test[0][0].append(-1);
+        } else {
+          test[i][j].append(0);
+          test[i][j].append(0);
+        }
+      }
+    }
+    LoadBane(test);
   }
 
   //Til test af tileSettet
