@@ -5,8 +5,8 @@ class Timer {
   Timer() {
   }
 
-  void Update(boolean playing, boolean baneStart, boolean loginScreenOpen, boolean endZone) {
-    handleTimer(playing, baneStart, loginScreenOpen, endZone);
+  void Update(boolean playing, boolean baneStart, boolean endZone) {
+    handleTimer(playing, baneStart, endZone);
   }
 
   void Draw() {
@@ -20,17 +20,17 @@ class Timer {
     time = time - floor(time/60000f)*60000;
     sec = floor(time/1000f);
     time = time - floor(time/1000f)*1000;
-    text("Time: "+min+":"+sec+"."+time, 340, 65);
+    text("Time:    "+min+":"+sec+"."+time, 180, 960);
 
     //samme som overstående men blot for rekord tiden
     recordMin = floor(record/60000f);
     record = record - floor(record/60000f)*60000;
     recordSec = floor(record/1000f);
     record = record - floor(record/1000f)*1000;
-    text("record: "+recordMin+":"+recordSec+"."+record, 775, 65);
+    text("Record: "+recordMin+":"+recordSec+"."+record, 180, 1030);
   }
 
-  void handleTimer(boolean playing, boolean baneStart, boolean loginScreenOpen, boolean endZone) {
+  void handleTimer(boolean playing, boolean baneStart, boolean endZone) {
     if (baneStart) {
       playing = true;
       time = 0;
@@ -38,7 +38,7 @@ class Timer {
       baneStart = false;
     }
     //måler tiden fra starten af race
-    if (playing && !loginScreenOpen) {
+    if (playing) {
       time = millis() - baneTimeStart;
     }
     //logic for når bane er ovre
