@@ -40,9 +40,21 @@ class Bane {
   }
 
   //Beregner om et punkt p i worldspace kolliderer med en hitbox og returner hitboxens type som int
-  int CalcCollision(PVector p) {
+  int CalcCollision(PVector p, boolean hitboxDebug) {
     int[] gridP = WorldToGrid(p);
     PVector[][] hitBoxes = blok.GetHitboxes(bane[gridP[0]][gridP[1]].get(0), bane[gridP[0]][gridP[1]].get(1));
+
+    //Visualiserer hvilke hitboses der tjekkes over
+    if (hitboxDebug) {
+      for (int i = 0; i<hitBoxes.length; i++) {
+        pushMatrix();
+        fill(0, 255, 0);
+        translate(0, 120);
+        translate(gridP[0]*gridSize, gridP[1]*gridSize);
+        rect(hitBoxes[i][0].x, hitBoxes[i][0].y, hitBoxes[i][1].x, hitBoxes[i][1].y);
+        popMatrix();
+      }
+    }
 
     //Tjekker for hver hitbox i en blok
     for (int i = 0; i<hitBoxes.length; i++) {

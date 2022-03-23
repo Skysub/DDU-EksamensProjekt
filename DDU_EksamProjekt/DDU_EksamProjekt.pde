@@ -9,8 +9,8 @@ void setup() {
 
 void draw() {
   background(180);
-  mainLogic.Update();
   mainLogic.Draw();
+  mainLogic.Update();
 }
 
 void keyPressed() {
