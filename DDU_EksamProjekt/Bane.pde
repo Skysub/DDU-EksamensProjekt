@@ -1,6 +1,6 @@
 class Bane {
   //grids bredde og højde i pixels
-  float gridSize = 40;
+  int gridSize = 40;
 
   Blok blok;
 
@@ -15,7 +15,7 @@ class Bane {
     bane[0][0] = new IntList();
     bane[0][0].append(-1);
 
-    blok = new Blok();
+    blok = new Blok(gridSize);
     blokkeIalt = blok.blokkeIalt;
 
     LavTileTestBane();
@@ -41,10 +41,23 @@ class Bane {
 
   //Beregner om et punkt p i worldspace kolliderer med en hitbox og returner hitboxens type som int
   int CalcCollision(PVector p) {
-    
-    
-    
-    return 0;
+    int[] gridP = WorldToGrid(p);
+    PVector[][] hitBoxes = blok.GetHitboxes(bane[gridP[0]][gridP[1]].get(0), bane[gridP[0]][gridP[1]].get(1));
+
+    //Tjekker for hver hitbox i en blok
+    for (int i = 0; i<hitBoxes.length; i++) {
+      //Tjekker om p er inden for x boundet af kassen
+      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x
+        && gridP[0]*gridSize+hitBoxes[i][0].x+hitBoxes[i][1].x >= p.x) {
+
+        //Tjekker om p er inden for y boundet af kassen
+        if (gridP[1]*gridSize+hitBoxes[i][0].y < p.y
+          && gridP[1]*gridSize+hitBoxes[i][0].y+hitBoxes[i][1].y >= p.y) {
+          return blok.GetType(bane[gridP[0]][gridP[1]].get(0));
+        }
+      }
+    }
+    return -1;
   }
 
   void DrawBane(boolean tileTest, boolean hitboxDebug) {
@@ -102,8 +115,14 @@ class Bane {
   }
 
   //Konverterer world koordinater til grid koordinater
-  PVector WorldToGrid(PVector p) {
-    return new PVector(floor(p.x/gridSize), floor(p.y/gridSize));
+  int[] WorldToGrid(PVector p) {
+    int[] out = {floor(p.x/gridSize), floor(p.y/gridSize)};
+    return out;
+  }
+
+  //Konverterer grid koordinater til world koordinater
+  PVector GridToWorld(int[] p) {
+    return new PVector(p[0]*gridSize, p[1]*gridSize);
   }
 
   //Til test og debugging
@@ -117,7 +136,7 @@ class Bane {
           test[0][0].append(20);
           test[0][0].append(-1);
         } else {
-          test[i][j].append(0);
+          test[i][j].append(1);
           test[i][j].append(0);
         }
       }
