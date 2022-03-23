@@ -3,6 +3,7 @@ class BaneScreen extends GameState {
 
   Bane bane;
   Keyboard kb;
+  Player player
   Timer timer;
   
   boolean playing = false, baneStart = false, endZone;
@@ -12,18 +13,19 @@ class BaneScreen extends GameState {
   Button mainMenuButton = new Button(1300, 950, 210, 115, "Main menu", color(190, 210, 120), color(115, 135, 45), 30, color(0, 0, 0));
   Button baneMenuButton = new Button(1010, 950, 210, 115, "Baner", color(190, 210, 120), color(115, 135, 45), 30, color(0, 0, 0));
 
-
   BaneScreen(PApplet program, Keyboard kb) {
     super(program, kb);
     bane = new Bane();
     this.kb = kb;
     timer = new Timer();
+    player = new Player(new PVector(95,96));
+
   }
 
   void Update() {
     bane.Update();
-    
     timer.Update(playing, baneStart, endZone);
+    player.Update();
     
     logoutButton.Update();
     mainMenuButton.Update();
@@ -40,5 +42,6 @@ class BaneScreen extends GameState {
     logoutButton.Draw();
     mainMenuButton.Draw();
     baneMenuButton.Draw();
+    player.Draw();
   }
 }
