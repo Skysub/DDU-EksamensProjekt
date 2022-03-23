@@ -1,16 +1,15 @@
-class Player {
+class Player3 {
 
-  PVector posP, posH, vel, acc, gravity;
+  PVector posP, posH, vel, acc, hook, gravity;
   float theta;
   int length, speed;
   boolean grap;
 
-  Player() {
+  Player3() {
     length = 30;
     speed = 3;
 
-    posH = new PVector(500, 200);  
-    posP = new PVector(posH.x - length*cos(theta), posH.y-length*sin(theta));
+    posH = new PVector(500, 200);    
     vel = new PVector(0, 0);
     acc = new PVector(0, 0);
     gravity = new PVector(0, 0.001);
@@ -22,13 +21,11 @@ class Player {
   }
 
   void Update(boolean left, boolean right, boolean space) {
-    
-    
+    posP = new PVector(posH.x - length*cos(theta), posH.y-length*sin(theta));
+
+
     if (left && !space && length == 30) theta-= 0.03;
     if (right && !space && length == 30) theta+= 0.03;
-    
-    //if(space) posH.add(new PVector(speed*cos(theta), speed*sin(theta)));
-    if(space) length += speed;
 
 
     //acc.add(gravity);
@@ -44,9 +41,18 @@ class Player {
     rectMode(CENTER);
     fill(50, 200, 50);
     rect(0, 0, 30, 50, 15, 15, 0, 0);
-    rotate(theta);
-    triangle(posH.x-posP.x, posH.y-posP.y-8, posH.x-posP.x+20, posH.y-posP.y, posH.x-posP.x, posH.y-posP.y+8); 
-    line(0, 0, posH.x-posP.x, posH.y-posP.y);
+
+    //rotate(theta);
+    pushMatrix();
+    translate(length*cos(theta), length*sin(theta));
+    rectMode(CENTER);
+    fill(50, 200, 50);
+    triangle(0, -10, 15, 0, 0, 10);
     popMatrix();
+    
+    popMatrix();
+
+
+    line(posP.x, posP.y, posH.x, posH.y);
   }
 }
