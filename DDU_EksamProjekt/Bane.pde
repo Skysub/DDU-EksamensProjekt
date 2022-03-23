@@ -1,4 +1,4 @@
-class Bane {
+class Bane { //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
@@ -42,14 +42,28 @@ class Bane {
   //Beregner om et punkt p i worldspace kolliderer med en hitbox og returner hitboxens type som int
   int CalcCollision(PVector p, boolean hitboxDebug) {
     int[] gridP = WorldToGrid(p);
-    PVector[][] hitBoxes = blok.GetHitboxes(bane[gridP[0]][gridP[1]].get(0), bane[gridP[0]][gridP[1]].get(1));
+    /*pushMatrix();
+    resetMatrix();
+    stroke(1);
+    line(0, 0, p.x, p.y);
+    popMatrix();*/
+    PVector[][] hitBoxes;
+
+    try {
+      hitBoxes = blok.GetHitboxes(bane[gridP[0]][gridP[1]].get(0), bane[gridP[0]][gridP[1]].get(1));
+    }
+    catch(ArrayIndexOutOfBoundsException e) {
+      //println("Collision Check Out Of Bounds " + millis());
+      return -1;
+    }
 
     //Visualiserer hvilke hitboses der tjekkes over
     if (hitboxDebug) {
       for (int i = 0; i<hitBoxes.length; i++) {
         pushMatrix();
+        resetMatrix();
         fill(0, 255, 0);
-        translate(0, 120);
+        translate(0, 80);
         translate(gridP[0]*gridSize, gridP[1]*gridSize);
         rect(hitBoxes[i][0].x, hitBoxes[i][0].y, hitBoxes[i][1].x, hitBoxes[i][1].y);
         popMatrix();
@@ -124,17 +138,17 @@ class Bane {
   //Konverterer world koordinater til screen koordinater
   PVector WorldToScreen(PVector p) {
     return new PVector((p.x-kamera[0])*kamera[2], (p.y-kamera[1])*kamera[2]);
-  }
+  } //<>//
 
   //Konverterer world koordinater til grid koordinater
   int[] WorldToGrid(PVector p) {
-    int[] out = {floor(p.x/gridSize), floor(p.y/gridSize)};
+    int[] out = {floor(p.x/gridSize), floor((p.y-80)/gridSize)};
     return out;
   }
 
   //Konverterer grid koordinater til world koordinater
   PVector GridToWorld(int[] p) {
-    return new PVector(p[0]*gridSize, p[1]*gridSize);
+    return new PVector(p[0]*gridSize, p[1]*gridSize+80);
   }
 
   //Til test og debugging
@@ -148,7 +162,8 @@ class Bane {
           test[0][0].append(20);
           test[0][0].append(-1);
         } else {
-          test[i][j].append(1);
+          if (j==15)test[i][j].append(0);
+          else test[i][j].append(1);
           test[i][j].append(0);
         }
       }

@@ -18,13 +18,13 @@ class BaneScreen extends GameState {
     bane = new Bane();
     this.kb = kb;
     timer = new Timer();
-    player = new Player(new PVector(95, 96), bane);
+    player = new Player(new PVector(95, 123), bane);
   }
 
   void Update() {
     bane.Update();
     player.Update(kb.getToggle(72));
-    
+
     timer.Update(playing, baneStart, endZone);
 
     logoutButton.Update();
@@ -34,10 +34,12 @@ class BaneScreen extends GameState {
 
   void Draw() {
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
-    player.Draw(kb.getToggle(72));
+    if (!kb.getToggle(84)) {
+      player.Draw(kb.getToggle(72));
 
-    drawBaneUI();
-    timer.Draw();
+      drawBaneUI();
+      timer.Draw();
+    }
   }
 
   void drawBaneUI() {

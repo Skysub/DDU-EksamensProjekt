@@ -84,6 +84,7 @@ class Blok {
   void DrawB0() {
     //square
     SetSquareSettings();
+    strokeWeight(2);
     square(0, 0, gridSize);
 
     //For the lines
@@ -95,7 +96,7 @@ class Blok {
     //Text
     textSize(10);
     fill(10);
-    text("Wall", 8, 26);
+    text("Wall", 20, 26);
   }
 
   //Background tile
