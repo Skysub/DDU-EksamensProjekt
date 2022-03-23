@@ -17,34 +17,30 @@ class BaneScreen extends GameState {
     super(program, kb);
     bane = new Bane();
     this.kb = kb;
-<<<<<<< HEAD
-    player = new Player(new PVector(95,96), bane);
-=======
-    timer = new Timer();
-    player = new Player(new PVector(95,96));
 
->>>>>>> 56cd6b90db3f3a2717f209e8b891fe6da3b06d37
+    timer = new Timer();
+    player = new Player(new PVector(95,96), bane);
   }
 
   void Update() {
     bane.Update();
-<<<<<<< HEAD
+
     player.Update(kb.getToggle(72));
-=======
+
     timer.Update(playing, baneStart, endZone);
-    player.Update();
+
     
     logoutButton.Update();
     mainMenuButton.Update();
     baneMenuButton.Update();
->>>>>>> 56cd6b90db3f3a2717f209e8b891fe6da3b06d37
+
   }
 
   void Draw() {
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
-<<<<<<< HEAD
+
     player.Draw(kb.getToggle(72));
-=======
+
     drawBaneUI();
     timer.Draw();
   }
@@ -53,7 +49,7 @@ class BaneScreen extends GameState {
     logoutButton.Draw();
     mainMenuButton.Draw();
     baneMenuButton.Draw();
-    player.Draw();
->>>>>>> 56cd6b90db3f3a2717f209e8b891fe6da3b06d37
+
+
   }
 }
