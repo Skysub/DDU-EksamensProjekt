@@ -5,7 +5,7 @@ class Player {
   PVector pos;
   PVector vel = new PVector(0, 0);
   PVector gravity = new PVector(0, 0.01);
-  float rot = 0.1;
+  float rot = 0.02;
   Bane bane;
 
   float startDrej = PI / 4;
@@ -22,7 +22,7 @@ class Player {
     vel.add(gravity);
     pos.add(vel);
     HandleColissions(hitboxDebug);
-    rot = rot + 0.01;
+    //rot = rot + 0.01;
   }
 
   void Draw(boolean hitboxDebug) {
@@ -32,8 +32,9 @@ class Player {
 
   void HandleColissions(boolean hitboxDebug) {
     pushMatrix();
-    translate(pos.x, pos.y);
     rotate(rot);
+    translate(pos.x, pos.y);
+
     float drej;
     for (int i = 0; i < hitPoints.length; i++) {
       if (bane.CalcCollision(LocalToWorld(hitPoints[i], pos, rot), hitboxDebug) == 1) {
@@ -83,7 +84,7 @@ class Player {
   PVector LocalToWorld(PVector p, PVector origin, float turn) {
     PVector out = new PVector(p.x, p.y);
     out.rotate(turn);
-    out.add(origin);     
+    out.add(origin);
     return out;
   }
 
