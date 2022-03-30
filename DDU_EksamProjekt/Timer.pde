@@ -20,14 +20,17 @@ class Timer {
     time = time - floor(time/60000f)*60000;
     sec = floor(time/1000f);
     time = time - floor(time/1000f)*1000;
-    text("Time:    "+min+":"+sec+"."+time, 180, 960);
+    text("Time: "+min+":"+sec+"."+time, 180, 30);
 
     //samme som overstående men blot for rekord tiden
     recordMin = floor(record/60000f);
     record = record - floor(record/60000f)*60000;
     recordSec = floor(record/1000f);
     record = record - floor(record/1000f)*1000;
-    text("Record: "+recordMin+":"+recordSec+"."+record, 180, 1030);
+    text("Record: "+recordMin+":"+recordSec+"."+record, 600, 30);
+    
+    rect(380, 0, 2, 80);
+    rect(800, 0, 2, 80);
   }
 
   void handleTimer(boolean playing, boolean baneStart, boolean endZone) {
