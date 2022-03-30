@@ -46,7 +46,6 @@ class Player {
       vel.setMag(0);
     } else if (length == 30) aroundPlayer = true;
 
-
     acc.add(gravity);
     vel.add(acc);
     posP.add(vel);
@@ -64,7 +63,10 @@ class Player {
       rect(0, 0, 30, 50, 15, 15, 0, 0);
       posH = new PVector(length*sin(theta), length*cos(theta));
       line(0, 0, posH.x, posH.y);
+
+      //triangle();
       circle(posH.x, posH.y, 8);
+      
       popMatrix();
     } else {
 
@@ -77,17 +79,15 @@ class Player {
       translate(hookX+playerX, hookY+playerY);
       posH.set(-length*sin(theta), -length*cos(theta), 0);
       posP.set(posH.x+playerX+hookX, posH.y+playerY+hookY);
-      
-      line(posH.x, posH.y, 0, 0); 
-      circle(0, 0, 8);
+
       rectMode(CENTER);
       fill(50, 200, 50);
       rect(posH.x, posH.y, 30, 50, 15, 15, 0, 0);
+      line(posH.x, posH.y, 0, 0); 
+      circle(0, 0, 8);
       popMatrix();
 
       length -=speed;
     }
-
-    line(0, 0, posP.x, posP.y);
   }
 }
