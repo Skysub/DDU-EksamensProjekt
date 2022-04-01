@@ -1,51 +1,56 @@
 class Player {
-PVector[] hitPoints;
- Bane bane;
+  PVector[] hitPoints;
+  Bane bane;
 
-  PVector posP, posH, vel, acc, gravity, rotationSpeed, rotationForce;
-  float theta = PI/2, length, aVel, aAcc, damping, hookInVel, hookInAcc, speed, swingSpeed, playerX, playerY, hookX, hookY;
-  boolean aroundPlayer = true, collision;
+  PVector posP, posH, vel = new PVector(0, 0), acc = new PVector(0, 0), rotationSpeed = new PVector(0, 0), rotationForce, 
+    gravity = new PVector(0, 0.02);
 
-  Player(Bane b) {
-    length = 30;
-    speed = 3;
-    swingSpeed = 10;
-    //a = angular
-    aVel =0;
-    aAcc = 0;
-    damping = 0.99;
-    hookInVel = 0;
-    hookInAcc = 0;
-    
-        hitPoints = GetHP();
-        bane = b;
+  float playerX, playerY, hookX, hookY, 
+    theta = PI/2, aVel=0, aAcc=0, hookInVel=0, hookInAcc=0, 
+    length=30, damping=0.99, speed=3, swingSpeed=10;
+
+  boolean aroundPlayer = true, 
+    collision = true; //Skal fjernes når kollision implementeres, og blive true når hooken rammer en væg/whatever
+
+  Player(PVector p, Bane b) {
+    hitPoints = GetHP();
+    bane = b;
+
     //P = player (karakteren)
-    posP = new PVector(500, 200);  
+    posP = p;  
     //H = hooken
     posH = new PVector(posP.x+length, posP.y);
-    vel = new PVector(0, 0);
-    acc = new PVector(0, 0);
-    gravity = new PVector(0, 0.02);
-    rotationSpeed = new PVector(0, 0);
-
-    //Skal fjernes når kollision implementeres, og blive true når hooken rammer en væg/whatever
-    collision = true;
   }
 
-
   void Update(boolean left, boolean right, boolean space) {
+    UpdateHook(left, right, space);
+
+    //Tilføjer kræfterne til accelerationen
+    acc.add(gravity);
+    vel.add(acc);
+    posP.add(vel);
+    acc.setMag(0);
+  }
+
+  void Draw(boolean hitboxDebug) {
+
+    if (aroundPlayer) DrawPlayerHook();
+    else DrawHookPlayer();
+    if (hitboxDebug)line(0, 0, posP.x, posP.y);
+  }
+
+  void UpdateHook(boolean left, boolean right, boolean space) {
     if (length < 30) length = 30;
-    
     //Controls, drejer på graplling hooken
     if (left && !space && length == 30) theta+= 0.03;
     if (right && !space && length == 30) theta-= 0.03;
-    
-    if(theta < PI/3) theta = PI/3;
-    if(theta > 5*PI/3) theta = 5*PI/3;
-    
+
+    if (theta < PI/3) theta = PI/3;
+    if (theta > 5*PI/3) theta = 5*PI/3;
+
     //Graplling hooken extendes
     if (space && aroundPlayer) length += speed + mag(vel.x, vel.y);
-    
+
     //Hvis den kolliderer med et soldit objekt
     else if (length > 30 && collision) {
       if (aroundPlayer) {
@@ -60,12 +65,12 @@ PVector[] hitPoints;
       aroundPlayer = false;
       acc.setMag(0);
       vel.setMag(0);
-      
+
       //Når spilleren er trukket op til grappling hooken igen
     } else if (length == 30) {
       aroundPlayer = true;
       hookInVel = 0;
-      
+
       //Hvis graplling hooken ikke kollidere, og trækkes tilbage
     } else if (!collision) length -= speed;
 
@@ -74,24 +79,13 @@ PVector[] hitPoints;
     if (mag(rotationForce.x, rotationForce.y) < 0) rotationForce.setMag(0);
     posP.add(rotationForce);
     rotationForce.setMag(mag(rotationForce.x, rotationForce.y) - 0.5);
-    
-    //Tilføjer kræfterne til accelerationen
-    acc.add(gravity);
-    vel.add(acc);
-    posP.add(vel);
-    acc.setMag(0);
-    
-    //Når hooken er hos spilleren
-    if (aroundPlayer) DrawPlayerHook();
-    //Når spilleren skal svinges om hooken
-    else {
+
+    if (!aroundPlayer) {
       //Vinkelacceleration og vinkelhastighed beregnes
       aAcc = (-0.5 * mag(gravity.x, gravity.y)*swingSpeed/length)*sin(theta);
       aVel += aAcc;
       theta -= aVel;
       aVel *= damping;
-
-      DrawHookPlayer();
 
       //Spilleren trækkes op til hooken. Hvis de trykker space kan denne optrækken pauses. 
       if (!space) {
@@ -101,10 +95,6 @@ PVector[] hitPoints;
         hookInAcc = 0;
       } else hookInVel = 0;
     }
-  }
-  
-    void Draw(boolean hitboxDebug) {
-    if (hitboxDebug)line(0, 0, pos.x, pos.y);
   }
 
   void DrawPlayerHook() {
@@ -136,12 +126,15 @@ PVector[] hitPoints;
     line(posH.x, posH.y, 0, 0); 
     circle(0, 0, 8);
     popMatrix();
-    }
-    
-      void DrawPlayer(boolean hitboxDebug) {
+  }
+
+
+  //Gammel kode fra player klassen frederik skrev
+  //=======================================================
+  void DrawPlayer(boolean hitboxDebug) {
     pushMatrix();
-    translate(pos.x, pos.y);
-    rotate(rot);
+    translate(posP.x, posP.y);
+    rotate(theta);
     if (hitboxDebug) {
       fill(255, 100, 100);
       noStroke();
@@ -207,4 +200,5 @@ PVector[] hitPoints;
         else return 3;
       }
     }
-}}
+  }
+}

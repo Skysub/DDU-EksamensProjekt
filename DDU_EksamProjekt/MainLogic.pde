@@ -3,12 +3,11 @@ class MainLogic {
   GameStateManager gameStateManager;
   Player player;
   
-  boolean left, right, space;
-
   MainLogic(PApplet program) {
     kb = new Keyboard();
     gameStateManager = new GameStateManager();
     InitializeScreens(program);
+    gameStateManager.SkiftGameState("BaneScreen");
   }
 
   void Update() {
@@ -22,14 +21,10 @@ class MainLogic {
   void HandleInput(int x, boolean y) {
     kb.setKey(x, y);
     
-
-    if(x == 32) space = y;
-    if(x == 37) left = y;
-    if(x == 39) right = y;
-
+    //Der skal ikke skrives mere her, brug KeyBoard klassen til controls
+    
     //Uncomment nedenunder for at bestemme en keycode, husk at comment igen bagefter
     //println(x);
-
   }
 
   void InitializeScreens(PApplet program) {
