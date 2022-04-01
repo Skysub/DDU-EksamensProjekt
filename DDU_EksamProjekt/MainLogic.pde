@@ -13,7 +13,7 @@ class MainLogic {
   }
 
   void Update() {
-    player.Run(left, right, space);
+    player.Update(left, right, space);
   }
 
   void HandleInput(int x, boolean y) {
