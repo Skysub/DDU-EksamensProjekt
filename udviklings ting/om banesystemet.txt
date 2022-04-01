@@ -1,0 +1,23 @@
+bane[0][0] er til info om banen, der er derfor aldrig nogen brik der.
+Det er jo en arraylist, så i denne rækkefølge er de følgende informationer gemt.
+0: bredde
+1: højde/længde
+2: bane id
+n: ...
+
+
+Kameraet er repræsenteret af et float array, det er opbygget af følgende informationer. Alle koordinater er ikke i pixels.
+0: x-pos (top left)
+1: y-pos (top left)
+2: scale af view
+3: bredde af view (1920)
+4: højde af view (1000)
+
+
+Guide til hvad CalcCollisions() returner og hvad det betyder
+-1: out of bounds / Not aplicaple
+0: nothing/background
+1: wall
+2: button
+3: hazard (saw?)
+n: ...

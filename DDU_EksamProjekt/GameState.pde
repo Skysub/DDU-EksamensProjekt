@@ -1,9 +1,12 @@
 public class GameState
 {
-  GameState(PApplet program) {
+  GameState(PApplet program, Keyboard kb) {
   }
 
   public void Update() {
+  }
+
+  public void Draw() {
   }
 
   public void Reset() {
