@@ -20,7 +20,7 @@ class BaneScreen extends GameState {
 
     box2d = new Box2DProcessing(program);  
     box2d.createWorld();
-    box2d.setGravity(0, -10);
+    box2d.setGravity(5, -10);
 
     bane = new Bane(box2d);
     this.kb = kb;
@@ -29,6 +29,7 @@ class BaneScreen extends GameState {
   }
 
   void Update() {
+
     bane.Update();
     player.Update();
 
@@ -43,13 +44,17 @@ class BaneScreen extends GameState {
   }
 
   void Draw() {
+        pushMatrix();
+    translate(0,80);
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
     if (!kb.getToggle(84)) {
       player.Draw(kb.getToggle(72));
+      popMatrix();
 
       drawBaneUI();
       timer.Draw();
     }
+    else popMatrix();
   }
 
   void drawBaneUI() {

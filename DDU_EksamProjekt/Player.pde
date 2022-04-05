@@ -24,7 +24,6 @@ class Player { //<>//
   void DrawPlayer(boolean hitboxDebug) {
     Vec2 pos = box2d.getBodyPixelCoord(body);
     float a = body.getAngle();
-    if (hitboxDebug) line(0, 0, pos.x, pos.y);
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(-a);
@@ -57,6 +56,7 @@ class Player { //<>//
       line(-20, 30, 20, 30);
     }
     popMatrix();
+    if (hitboxDebug) line(0, 0, pos.x, pos.y);
   }
 
   //Its Alive!!!

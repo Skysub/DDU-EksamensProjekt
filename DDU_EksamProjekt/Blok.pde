@@ -40,14 +40,13 @@ class Blok {
   }
 
   void MakeWall(Vec2 pos) {
-
     BodyDef bd = new BodyDef();
     PolygonShape ps = new PolygonShape();
-    pos.addLocal(new Vec2(gridSize/2, -gridSize/2));
+    pos.addLocal(new Vec2(gridSize/20, -gridSize/20));
     bd.position.set(pos);
     bd.type = BodyType.STATIC;
     Body body = box2d.createBody(bd);
-    ps.setAsBox(gridSize/10, gridSize/10);
+    ps.setAsBox(gridSize/20, gridSize/20);
     body.createFixture(ps, 1);
   }
 

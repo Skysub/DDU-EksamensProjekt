@@ -35,16 +35,9 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
 
   int Draw(boolean tileTest, boolean hitboxDebug) {
     pushMatrix();
-    translate(0, 80);
     scale(kamera[2]);
     //Kald funktioner her der tegner ting
     if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
-
-    int[] t = {10, 10};
-    Vec2 uh = GridToWorld(t); //<>//
-    Vec2 tt = box2d.coordWorldToPixels(uh);
-    line(0, 0, tt.x, tt.y);
-    println(tt);
     popMatrix();
     return 0;
   }
@@ -86,7 +79,6 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
         pushMatrix();
         resetMatrix();
         fill(0, 255, 0);
-        translate(0, 80);
         translate(gridP[0]*gridSize, gridP[1]*gridSize);
         rect(hitBoxes[i][0].x, hitBoxes[i][0].y, hitBoxes[i][1].x, hitBoxes[i][1].y);
         popMatrix();
@@ -177,7 +169,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
 
   //Til test og debugging
   void LavTestBane() {
-    IntList[][] test = new IntList[45][20];
+    IntList[][] test = new IntList[45][20]; //<>//
     for (int i = 0; i < 45; i++) {
       for (int j = 0; j < 20; j++) {
         test[i][j] = new IntList();
@@ -186,7 +178,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
           test[0][0].append(20);
           test[0][0].append(-1);
         } else {
-          if (j==15)test[i][j].append(0);
+          if (j==19 || i == 35 || i == 1 || j == 1)test[i][j].append(0);
           else test[i][j].append(1);
           test[i][j].append(0);
         }
