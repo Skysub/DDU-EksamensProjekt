@@ -1,3 +1,4 @@
+import shiffman.box2d.*;
 import java.util.Random;
 MainLogic mainLogic;
 
