@@ -18,11 +18,13 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
     bane[0][0] = new IntList();
     bane[0][0].append(-1);
 
-    blok = new Blok(gridSize);
+    blok = new Blok(gridSize, box2d);
     blokkeIalt = blok.blokkeIalt;
 
     LavTileTestBane();
     LavTestBane();
+
+    LavBaneIVerden();
   }
 
   void Update() {
@@ -38,8 +40,25 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
     //Kald funktioner her der tegner ting
     if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
 
+    int[] t = {10, 10};
+    Vec2 tt = box2d.coordWorldToPixels(GridToWorld(t));
+    line(0, 0, tt.x, tt.y);
+    println(tt);
     popMatrix();
     return 0;
+  }
+
+  void LavBaneIVerden() {
+    for (int i=0; i<bred; i++) {
+      for (int j=0; j<lang; j++) {
+        if (bane[i][j] != null) {
+          if (bane[i][j].get(0) == 0) {
+            int[] temp = {i, j};
+            blok.MakeWall(GridToWorld(temp));
+          }
+        }
+      }
+    }
   }
 
   //Beregner om et punkt p i worldspace kolliderer med en hitbox og returner hitboxens type som int
@@ -131,6 +150,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
     lang = b[0][0].get(1);
     id   = b[0][0].get(2);
     bane = b;
+    LavBaneIVerden();
   }
 
   //Konverterer screen koordinater til world koordinater
@@ -150,8 +170,8 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
   }
 
   //Konverterer grid koordinater til world koordinater
-  PVector GridToWorld(int[] p) {
-    return new PVector(p[0]*gridSize, p[1]*gridSize+80);
+  Vec2 GridToWorld(int[] p) {
+    return new Vec2(p[0]*gridSize-(width/2), height/2-p[1]*gridSize);
   }
 
   //Til test og debugging

@@ -1,4 +1,4 @@
-class Player {
+class Player { //<>//
   Bane bane;
   Box2DProcessing box2d;
   BodyDef bd = new BodyDef();
@@ -24,7 +24,7 @@ class Player {
   void DrawPlayer(boolean hitboxDebug) {
     Vec2 pos = box2d.getBodyPixelCoord(body);
     float a = body.getAngle();
-
+    if (hitboxDebug) line(0, 0, pos.x, pos.y);
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(-a);
@@ -38,11 +38,11 @@ class Player {
         vertex(v.x, v.y);
       }
       endShape(CLOSE);
-      strokeWeight(5);
+      strokeWeight(2);
       stroke(0);
       for (int i = 0; i < ps.getVertexCount(); i++) {
-        Vec2 v = box2d.vectorWorldToPixels(ps.getVertex(i));      
-        point(v.x, v.y);
+        //Vec2 v = box2d.vectorWorldToPixels(ps.getVertex(i));      
+        //point(v.x, v.y);
       }
       strokeWeight(1);
     } else {
@@ -62,11 +62,11 @@ class Player {
   //Its Alive!!!
   void makeBody(Vec2 startPos) {
     Vec2[] vertices = new Vec2[5];
-    vertices[0] = new Vec2(0, 30);
-    vertices[1] = new Vec2(-20, 10);
-    vertices[2] = new Vec2(20, -10);
-    vertices[3] = new Vec2(-20, -30);
-    vertices[4] = new Vec2(20, -30);
+    vertices[0] = new Vec2(0, 3);
+    vertices[1] = new Vec2(-2, 1);
+    vertices[2] = new Vec2(2, 1);
+    vertices[3] = new Vec2(-2, -3);
+    vertices[4] = new Vec2(2, -3);
     ps.set(vertices, 5);
 
     bd.position.set(startPos);

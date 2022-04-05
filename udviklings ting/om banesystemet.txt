@@ -5,6 +5,11 @@ Det er jo en arraylist, så i denne rækkefølge er de følgende informationer g
 2: bane id
 n: ...
 
+I resten af felterne er hver værdi i intlisten således:
+0: blok id
+1: rotation
+
+
 
 Kameraet er repræsenteret af et float array, det er opbygget af følgende informationer. Alle koordinater er ikke i pixels.
 0: x-pos (top left)
