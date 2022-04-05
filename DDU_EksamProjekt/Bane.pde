@@ -41,7 +41,8 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
     if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
 
     int[] t = {10, 10};
-    Vec2 tt = box2d.coordWorldToPixels(GridToWorld(t));
+    Vec2 uh = GridToWorld(t); //<>//
+    Vec2 tt = box2d.coordWorldToPixels(uh);
     line(0, 0, tt.x, tt.y);
     println(tt);
     popMatrix();
@@ -171,7 +172,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
 
   //Konverterer grid koordinater til world koordinater
   Vec2 GridToWorld(int[] p) {
-    return new Vec2(p[0]*gridSize-(width/2), height/2-p[1]*gridSize);
+    return new Vec2((p[0]*gridSize-(width/2))/10f, ((height/2)-p[1]*gridSize)/10f);
   }
 
   //Til test og debugging
