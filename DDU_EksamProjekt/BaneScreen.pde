@@ -24,7 +24,7 @@ class BaneScreen extends GameState {
     bane = new Bane(box2d);
     this.kb = kb;
     timer = new Timer();
-    player = new Player(bane, box2d);
+    player = new Player(bane, box2d, new Vec2(100, -100));
   }
 
   void Update() {
@@ -43,7 +43,7 @@ class BaneScreen extends GameState {
   void Draw() {
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
     if (!kb.getToggle(84)) {
-      player.Draw();
+      player.Draw(kb.getToggle(72);
 
       drawBaneUI();
       timer.Draw();
