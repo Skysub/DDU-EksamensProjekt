@@ -23,7 +23,9 @@ class BaneScreen extends GameState {
 
   void Update() {
     bane.Update();
-    player.Update(kb.getToggle(72), mainLogic.left, mainLogic.right, mainLogic.space);
+
+    player.Update(kb.getToggle(72), kb.getKey(37),kb.getKey(39),kb.getKey(32));
+
 
     timer.Update(playing, baneStart, endZone);
 

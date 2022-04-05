@@ -2,36 +2,38 @@ class Player {
   PVector[] hitPoints;
   Bane bane;
 
-  PVector posP, posH, vel, acc, gravity, rotationSpeed, rotationForce;
-  float theta = PI/2, length, aVel, aAcc, damping, hookInVel, hookInAcc, speed, swingSpeed, playerX, playerY, hookX, hookY;
-  boolean aroundPlayer = true, collision;
+
+  PVector posP, posH, vel = new PVector(0, 0), acc = new PVector(0, 0), rotationSpeed = new PVector(0, 0), rotationForce, 
+    gravity = new PVector(0, 0.02);
+
+  float playerX, playerY, hookX, hookY, 
+    theta = PI/2, aVel=0, aAcc=0, hookInVel=0, hookInAcc=0, 
+    length=30, damping=0.99, speed=3, swingSpeed=10;
+
+  boolean aroundPlayer = true, 
+    collision = true; //Skal fjernes når kollision implementeres, og blive true når hooken rammer en væg/whatever
 
   Player(PVector p, Bane b) {
-    length = 30;
-    speed = 3;
-    swingSpeed = 10;
-    //a = angular
-    aVel =0;
-    aAcc = 0;
-    damping = 0.99;
-    hookInVel = 0;
-    hookInAcc = 0;
-
     hitPoints = GetHP();
     bane = b;
+
     //P = player (karakteren)
     posP = p;  
     //H = hooken
     posH = new PVector(posP.x+length, posP.y);
-    vel = new PVector(0, 0);
-    acc = new PVector(0, 0);
-    gravity = new PVector(0, 0.02);
-    rotationSpeed = new PVector(0, 0);
-
-    //Skal fjernes når kollision implementeres, og blive true når hooken rammer en væg/whatever
-    collision = true;
   }
 
+  void Update(boolean left, boolean right, boolean space) {
+    UpdateHook(left, right, space);
+
+    //Tilføjer kræfterne til accelerationen
+    acc.add(gravity);
+    vel.add(acc);
+    posP.add(vel);
+    acc.setMag(0);
+  }
+
+  void Draw(boolean hitboxDebug) {
 
   void Update(boolean h, boolean left, boolean right, boolean space) {
     if (length < 30) length = 30;
@@ -85,13 +87,12 @@ class Player {
     if (aroundPlayer) DrawPlayerHook();
     //Når spilleren skal svinges om hooken
     else {
+
       //Vinkelacceleration og vinkelhastighed beregnes
       aAcc = (-0.5 * mag(gravity.x, gravity.y)*swingSpeed/length)*sin(theta);
       aVel += aAcc;
       theta -= aVel;
       aVel *= damping;
-
-      DrawHookPlayer();
 
       //Spilleren trækkes op til hooken. Hvis de trykker space kan denne optrækken pauses. 
       if (!space) {
@@ -110,6 +111,7 @@ class Player {
   void Draw(boolean hitboxDebug) {
     if (hitboxDebug)line(0, 0, posP.x, posP.y);
   }
+
 
   void DrawPlayerHook() {
     //Koordinatesystemets origo sættes i karakteren
@@ -142,10 +144,13 @@ class Player {
     popMatrix();
   }
 
+  //Gammel kode fra player klassen frederik skrev
+  //=======================================================
   void DrawPlayer(boolean hitboxDebug) {
     pushMatrix();
     translate(posP.x, posP.y);
     rotate(theta-PI);
+
     if (hitboxDebug) {
       fill(255, 100, 100);
       noStroke();
