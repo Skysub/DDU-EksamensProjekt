@@ -1,8 +1,9 @@
-class Bane { //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
   Blok blok;
+  Box2DProcessing box2d;
 
   IntList[][] bane, tileSetTest;
   int bred = -1, lang = -1, id = -1;
@@ -10,7 +11,9 @@ class Bane { //<>// //<>// //<>// //<>//
 
   int blokkeIalt;
 
-  Bane() {
+  Bane(Box2DProcessing b) {
+    box2d = b;
+
     bane = new IntList[1][1];
     bane[0][0] = new IntList();
     bane[0][0].append(-1);
@@ -43,10 +46,10 @@ class Bane { //<>// //<>// //<>// //<>//
   int CalcCollision(PVector p, boolean hitboxDebug) {
     int[] gridP = WorldToGrid(p);
     /*pushMatrix();
-    resetMatrix();
-    stroke(1);
-    line(0, 0, p.x, p.y);
-    popMatrix();*/
+     resetMatrix();
+     stroke(1);
+     line(0, 0, p.x, p.y);
+     popMatrix();*/
     PVector[][] hitBoxes;
 
     try {
@@ -138,7 +141,7 @@ class Bane { //<>// //<>// //<>// //<>//
   //Konverterer world koordinater til screen koordinater
   PVector WorldToScreen(PVector p) {
     return new PVector((p.x-kamera[0])*kamera[2], (p.y-kamera[1])*kamera[2]);
-  } //<>//
+  }
 
   //Konverterer world koordinater til grid koordinater
   int[] WorldToGrid(PVector p) {

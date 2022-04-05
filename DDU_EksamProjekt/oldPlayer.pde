@@ -1,4 +1,4 @@
-class Player {
+class oldPlayer {
   PVector[] hitPoints;
   Bane bane;
 
@@ -13,7 +13,7 @@ class Player {
   boolean aroundPlayer = true, 
     collision = true; //Skal fjernes når kollision implementeres, og blive true når hooken rammer en væg/whatever
 
-  Player(PVector p, Bane b) {
+  oldPlayer(PVector p, Bane b) {
     hitPoints = GetHP();
     bane = b;
 
@@ -23,17 +23,6 @@ class Player {
     posH = new PVector(posP.x+length, posP.y);
   }
 
-  void Update(boolean left, boolean right, boolean space) {
-    UpdateHook(left, right, space);
-
-    //Tilføjer kræfterne til accelerationen
-    acc.add(gravity);
-    vel.add(acc);
-    posP.add(vel);
-    acc.setMag(0);
-  }
-
-  void Draw(boolean hitboxDebug) {
 
   void Update(boolean h, boolean left, boolean right, boolean space) {
     if (length < 30) length = 30;
