@@ -13,6 +13,8 @@ class MainLogic {
 
   void Update() {
     gameStateManager.Update();
+    
+    //gameStateManager.SkiftGameState("BaneScreen");
   }
 
   void Draw() {
@@ -21,7 +23,6 @@ class MainLogic {
 
   void HandleInput(int x, boolean y) {
     kb.setKey(x, y);
-    
 
     if(x == 32) space = y;
     if(x == 37) left = y;
