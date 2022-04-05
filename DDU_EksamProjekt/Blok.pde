@@ -1,10 +1,12 @@
 class Blok {
+  Box2DProcessing box2d;
 
   int blokkeIalt = 2;
   int gridSize;
 
-  Blok(int g) {
+  Blok(int g, Box2DProcessing w) {
     gridSize = g;
+    box2d = w;
   }
 
   //tegner blokken, al translation og rotation gøres ikke her men i metoden der kalder denne metode
@@ -27,14 +29,25 @@ class Blok {
   //returnerer typen af hitbox som blokken har, skal genlaves hvis en blok skal have mere end 1 type hitbox
   int GetType(int id) {
     switch (id) {
-    case 0: //Start blok
+    case 0: //wall blok
       return 1;
-    case 1:
+    case 1: //luft blok
       return 0;
 
     default:
       return -1;
     }
+  }
+
+  void MakeWall(Vec2 pos) {
+    BodyDef bd = new BodyDef();
+    PolygonShape ps = new PolygonShape();
+    pos.addLocal(new Vec2(gridSize/20, -gridSize/20));
+    bd.position.set(pos);
+    bd.type = BodyType.STATIC;
+    Body body = box2d.createBody(bd);
+    ps.setAsBox(gridSize/20, gridSize/20);
+    body.createFixture(ps, 1);
   }
 
   //returnerer alle hitboxes fra blokken med relativt shift i forhold til blokken bilen er i

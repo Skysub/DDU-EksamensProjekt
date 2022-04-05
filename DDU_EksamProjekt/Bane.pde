@@ -1,8 +1,9 @@
-class Bane { //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
   Blok blok;
+  Box2DProcessing box2d;
 
   IntList[][] bane, tileSetTest;
   int bred = -1, lang = -1, id = -1;
@@ -10,16 +11,20 @@ class Bane { //<>// //<>// //<>// //<>//
 
   int blokkeIalt;
 
-  Bane() {
+  Bane(Box2DProcessing b) {
+    box2d = b;
+
     bane = new IntList[1][1];
     bane[0][0] = new IntList();
     bane[0][0].append(-1);
 
-    blok = new Blok(gridSize);
+    blok = new Blok(gridSize, box2d);
     blokkeIalt = blok.blokkeIalt;
 
     LavTileTestBane();
     LavTestBane();
+
+    LavBaneIVerden();
   }
 
   void Update() {
@@ -30,23 +35,34 @@ class Bane { //<>// //<>// //<>// //<>//
 
   int Draw(boolean tileTest, boolean hitboxDebug) {
     pushMatrix();
-    translate(0, 80);
     scale(kamera[2]);
     //Kald funktioner her der tegner ting
     if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
-
     popMatrix();
     return 0;
+  }
+
+  void LavBaneIVerden() {
+    for (int i=0; i<bred; i++) {
+      for (int j=0; j<lang; j++) {
+        if (bane[i][j] != null) {
+          if (bane[i][j].get(0) == 0) {
+            int[] temp = {i, j};
+            blok.MakeWall(GridToWorld(temp));
+          }
+        }
+      }
+    }
   }
 
   //Beregner om et punkt p i worldspace kolliderer med en hitbox og returner hitboxens type som int
   int CalcCollision(PVector p, boolean hitboxDebug) {
     int[] gridP = WorldToGrid(p);
     /*pushMatrix();
-    resetMatrix();
-    stroke(1);
-    line(0, 0, p.x, p.y);
-    popMatrix();*/
+     resetMatrix();
+     stroke(1);
+     line(0, 0, p.x, p.y);
+     popMatrix();*/
     PVector[][] hitBoxes;
 
     try {
@@ -63,7 +79,6 @@ class Bane { //<>// //<>// //<>// //<>//
         pushMatrix();
         resetMatrix();
         fill(0, 255, 0);
-        translate(0, 80);
         translate(gridP[0]*gridSize, gridP[1]*gridSize);
         rect(hitBoxes[i][0].x, hitBoxes[i][0].y, hitBoxes[i][1].x, hitBoxes[i][1].y);
         popMatrix();
@@ -128,6 +143,7 @@ class Bane { //<>// //<>// //<>// //<>//
     lang = b[0][0].get(1);
     id   = b[0][0].get(2);
     bane = b;
+    LavBaneIVerden();
   }
 
   //Konverterer screen koordinater til world koordinater
@@ -138,7 +154,7 @@ class Bane { //<>// //<>// //<>// //<>//
   //Konverterer world koordinater til screen koordinater
   PVector WorldToScreen(PVector p) {
     return new PVector((p.x-kamera[0])*kamera[2], (p.y-kamera[1])*kamera[2]);
-  } //<>//
+  }
 
   //Konverterer world koordinater til grid koordinater
   int[] WorldToGrid(PVector p) {
@@ -147,13 +163,13 @@ class Bane { //<>// //<>// //<>// //<>//
   }
 
   //Konverterer grid koordinater til world koordinater
-  PVector GridToWorld(int[] p) {
-    return new PVector(p[0]*gridSize, p[1]*gridSize+80);
+  Vec2 GridToWorld(int[] p) {
+    return new Vec2((p[0]*gridSize-(width/2))/10f, ((height/2)-p[1]*gridSize)/10f);
   }
 
   //Til test og debugging
   void LavTestBane() {
-    IntList[][] test = new IntList[45][20];
+    IntList[][] test = new IntList[45][20]; //<>//
     for (int i = 0; i < 45; i++) {
       for (int j = 0; j < 20; j++) {
         test[i][j] = new IntList();
@@ -162,7 +178,7 @@ class Bane { //<>// //<>// //<>// //<>//
           test[0][0].append(20);
           test[0][0].append(-1);
         } else {
-          if (j==15)test[i][j].append(0);
+          if (j==19 || i == 35 || i == 1 || j == 1)test[i][j].append(0);
           else test[i][j].append(1);
           test[i][j].append(0);
         }
