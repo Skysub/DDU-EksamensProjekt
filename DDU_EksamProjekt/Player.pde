@@ -2,6 +2,7 @@ class Player {
   PVector[] hitPoints;
   Bane bane;
 
+
   PVector posP, posH, vel = new PVector(0, 0), acc = new PVector(0, 0), rotationSpeed = new PVector(0, 0), rotationForce, 
     gravity = new PVector(0, 0.02);
 
@@ -34,13 +35,9 @@ class Player {
 
   void Draw(boolean hitboxDebug) {
 
-    if (aroundPlayer) DrawPlayerHook();
-    else DrawHookPlayer();
-    if (hitboxDebug)line(0, 0, posP.x, posP.y);
-  }
-
-  void UpdateHook(boolean left, boolean right, boolean space) {
+  void Update(boolean h, boolean left, boolean right, boolean space) {
     if (length < 30) length = 30;
+
     //Controls, drejer på graplling hooken
     if (left && !space && length == 30) theta+= 0.03;
     if (right && !space && length == 30) theta-= 0.03;
@@ -80,7 +77,17 @@ class Player {
     posP.add(rotationForce);
     rotationForce.setMag(mag(rotationForce.x, rotationForce.y) - 0.5);
 
-    if (!aroundPlayer) {
+    //Tilføjer kræfterne til accelerationen
+    acc.add(gravity);
+    vel.add(acc);
+    posP.add(vel);
+    acc.setMag(0);
+
+    //Når hooken er hos spilleren
+    if (aroundPlayer) DrawPlayerHook();
+    //Når spilleren skal svinges om hooken
+    else {
+
       //Vinkelacceleration og vinkelhastighed beregnes
       aAcc = (-0.5 * mag(gravity.x, gravity.y)*swingSpeed/length)*sin(theta);
       aVel += aAcc;
@@ -95,7 +102,16 @@ class Player {
         hookInAcc = 0;
       } else hookInVel = 0;
     }
+    
+    Draw(h);
+    DrawPlayer(h);
+    
   }
+
+  void Draw(boolean hitboxDebug) {
+    if (hitboxDebug)line(0, 0, posP.x, posP.y);
+  }
+
 
   void DrawPlayerHook() {
     //Koordinatesystemets origo sættes i karakteren
@@ -128,13 +144,13 @@ class Player {
     popMatrix();
   }
 
-
   //Gammel kode fra player klassen frederik skrev
   //=======================================================
   void DrawPlayer(boolean hitboxDebug) {
     pushMatrix();
     translate(posP.x, posP.y);
-    rotate(theta);
+    rotate(theta-PI);
+
     if (hitboxDebug) {
       fill(255, 100, 100);
       noStroke();

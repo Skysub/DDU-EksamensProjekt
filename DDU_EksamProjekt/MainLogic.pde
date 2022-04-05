@@ -12,6 +12,8 @@ class MainLogic {
 
   void Update() {
     gameStateManager.Update();
+    
+    //gameStateManager.SkiftGameState("BaneScreen");
   }
 
   void Draw() {
@@ -20,7 +22,6 @@ class MainLogic {
 
   void HandleInput(int x, boolean y) {
     kb.setKey(x, y);
-    
     //Der skal ikke skrives mere her, brug KeyBoard klassen til controls
     
     //Uncomment nedenunder for at bestemme en keycode, husk at comment igen bagefter
