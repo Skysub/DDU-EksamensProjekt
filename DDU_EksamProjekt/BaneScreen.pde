@@ -20,7 +20,7 @@ class BaneScreen extends GameState {
 
     box2d = new Box2DProcessing(program);  
     box2d.createWorld();
-    box2d.setGravity(5, -10);
+    box2d.setGravity(0, -10);
 
     bane = new Bane(box2d);
     this.kb = kb;
