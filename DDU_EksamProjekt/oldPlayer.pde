@@ -91,10 +91,9 @@ class oldPlayer {
         hookInAcc = 0;
       } else hookInVel = 0;
     }
-    
+
     Draw(h);
     DrawPlayer(h);
-    
   }
 
   void Draw(boolean hitboxDebug) {
