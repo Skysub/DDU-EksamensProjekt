@@ -47,6 +47,7 @@ class Button {
     if (mouseOver)fill(color(red(currentColor)*0.8f, green(currentColor)*0.8f, blue(currentColor)*0.8f)); 
 
     noStroke();
+    rectMode(CORNER);
     rect(x, y, widthB, heightB, 15);
 
     fill(textColor);

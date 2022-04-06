@@ -8,6 +8,5 @@ class MenuScreen extends GameState {
   }
 
   void Draw() {
-    rect(100, 100, 100, 100);
   }
 }

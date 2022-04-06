@@ -30,5 +30,6 @@ class MainLogic {
   void InitializeScreens(PApplet program) {
     gameStateManager.AddGameState("MenuScreen", new MenuScreen(program, kb));
     gameStateManager.AddGameState("BaneScreen", new BaneScreen(program, kb));
+    gameStateManager.AddGameState("BaneMenuScreen", new BaneMenuScreen(program, kb));
   }
 }
