@@ -31,10 +31,10 @@ class BaneScreen extends GameState {
   void Update() {
 
     bane.Update();
-    player.Update();
+    player.Update(kb.getKey(37), kb.getKey(39));
 
     box2d.step();
-   
+
 
     timer.Update(playing, baneStart, endZone);
 
@@ -44,8 +44,8 @@ class BaneScreen extends GameState {
   }
 
   void Draw() {
-        pushMatrix();
-    translate(0,80);
+    pushMatrix();
+    translate(0, 80);
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
     if (!kb.getToggle(84)) {
       player.Draw(kb.getToggle(72));
@@ -53,8 +53,7 @@ class BaneScreen extends GameState {
 
       drawBaneUI();
       timer.Draw();
-    }
-    else popMatrix();
+    } else popMatrix();
   }
 
   void drawBaneUI() {

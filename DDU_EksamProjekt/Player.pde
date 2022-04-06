@@ -5,16 +5,20 @@ class Player { //<>//
   Body body;
   PolygonShape ps = new PolygonShape();
   FixtureDef fd = new FixtureDef();
+  Hook hook;
+
 
   Player(Bane ba, Box2DProcessing b, Vec2 startPos) {
     bane = ba;
     box2d = b;
+    hook = new Hook(box2d, new Vec2(0, 0));
 
     makeBody(startPos);
   }
 
 
-  void Update() {
+  void Update(boolean left, boolean right) {
+    hook.Update(left, right);
   }
 
   void Draw(boolean hitboxDebug) {
@@ -23,6 +27,8 @@ class Player { //<>//
 
   void DrawPlayer(boolean hitboxDebug) {
     Vec2 pos = box2d.getBodyPixelCoord(body);
+    //println(body.getPosition());
+    //println(box2d.vectorWorldToPixels(body.getPosition()));
     float a = body.getAngle();
     pushMatrix();
     translate(pos.x, pos.y);
@@ -56,6 +62,7 @@ class Player { //<>//
       line(-20, 30, 20, 30);
     }
     popMatrix();
+    hook.Draw(hitboxDebug, body.getPosition(), body.getAngle());
     if (hitboxDebug) line(0, 0, pos.x, pos.y);
   }
 
@@ -77,7 +84,7 @@ class Player { //<>//
 
     fd.shape = ps;
     fd.friction = 0.3;
-    fd.restitution = 0.5;
+    fd.restitution = 0.2;
     fd.density = 1.0;
 
     body.createFixture(fd);
