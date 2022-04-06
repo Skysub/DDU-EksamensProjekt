@@ -7,7 +7,7 @@ class MainLogic {
     kb = new Keyboard();
     gameStateManager = new GameStateManager();
     InitializeScreens(program);
-    gameStateManager.SkiftGameState("BaneScreen");
+    gameStateManager.SkiftGameState("MenuScreen");
   }
 
   void Update() {
