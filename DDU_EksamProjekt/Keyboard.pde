@@ -39,7 +39,7 @@ class Keyboard {
   }
 
   public void setToggle(int x, boolean y) {
-      keys[x].setToggle(y);
+    keys[x].setToggle(y);
   }
 
   public boolean getToggle(int x) {

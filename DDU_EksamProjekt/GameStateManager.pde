@@ -14,8 +14,8 @@ public static class GameStateManager
     if (currentGameState != null)
       currentGameState.Update();
   }
-  
-    void Draw()
+
+  void Draw()
   {
     if (currentGameState != null)
       currentGameState.Draw();

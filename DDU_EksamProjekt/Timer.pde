@@ -28,7 +28,7 @@ class Timer {
     recordSec = floor(record/1000f);
     record = record - floor(record/1000f)*1000;
     text("Record: "+recordMin+":"+recordSec+"."+record, 600, 30);
-    
+
     rect(380, 0, 2, 80);
     rect(800, 0, 2, 80);
   }
