@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
@@ -79,7 +79,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
         pushMatrix();
         resetMatrix();
         fill(0, 255, 0);
-        translate(gridP[0]*gridSize, gridP[1]*gridSize);
+        translate(gridP[0]*gridSize, gridP[1]*gridSize+80);
         rect(hitBoxes[i][0].x, hitBoxes[i][0].y, hitBoxes[i][1].x, hitBoxes[i][1].y);
         popMatrix();
       }
@@ -88,7 +88,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
     //Tjekker for hver hitbox i en blok
     for (int i = 0; i<hitBoxes.length; i++) {
       //Tjekker om p er inden for x boundet af kassen
-      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x
+      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x //<>// //<>//
         && gridP[0]*gridSize+hitBoxes[i][0].x+hitBoxes[i][1].x >= p.x) {
 
         //Tjekker om p er inden for y boundet af kassen
@@ -158,7 +158,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
 
   //Konverterer world koordinater til grid koordinater
   int[] WorldToGrid(PVector p) {
-    int[] out = {floor(p.x/gridSize), floor((p.y-80)/gridSize)};
+    int[] out = {floor(p.x/gridSize), floor((p.y)/gridSize)};
     return out;
   }
 
@@ -169,7 +169,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
 
   //Til test og debugging
   void LavTestBane() {
-    IntList[][] test = new IntList[45][20]; //<>//
+    IntList[][] test = new IntList[45][20];
     for (int i = 0; i < 45; i++) {
       for (int j = 0; j < 20; j++) {
         test[i][j] = new IntList();

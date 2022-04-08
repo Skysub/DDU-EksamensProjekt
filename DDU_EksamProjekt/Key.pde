@@ -1,4 +1,4 @@
-class Key { //<>// //<>//
+class Key { //<>// //<>// //<>//
   private boolean state = false;
   private boolean old_state = false;
   private boolean toggle = false;

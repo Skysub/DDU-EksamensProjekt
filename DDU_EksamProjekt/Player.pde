@@ -1,4 +1,4 @@
-class Player { //<>//
+class Player {
   Bane bane;
   Box2DProcessing box2d;
   BodyDef bd = new BodyDef();
@@ -6,19 +6,21 @@ class Player { //<>//
   PolygonShape ps = new PolygonShape();
   FixtureDef fd = new FixtureDef();
   Hook hook;
+  float wobble = 0.05; //OG value = 0,05
 
 
   Player(Bane ba, Box2DProcessing b, Vec2 startPos) {
     bane = ba;
     box2d = b;
-    hook = new Hook(box2d, new Vec2(0, 0));
-
+    hook = new Hook(box2d, new Vec2(0, 0), bane);
     makeBody(startPos);
   }
 
+  void Update(boolean left, boolean right, boolean space, boolean hitboxDebug) {
+    Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug);
 
-  void Update(boolean left, boolean right) {
-    hook.Update(left, right);
+    //En kraftvektor, og punktet hvor hooken sidder på spilleren
+    body.applyForce(retning, new Vec2(body.getPosition().x+(sin(-body.getAngle())*wobble), body.getPosition().y+(cos(-body.getAngle())*wobble)));
   }
 
   void Draw(boolean hitboxDebug) {
@@ -26,15 +28,20 @@ class Player { //<>//
   }
 
   void DrawPlayer(boolean hitboxDebug) {
-    Vec2 pos = box2d.getBodyPixelCoord(body);
-    //println(body.getPosition());
-    //println(box2d.vectorWorldToPixels(body.getPosition()));
+    Vec2 pos = box2d.getBodyPixelCoord(body); //Får positionen af spilleren på skærmen i pixels
     float a = body.getAngle();
+
+    //Tegner hooken, det er vigtigt at det sker her, så snoren ikke overlapper spilleren
+    hook.Draw(hitboxDebug, body.getPosition(), body.getAngle());
+
+    //Spilleren tegnes
+    stroke(1);
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(-a);
 
     if (hitboxDebug) {
+      //Tegner spillerens hitbox, altså hvordan physics enginenen ser spilleren
       fill(255, 100, 100);
       noStroke();
       beginShape();
@@ -43,12 +50,7 @@ class Player { //<>//
         vertex(v.x, v.y);
       }
       endShape(CLOSE);
-      strokeWeight(2);
       stroke(0);
-      for (int i = 0; i < ps.getVertexCount(); i++) {
-        //Vec2 v = box2d.vectorWorldToPixels(ps.getVertex(i));      
-        //point(v.x, v.y);
-      }
       strokeWeight(1);
     } else {
       strokeWeight(1);
@@ -62,12 +64,14 @@ class Player { //<>//
       line(-20, 30, 20, 30);
     }
     popMatrix();
-    hook.Draw(hitboxDebug, body.getPosition(), body.getAngle());
+
+    //Tegner en linje til spillerens position, altså centrum
     if (hitboxDebug) line(0, 0, pos.x, pos.y);
   }
 
   //Its Alive!!!
   void makeBody(Vec2 startPos) {
+    //De punkter spillerens hitbox består af
     Vec2[] vertices = new Vec2[5];
     vertices[0] = new Vec2(0, 3);
     vertices[1] = new Vec2(-2, 1);
@@ -78,14 +82,15 @@ class Player { //<>//
 
     bd.position.set(startPos);
     bd.type = BodyType.DYNAMIC;
-    //bd.bullet = true; Hold denne her commented
+    //bd.bullet = true; //Uncomment denne linje hvis spilleren ikke kolliderer ordentligt da den er for hurtig
 
     body = box2d.createBody(bd);
 
+    //Sætter nogle vigtige karakteristika
     fd.shape = ps;
-    fd.friction = 0.3;
-    fd.restitution = 0.2;
-    fd.density = 1.0;
+    fd.friction = 0.6; //OG value 0,6
+    fd.restitution = 0.1; //OG value 0,1
+    fd.density = 1.0; //OG value 1,0
 
     body.createFixture(fd);
   }

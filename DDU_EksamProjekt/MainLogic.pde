@@ -11,9 +11,11 @@ class MainLogic {
   }
 
   void Update() {
+
     gameStateManager.Update();
 
     //gameStateManager.SkiftGameState("BaneScreen");
+    kb.Update();
   }
 
   void Draw() {

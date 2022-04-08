@@ -20,7 +20,7 @@ class BaneScreen extends GameState {
 
     box2d = new Box2DProcessing(program);  
     box2d.createWorld();
-    box2d.setGravity(0, -10);
+    box2d.setGravity(0, -15);
 
     bane = new Bane(box2d);
     this.kb = kb;
@@ -31,7 +31,7 @@ class BaneScreen extends GameState {
   void Update() {
 
     bane.Update();
-    player.Update(kb.getKey(37), kb.getKey(39));
+    player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
 
     box2d.step();
 
