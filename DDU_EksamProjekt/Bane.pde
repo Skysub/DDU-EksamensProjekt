@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
@@ -88,7 +88,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>//
     //Tjekker for hver hitbox i en blok
     for (int i = 0; i<hitBoxes.length; i++) {
       //Tjekker om p er inden for x boundet af kassen
-      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x //<>//
+      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x //<>// //<>//
         && gridP[0]*gridSize+hitBoxes[i][0].x+hitBoxes[i][1].x >= p.x) {
 
         //Tjekker om p er inden for y boundet af kassen
