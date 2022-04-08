@@ -2,7 +2,7 @@ class Hook {
 
   Vec2 pos, vel = new Vec2(0, 0);
   Box2DProcessing box2d;
-  float distanceSit = 3, theta = 0, thetaR = 0, thetaT = 0, size = 10, aimSpeed = 0.04, hookSpeed = 35, hookStrength = 15, doneLength = 5;
+  float distanceSit = 3, theta = 0, thetaR = 0, thetaT = 0, size = 10, aimSpeed = 0.04, hookSpeed = 35, hookStrength = 15, doneLength = 6;
   boolean afsted = false, hit = false;
   PVector t1 = new PVector(-0.5, -0.5), t2 = new PVector(-0.5, 0.5), t3 = new PVector(1, 0);
   Bane bane;

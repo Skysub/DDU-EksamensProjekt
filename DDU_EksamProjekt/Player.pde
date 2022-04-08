@@ -1,4 +1,4 @@
-class Player { //<>//
+class Player {
   Bane bane;
   Box2DProcessing box2d;
   BodyDef bd = new BodyDef();
@@ -6,21 +6,20 @@ class Player { //<>//
   PolygonShape ps = new PolygonShape();
   FixtureDef fd = new FixtureDef();
   Hook hook;
+  float wobble = 0.05;
 
 
   Player(Bane ba, Box2DProcessing b, Vec2 startPos) {
     bane = ba;
     box2d = b;
     hook = new Hook(box2d, new Vec2(0, 0), bane);
-
     makeBody(startPos);
   }
 
-
   void Update(boolean left, boolean right, boolean space, boolean hitboxDebug) {
     Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug);
-
-    body.applyForceToCenter(retning); //Det er egentlig ikke fra center, men vi lader bare som om
+    body.applyForce(retning, new Vec2(body.getPosition().x+(sin(-body.getAngle())*wobble), body.getPosition().y+(cos(-body.getAngle())*wobble)));
+    //body.applyForceToCenter(retning); //Hvis spilleren wobbler for meget når den flyver så brug denne istedet
   }
 
   void Draw(boolean hitboxDebug) {
