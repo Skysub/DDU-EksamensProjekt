@@ -86,8 +86,8 @@ class Player { //<>//
     body = box2d.createBody(bd);
 
     fd.shape = ps;
-    fd.friction = 0.3;
-    fd.restitution = 0.2;
+    fd.friction = 0.6;
+    fd.restitution = 0.1;
     fd.density = 1.0;
 
     body.createFixture(fd);

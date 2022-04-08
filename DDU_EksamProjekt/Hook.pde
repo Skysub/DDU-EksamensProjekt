@@ -2,10 +2,9 @@ class Hook {
 
   Vec2 pos, vel = new Vec2(0, 0);
   Box2DProcessing box2d;
-  float distanceSit = 3, theta = 0, thetaR = 0, size = 10, aimSpeed = 0.04, hookSpeed = 18, hookStrength = 20;
+  float distanceSit = 3, theta = 0, thetaR = 0, thetaT = 0, size = 10, aimSpeed = 0.04, hookSpeed = 35, hookStrength = 15, doneLength = 5;
   boolean afsted = false, hit = false;
-  PVector t1 = new PVector(-0.5, -0.5), t2 = new PVector(-0.5, 0.5), t3 = new PVector(0.5, 0);
-  float time = 0;
+  PVector t1 = new PVector(-0.5, -0.5), t2 = new PVector(-0.5, 0.5), t3 = new PVector(1, 0);
   Bane bane;
 
   Hook(Box2DProcessing box2d, Vec2 startPos, Bane bane) {
@@ -23,15 +22,8 @@ class Hook {
     if (afsted && !hit) pos.addLocal(vel);
     else if (!afsted) pos = sted; //afsted = true; //testing ting
 
-    if (space) SpaceGotClicked(sted, pSted);
+    if (space) SpaceGotClicked(sted, pSted, rotation);
     if (afsted && !hit) hit = CheckCollisions(hitboxDebug);
-
-
-
-    if (time < millis()-5000) { //Til tests
-      afsted = false; 
-      hit = false;
-    } 
 
     HandleControls(left, right);
 
@@ -41,12 +33,12 @@ class Hook {
 
     if (hit) {
       Vec2 t = pos.sub(new Vec2(playerPos.x+96, playerPos.y-54));
+      if (t.length() < doneLength) {
+        hit = false;
+        afsted = false;
+      }
       t.normalize();
-      //println(t);
-      println(pos);
-      println(new Vec2(playerPos.x+96, -playerPos.y-54));
       t = new Vec2(t.x * hookStrength*100, t.y * hookStrength*100);
-      //println(t);
       return t;
     }
     return new Vec2(0, 0);
@@ -54,7 +46,7 @@ class Hook {
 
   void Draw(boolean hitboxDebug, Vec2 playerPos, float rotation) {
     float thetaTrue = theta + rotation;
-    if (afsted) thetaTrue = theta;
+    if (afsted) thetaTrue = thetaT;
 
     Vec2 sted = new Vec2(playerPos.x+width/20+(sin(-rotation))+(distanceSit*cos(thetaTrue)), playerPos.y-height/20+(cos(-rotation))+(distanceSit*sin(thetaTrue)));
     Vec2 pSted = new Vec2(playerPos.x+width/20+(sin(-rotation)), playerPos.y-height/20+(cos(-rotation)));
@@ -90,7 +82,8 @@ class Hook {
     }
     if (!hitboxDebug) stroke(0);
     ;
-    rotate(-thetaTrue);
+    if(!afsted) rotate(-thetaTrue);
+    else rotate(-thetaTrue);
     rectMode(CENTER);
     //circle(0, 0, ballSize);
     //square(0,0,ballSize);
@@ -99,19 +92,18 @@ class Hook {
     popMatrix();
   }
 
-  void SpaceGotClicked(Vec2 sted, Vec2 pSted) {
+  void SpaceGotClicked(Vec2 sted, Vec2 pSted, float rotation) {
     if (afsted) {
       if (hit) {
         hit = false;
         afsted = false;
       }
     } else {
+      thetaT = theta + rotation;
       afsted = true;
       vel = sted.sub(pSted);
       vel.normalize();
       vel = new Vec2(vel.x * 0.1 * hookSpeed, vel.y * 0.1 * hookSpeed);
-
-      time = millis(); //Til tests
     }
   }
 
