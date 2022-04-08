@@ -2,39 +2,54 @@ class Hook {
 
   Vec2 pos, vel = new Vec2(0, 0);
   Box2DProcessing box2d;
-  float distanceSit = 3, theta = 0, thetaR = 0, size = 10, aimSpeed = 0.04;
-  boolean afsted = false;
+  float distanceSit = 3, theta = 0, thetaR = 0, size = 10, aimSpeed = 0.04, hookSpeed = 18, hookStrength = 20;
+  boolean afsted = false, hit = false;
   PVector t1 = new PVector(-0.5, -0.5), t2 = new PVector(-0.5, 0.5), t3 = new PVector(0.5, 0);
   float time = 0;
+  Bane bane;
 
-  Hook(Box2DProcessing box2d, Vec2 startPos) {
+  Hook(Box2DProcessing box2d, Vec2 startPos, Bane bane) {
     pos = startPos;
     this.box2d = box2d;
     MakeTriangleForm();
+    this.bane = bane;
   }
 
-  void Update(boolean left, boolean right, Vec2 playerPos, float rotation, boolean space) {
+  Vec2 Update(boolean left, boolean right, Vec2 playerPos, float rotation, boolean space, boolean hitboxDebug) {
     float thetaTrue = theta + rotation;
-    if (afsted)pos.add(vel);
-    else pos = new Vec2(playerPos.x+width/20+(sin(-rotation))+(distanceSit*cos(thetaTrue)), playerPos.y-height/20+(cos(-rotation))+(distanceSit*sin(thetaTrue)));
-    //afsted = true; //testing ting
+    Vec2 sted = new Vec2(playerPos.x+width/20+(sin(-rotation))+(distanceSit*cos(thetaTrue)), playerPos.y-height/20+(cos(-rotation))+(distanceSit*sin(thetaTrue)));
+    Vec2 pSted = new Vec2(playerPos.x+width/20+(sin(-rotation)), playerPos.y-height/20+(cos(-rotation)));
 
-    if (space) { 
-      afsted = true;
-      time = millis();
-    }
-    if (time < millis()-5000) afsted = false;
+    if (afsted && !hit) pos.addLocal(vel);
+    else if (!afsted) pos = sted; //afsted = true; //testing ting
 
-    //Controls, drejer på graplling hooken
-    if (left) thetaR+= aimSpeed;
-    if (right) thetaR-= aimSpeed;
-    //Clamping
-    if (thetaR < -PI*0.15) thetaR = -PI*0.15;
-    if (thetaR > 1.15*PI) thetaR = 1.15*PI;
+    if (space) SpaceGotClicked(sted, pSted);
+    if (afsted && !hit) hit = CheckCollisions(hitboxDebug);
+
+
+
+    if (time < millis()-5000) { //Til tests
+      afsted = false; 
+      hit = false;
+    } 
+
+    HandleControls(left, right);
 
     //Hooken ændrer stadig retning selvom den regentlige retning er "låst" når den er afsted.
     //Så hooken ikke drejer når den er skudt
     if (!afsted) theta = thetaR;
+
+    if (hit) {
+      Vec2 t = pos.sub(new Vec2(playerPos.x+96, playerPos.y-54));
+      t.normalize();
+      //println(t);
+      println(pos);
+      println(new Vec2(playerPos.x+96, -playerPos.y-54));
+      t = new Vec2(t.x * hookStrength*100, t.y * hookStrength*100);
+      //println(t);
+      return t;
+    }
+    return new Vec2(0, 0);
   }
 
   void Draw(boolean hitboxDebug, Vec2 playerPos, float rotation) {
@@ -42,14 +57,14 @@ class Hook {
     if (afsted) thetaTrue = theta;
 
     Vec2 sted = new Vec2(playerPos.x+width/20+(sin(-rotation))+(distanceSit*cos(thetaTrue)), playerPos.y-height/20+(cos(-rotation))+(distanceSit*sin(thetaTrue)));
-    Vec2 pSted = new Vec2(playerPos.x+width/20+(sin(-rotation)), playerPos.y-height/20+(cos(-rotation))-8);
+    Vec2 pSted = new Vec2(playerPos.x+width/20+(sin(-rotation)), playerPos.y-height/20+(cos(-rotation)));
     fill(255, 100, 100);
     if (hitboxDebug) {
       pushMatrix();
       resetMatrix();
       fill(100, 100, 255);
       stroke(1);
-      line(0, 80, box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80);
+      line(0, 80, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
       noStroke();
       popMatrix();
     }
@@ -59,8 +74,8 @@ class Hook {
       resetMatrix();
       stroke(140, 110, 45);
       strokeWeight(3);
-      if (!afsted) line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y, box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80);
-      else line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
+      if (!afsted) line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y+80, box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80);
+      else line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y+80, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
       strokeWeight(1);
       noStroke();
       popMatrix();
@@ -82,6 +97,35 @@ class Hook {
     triangle(t1.x, t1.y, t2.x, t2.y, t3.x, t3.y);
     rectMode(CORNER);
     popMatrix();
+  }
+
+  void SpaceGotClicked(Vec2 sted, Vec2 pSted) {
+    if (afsted) {
+      if (hit) {
+        hit = false;
+        afsted = false;
+      }
+    } else {
+      afsted = true;
+      vel = sted.sub(pSted);
+      vel.normalize();
+      vel = new Vec2(vel.x * 0.1 * hookSpeed, vel.y * 0.1 * hookSpeed);
+
+      time = millis(); //Til tests
+    }
+  }
+
+  boolean CheckCollisions(boolean hitboxDebug) {
+    if (bane.CalcCollision(new PVector(pos.x*10, -pos.y*10), hitboxDebug) == 1) return true;
+    return false;
+  }
+
+  void HandleControls(boolean left, boolean right) { //Controls, drejer på graplling hooken
+    if (left) thetaR+= aimSpeed;
+    if (right) thetaR-= aimSpeed;
+    //Clamping
+    if (thetaR < -PI*0.15) thetaR = -PI*0.15;
+    if (thetaR > 1.15*PI) thetaR = 1.15*PI;
   }
 
   void MakeTriangleForm() {

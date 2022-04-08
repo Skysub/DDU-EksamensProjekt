@@ -11,14 +11,16 @@ class Player { //<>//
   Player(Bane ba, Box2DProcessing b, Vec2 startPos) {
     bane = ba;
     box2d = b;
-    hook = new Hook(box2d, new Vec2(0, 0));
+    hook = new Hook(box2d, new Vec2(0, 0), bane);
 
     makeBody(startPos);
   }
 
 
-  void Update(boolean left, boolean right, boolean space) {
-    hook.Update(left, right, body.getPosition(), body.getAngle(), space);
+  void Update(boolean left, boolean right, boolean space, boolean hitboxDebug) {
+    Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug);
+
+    body.applyForceToCenter(retning); //Det er egentlig ikke fra center, men vi lader bare som om
   }
 
   void Draw(boolean hitboxDebug) {
