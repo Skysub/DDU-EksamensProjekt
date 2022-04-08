@@ -17,8 +17,8 @@ class Player { //<>//
   }
 
 
-  void Update(boolean left, boolean right) {
-    hook.Update(left, right);
+  void Update(boolean left, boolean right, boolean space) {
+    hook.Update(left, right, body.getPosition(), body.getAngle(), space);
   }
 
   void Draw(boolean hitboxDebug) {
@@ -30,6 +30,8 @@ class Player { //<>//
     //println(body.getPosition());
     //println(box2d.vectorWorldToPixels(body.getPosition()));
     float a = body.getAngle();
+    hook.Draw(hitboxDebug, body.getPosition(), body.getAngle());
+    stroke(1);
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(-a);
@@ -62,7 +64,6 @@ class Player { //<>//
       line(-20, 30, 20, 30);
     }
     popMatrix();
-    hook.Draw(hitboxDebug, body.getPosition(), body.getAngle());
     if (hitboxDebug) line(0, 0, pos.x, pos.y);
   }
 

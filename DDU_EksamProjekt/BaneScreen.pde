@@ -31,7 +31,7 @@ class BaneScreen extends GameState {
   void Update() {
 
     bane.Update();
-    player.Update(kb.getKey(37), kb.getKey(39));
+    player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32));
 
     box2d.step();
 
