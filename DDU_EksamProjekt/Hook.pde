@@ -13,11 +13,17 @@ class Hook {
   PVector t1 = new PVector(-0.5, -0.5), t2 = new PVector(-0.5, 0.5), t3 = new PVector(1, 0); //Koordinater til de tre punkter af hookens trekantede form
   Bane bane;
 
+  RcCallback rcCallback;
+  Vec2 crosshairPos = new Vec2(0, 0);
+  float search = 50; //How far the game looks for a wall the crosshair could point to
+
   Hook(Box2DProcessing box2d, Vec2 startPos, Bane bane) {
     pos = startPos;
     this.box2d = box2d;
     MakeTriangleForm(); //Sætter størrelsen af hooken
     this.bane = bane;
+
+    rcCallback = new RcCallback(this);
   }
 
   Vec2 Update(boolean left, boolean right, Vec2 playerPos, float rotation, boolean space, boolean hitboxDebug) {
@@ -99,6 +105,20 @@ class Hook {
     triangle(t1.x, t1.y, t2.x, t2.y, t3.x, t3.y); //Tegner hooken
     rectMode(CORNER);
     popMatrix();
+
+    pushMatrix(); //Tegner crosshair
+    resetMatrix();
+    Vec2 searchPoint = new Vec2(playerPos.x+(sin(-rotation))+(search*cos(thetaTrue)), playerPos.y+(cos(-rotation))+(search*sin(thetaTrue)));
+    Vec2 start = new Vec2(playerPos.x+(sin(-rotation)), playerPos.y+(cos(-rotation)));
+    box2d.world.raycast(rcCallback, start, searchPoint);
+    if (hitboxDebug) {
+      stroke(1);
+      line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80, box2d.vectorWorldToPixels(searchPoint).x+box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(searchPoint).y+80+box2d.vectorWorldToPixels(sted).y);
+    }
+    noStroke();
+    fill(255,100,100);
+    if(!afsted)circle(box2d.vectorWorldToPixels(crosshairPos).x+width/2, box2d.vectorWorldToPixels(crosshairPos).y+80+height/2, 12);
+    popMatrix();
   }
 
   void SpaceGotClicked(Vec2 sted, Vec2 pSted, float rotation) {
@@ -140,5 +160,9 @@ class Hook {
     t1.mult(size);
     t2.mult(size);
     t3.mult(size);
+  }
+
+  void setSigtePos(Vec2 p) {
+    crosshairPos = p;
   }
 }

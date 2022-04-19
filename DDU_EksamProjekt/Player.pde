@@ -8,7 +8,6 @@ class Player {
   Hook hook;
   float wobble = 0.05; //OG value = 0,05
 
-
   Player(Bane ba, Box2DProcessing b, Vec2 startPos) {
     bane = ba;
     box2d = b;
@@ -94,4 +93,6 @@ class Player {
 
     body.createFixture(fd);
   }
+
+
 }
