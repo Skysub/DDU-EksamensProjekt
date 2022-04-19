@@ -15,7 +15,7 @@ class Hook {
 
   RcCallback rcCallback;
   Vec2 crosshairPos = new Vec2(0, 0);
-  float search = 50; //How far the game looks for a wall the crosshair could point to
+  float search = 1000; //How far the game looks for a wall the crosshair could point to
 
   Hook(Box2DProcessing box2d, Vec2 startPos, Bane bane) {
     pos = startPos;
