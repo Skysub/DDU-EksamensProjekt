@@ -113,7 +113,7 @@ class Hook {
     box2d.world.raycast(rcCallback, start, searchPoint);
     if (hitboxDebug) {
       stroke(1);
-      line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80, box2d.vectorWorldToPixels(searchPoint).x+box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(searchPoint).y+80+box2d.vectorWorldToPixels(sted).y);
+      line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80, box2d.vectorWorldToPixels(searchPoint).x+width/2, box2d.vectorWorldToPixels(searchPoint).y+80+height/2);
     }
     noStroke();
     fill(255,100,100);
