@@ -21,6 +21,7 @@ class BanePopUp {
 
     //tegner indholdet
     if (done) {
+      
     } else {
     }
 
