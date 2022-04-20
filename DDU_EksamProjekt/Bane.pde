@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
@@ -61,7 +61,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     /*pushMatrix();
      resetMatrix();
      stroke(1);
-     line(0, 0, p.x, p.y);
+     line(0, 0+80, p.x, p.y+80);
      popMatrix();*/
     PVector[][] hitBoxes;
 
@@ -69,7 +69,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
       hitBoxes = blok.GetHitboxes(bane[gridP[0]][gridP[1]].get(0), bane[gridP[0]][gridP[1]].get(1));
     }
     catch(ArrayIndexOutOfBoundsException e) {
-      //println("Collision Check Out Of Bounds " + millis());
+      println("Could not load hitboxes; probably out of bounds. Time: " + millis());
       return -1;
     }
 
@@ -88,7 +88,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     //Tjekker for hver hitbox i en blok
     for (int i = 0; i<hitBoxes.length; i++) {
       //Tjekker om p er inden for x boundet af kassen
-      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x //<>// //<>//
+      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x //<>//
         && gridP[0]*gridSize+hitBoxes[i][0].x+hitBoxes[i][1].x >= p.x) {
 
         //Tjekker om p er inden for y boundet af kassen
@@ -178,7 +178,8 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
           test[0][0].append(20);
           test[0][0].append(-1);
         } else {
-          if (j==19 || i == 35 || i == 1 || j == 1)test[i][j].append(0);
+          if ((j > 1 && j < 6) && (i > 31 && i < 35)) test[i][j].append(2);
+          else if (j==19 || i == 35 || i == 1 || j == 1) test[i][j].append(0);
           else test[i][j].append(1);
           test[i][j].append(0);
         }
@@ -187,7 +188,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     LoadBane(test);
   }
 
-  //Til test af tileSettet
+  //Til visning af tileSettet
   void LavTileTestBane() {
     IntList[][] test = new IntList[40][20];
     for (int i = 0; i < 40; i++) {

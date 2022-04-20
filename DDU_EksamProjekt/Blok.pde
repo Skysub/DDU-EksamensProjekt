@@ -1,7 +1,7 @@
 class Blok {
   Box2DProcessing box2d;
 
-  int blokkeIalt = 2;
+  int blokkeIalt = 3;
   int gridSize;
 
   Blok(int g, Box2DProcessing w) {
@@ -21,18 +21,24 @@ class Blok {
       DrawB1();
       break;
 
+    case 2: //Mål blok
+      DrawB2();
+      break;
+
     default:
       break;
     }
   }
 
-  //returnerer typen af hitbox som blokken har, skal genlaves hvis en blok skal have mere end 1 type hitbox
+  //returnerer typen af hitbox som blokken har, skal genlaves hvis en blok skal have mere end 1 type hitbox i samme blok
   int GetType(int id) {
     switch (id) {
     case 0: //wall blok
       return 1;
     case 1: //luft blok
       return 0;
+    case 2: //Mål blok
+      return 2;
 
     default:
       return -1;
@@ -60,6 +66,9 @@ class Blok {
     case 1:
       temp = BoxesB1();
       break;
+    case 2:
+      temp = BoxesB2();
+      break;
 
     default:
       break;
@@ -79,17 +88,21 @@ class Blok {
   //Wall hitboxes
   PVector[][] BoxesB0() {
     PVector[][] boxes = new PVector[1][2];
-
     boxes[0][0] = new PVector(0, 0);
     boxes[0][1] = new PVector(40, 40);
-
     return boxes;
   }
 
-  //Wall hitboxes
+  //Luft blok hitboxes
   PVector[][] BoxesB1() {
-    PVector[][] boxes = new PVector[0][0];
+    return new PVector[0][0];
+  }
 
+  //Mål hitboxes
+  PVector[][] BoxesB2() {
+    PVector[][] boxes = new PVector[1][2];
+    boxes[0][0] = new PVector(0, 0);
+    boxes[0][1] = new PVector(40, 40);
     return boxes;
   }
 
@@ -119,10 +132,23 @@ class Blok {
     square(0, 0, gridSize);
   }
 
+  //Goal tile
+  void DrawB2() {
+    //square
+    SetSquareSettings();
+    fill(200, 200, 255);
+    square(0, 0, gridSize);
+    //Text
+    textSize(10);
+    fill(10);
+    text("Mål", 20, 26);
+  }
+
   //Helps standardize the way the square part of a block looks, easier to make quick changes to all blocks
   void SetSquareSettings() {
     fill(250);
     stroke(20);
     strokeWeight(1);
+    textAlign(CENTER);
   }
 }

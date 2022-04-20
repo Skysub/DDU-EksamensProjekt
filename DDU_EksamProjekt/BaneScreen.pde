@@ -8,7 +8,7 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = false, baneStart = false, endZone;
+  boolean playing = true, baneStart = false, endZone;
 
   //int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc
   Button logoutButton = new Button(1630, 10, 170, 60, "Log out", color(235, 80, 80), color(135, 28, 28), 20, color(0, 0, 0));
@@ -29,14 +29,13 @@ class BaneScreen extends GameState {
   }
 
   void Update() {
+    timer.Update(playing, baneStart, endZone);
+    if (player.InGoalZone(kb.getToggle(72))) { //Er spilleren nået til målzonen så er dette true
+    }
 
     bane.Update();
     player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
-
     box2d.step();
-
-
-    timer.Update(playing, baneStart, endZone);
 
     logoutButton.Update();
     mainMenuButton.Update();
@@ -44,20 +43,19 @@ class BaneScreen extends GameState {
   }
 
   void Draw() {
+    if (!kb.getToggle(84)) {
+      drawBaneUI();
+      timer.Draw();
+    }
     pushMatrix();
     translate(0, 80);
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
-    if (!kb.getToggle(84)) {
-      player.Draw(kb.getToggle(72));
-      popMatrix();
-
-      drawBaneUI();
-      timer.Draw();
-    } else popMatrix();
+    player.Draw(kb.getToggle(72));
+    popMatrix();
   }
 
   void drawBaneUI() {
-    logoutButton.Draw();
+    //logoutButton.Draw();
     mainMenuButton.Draw();
     baneMenuButton.Draw();
   }

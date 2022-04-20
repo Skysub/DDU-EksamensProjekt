@@ -26,6 +26,13 @@ class Player {
     DrawPlayer(hitboxDebug);
   }
 
+  boolean InGoalZone(boolean hitboxDebug) {
+    Vec2 playerPos = body.getPosition();
+    Vec2 pSted = new Vec2((playerPos.x+width/20)*10, (playerPos.y-height/20)*10);
+    if (bane.CalcCollision(new PVector(pSted.x, -pSted.y), hitboxDebug) == 2) return true;
+    return false;
+  }
+
   void DrawPlayer(boolean hitboxDebug) {
     Vec2 pos = box2d.getBodyPixelCoord(body); //Får positionen af spilleren på skærmen i pixels
     float a = body.getAngle();
@@ -93,6 +100,4 @@ class Player {
 
     body.createFixture(fd);
   }
-
-
 }

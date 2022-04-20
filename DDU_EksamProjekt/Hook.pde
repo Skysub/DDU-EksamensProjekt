@@ -116,8 +116,8 @@ class Hook {
       line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80, box2d.vectorWorldToPixels(searchPoint).x+width/2, box2d.vectorWorldToPixels(searchPoint).y+80+height/2);
     }
     noStroke();
-    fill(255,100,100);
-    if(!afsted)circle(box2d.vectorWorldToPixels(crosshairPos).x+width/2, box2d.vectorWorldToPixels(crosshairPos).y+80+height/2, 12);
+    fill(255, 100, 100);
+    if (!afsted)circle(box2d.vectorWorldToPixels(crosshairPos).x+width/2, box2d.vectorWorldToPixels(crosshairPos).y+80+height/2, 12);
     popMatrix();
   }
 
@@ -140,10 +140,18 @@ class Hook {
     }
   }
 
+  boolean InGoalZone(boolean hitboxDebug) {
+    //Bruger CalcCollision til at beregne om hooken kolliderer med en væg.
+    //CalcCollision er fra før vi skiftede til at bruge Box2d, det kan ses ved at der stadig bruges PVector her
+    //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet det :p
+    if (bane.CalcCollision(new PVector(pos.x*10, -pos.y*10), hitboxDebug) == 1) return true;
+    return false;
+  }
+
   boolean CheckCollisions(boolean hitboxDebug) {
     //Bruger CalcCollision til at beregne om hooken kolliderer med en væg.
     //CalcCollision er fra før vi skiftede til at bruge Box2d, det kan ses ved at der stadig bruges PVector her
-    //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet den :p
+    //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet det :p
     if (bane.CalcCollision(new PVector(pos.x*10, -pos.y*10), hitboxDebug) == 1) return true;
     return false;
   }

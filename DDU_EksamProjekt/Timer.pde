@@ -14,23 +14,25 @@ class Timer {
     int recordMin, recordSec;
     fill(0, 0, 0);
     textSize(50);
-
+    textAlign(LEFT, CENTER);
     //konverterer tiden til læsbar format for racetime
     min = floor(time/60000f);
     time = time - floor(time/60000f)*60000;
     sec = floor(time/1000f);
     time = time - floor(time/1000f)*1000;
-    text("Time: "+min+":"+sec+"."+time, 180, 30);
+    text("Time: "+min+":"+sec+"."+time, 10, 30);
 
     //samme som overstående men blot for rekord tiden
     recordMin = floor(record/60000f);
     record = record - floor(record/60000f)*60000;
     recordSec = floor(record/1000f);
     record = record - floor(record/1000f)*1000;
-    text("Record: "+recordMin+":"+recordSec+"."+record, 600, 30);
+    text("Record: "+recordMin+":"+recordSec+"."+record, 420, 30);
 
-    rect(380, 0, 2, 80);
-    rect(800, 0, 2, 80);
+    stroke(0);
+    strokeWeight(2);
+    line(410, 0, 410, 80);
+    line(900, 0, 900, 80);
   }
 
   void handleTimer(boolean playing, boolean baneStart, boolean endZone) {
