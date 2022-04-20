@@ -31,5 +31,6 @@ class MainLogic {
     gameStateManager.AddGameState("MenuScreen", new MenuScreen(program, kb));
     gameStateManager.AddGameState("BaneScreen", new BaneScreen(program, kb));
     gameStateManager.AddGameState("BaneMenuScreen", new BaneMenuScreen(program, kb));
+    gameStateManager.AddGameState("LogInScreen", new LoginScreen(program, kb));
   }
 }
