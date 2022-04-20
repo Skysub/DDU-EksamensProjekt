@@ -8,7 +8,9 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = true, baneStart = false, endZone, hand = false;
+  boolean playing = false, baneStart = false, endZone = false, hand = false;
+  int shadow = 3;
+  Vec2 startPos = new Vec2(0,0);
 
   //int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc
   Button logoutButton = new Button(1630, 10, 170, 60, "Log out", color(235, 80, 80), color(135, 28, 28), 20, color(0, 0, 0));
@@ -25,17 +27,22 @@ class BaneScreen extends GameState {
     bane = new Bane(box2d);
     this.kb = kb;
     timer = new Timer();
-    player = new Player(bane, box2d, new Vec2(0, 0));
+    player = new Player(bane, box2d, startPos);
   }
 
   void Update() {
-    timer.Update(playing, baneStart, endZone);
-    if (player.InGoalZone(kb.getToggle(72))) { //Er spilleren nået til målzonen så er dette true
+    if (player.InGoalZone(kb.getToggle(72)) && playing) { //Er spilleren nået til målzonen så er dette true
+      endZone = true;
+      playing = false;
     }
+    timer.Update(playing, baneStart, endZone);
 
-    bane.Update();
-    player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
-    box2d.step();
+    if (playing) {
+      bane.Update();
+      player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
+      box2d.step();
+    }
+    handleStart();
 
     hand = false;
     //if (logoutButton.Update()) hand = true;
@@ -55,6 +62,29 @@ class BaneScreen extends GameState {
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
     player.Draw(kb.getToggle(72));
     popMatrix();
+
+    if (!playing) {
+      textSize(100);
+      textAlign(CENTER);
+      fill(0, 0, 65);
+      text("Press SPACE to start", width/2+shadow, height/2+shadow);       
+      text("Press SPACE to start", width/2+shadow, height/2-shadow);       
+      text("Press SPACE to start", width/2-shadow, height/2+shadow); 
+      text("Press SPACE to start", width/2-shadow, height/2-shadow); 
+      fill(237, 223, 197);
+      text("Press SPACE to start", width/2, height/2);
+    }
+  }
+
+  void handleStart() {
+    baneStart = false;
+    if (!playing && kb.Shift(32)) {
+      endZone = false;
+      playing = true;
+      baneStart = true;
+      player.finalize();
+      player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
+    }
   }
 
   void drawBaneUI() {

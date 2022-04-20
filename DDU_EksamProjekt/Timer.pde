@@ -1,6 +1,6 @@
 class Timer {
 
-  int record, time = 0, baneTimeStart, waitTimer = 0;
+  int record = 0, time = 0, baneTimeStart = 0, waitTimer = 0;
 
   Timer() {
   }
@@ -17,17 +17,13 @@ class Timer {
     textAlign(LEFT, CENTER);
     //konverterer tiden til læsbar format for racetime
     min = floor(time/60000f);
-    time = time - floor(time/60000f)*60000;
     sec = floor(time/1000f);
-    time = time - floor(time/1000f)*1000;
-    text("Time: "+min+":"+sec+"."+time, 10, 30);
+    text("Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000), 10, 30);
 
     //samme som overstående men blot for rekord tiden
     recordMin = floor(record/60000f);
-    record = record - floor(record/60000f)*60000;
     recordSec = floor(record/1000f);
-    record = record - floor(record/1000f)*1000;
-    text("Record: "+recordMin+":"+recordSec+"."+record, 420, 30);
+    text("Record: "+recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), 420, 30);
 
     stroke(0);
     strokeWeight(2);
@@ -47,12 +43,11 @@ class Timer {
       time = millis() - baneTimeStart;
     }
     //logic for når bane er ovre
-    if (playing && endZone) {
+    if (endZone) {
       playing = false;
       //her havde vi ordenBil i racing game, vi kan evt. have lignende metode til at ordne spiller
       waitTimer = millis();
-      if (time < record) record = time;
-      else if (record == 0 && time != 0) record = time;
+      if (time < record || (record == 0 && time != 0)) record = time;
     }
   }
 }

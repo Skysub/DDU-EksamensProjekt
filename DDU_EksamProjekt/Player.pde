@@ -100,4 +100,9 @@ class Player {
 
     body.createFixture(fd);
   }
+
+  protected void finalize()  
+  {  
+    box2d.destroyBody(body);
+  }
 }
