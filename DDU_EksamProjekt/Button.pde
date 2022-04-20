@@ -1,5 +1,5 @@
 class Button {
-  Boolean pressed = false, clicked = false, mouseOver = false; //pressed er om selve mussen klikkes på, clicked er om knappen klikkes på
+  Boolean pressed = false, clicked = false, mouseOver = false, hand = false; //pressed er om selve mussen klikkes på, clicked er om knappen klikkes på
   int x, y, widthB, heightB, textSize;
   String buttonText;
   color currentColor, buttonColor, clickColor, textColor;
@@ -22,9 +22,9 @@ class Button {
     Update();
   }
 
-  void Update() {
+  boolean Update() {
     if (mouseX >= x && mouseX <= x + widthB && mouseY >= y && mouseY <= y + heightB) {
-      cursor(HAND);
+      hand = true;
       mouseOver = true;
       if (mousePressed && mouseButton == LEFT && pressed == false && clicked == false) {
         clicked = true;
@@ -34,12 +34,13 @@ class Button {
         clicked = false;
       }
     } else { 
-      cursor(ARROW);
+      hand = false;
       mouseOver = false;
       clicked = false;
       currentColor = buttonColor;
     }
     pressed = mousePressed;
+    return hand;
   }
 
   void Draw() {

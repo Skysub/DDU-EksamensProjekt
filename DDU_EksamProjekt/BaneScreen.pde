@@ -8,7 +8,7 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = true, baneStart = false, endZone;
+  boolean playing = true, baneStart = false, endZone, hand = false;
 
   //int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc
   Button logoutButton = new Button(1630, 10, 170, 60, "Log out", color(235, 80, 80), color(135, 28, 28), 20, color(0, 0, 0));
@@ -37,9 +37,12 @@ class BaneScreen extends GameState {
     player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
     box2d.step();
 
-    logoutButton.Update();
-    mainMenuButton.Update();
-    baneMenuButton.Update();
+    hand = false;
+    //if (logoutButton.Update()) hand = true;
+    if (mainMenuButton.Update()) hand = true;
+    if (baneMenuButton.Update()) hand = true;
+    if (hand)cursor(HAND);
+    else cursor(ARROW);
   }
 
   void Draw() {
