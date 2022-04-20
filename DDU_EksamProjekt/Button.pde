@@ -44,6 +44,7 @@ class Button {
   }
 
   void Draw() {
+    rectMode(CORNER);
     fill(currentColor);
     if (mouseOver)fill(color(red(currentColor)*0.8f, green(currentColor)*0.8f, blue(currentColor)*0.8f)); 
 

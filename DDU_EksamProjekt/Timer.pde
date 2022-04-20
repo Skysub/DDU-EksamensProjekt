@@ -10,6 +10,7 @@ class Timer {
   }
 
   void Draw() {
+    rectMode(CORNER);
     int min, sec;
     int recordMin, recordSec;
     fill(0, 0, 0);

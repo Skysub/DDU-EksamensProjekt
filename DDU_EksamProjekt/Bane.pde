@@ -34,6 +34,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
 
   int Draw(boolean tileTest, boolean hitboxDebug) {
+    rectMode(CORNER);
     pushMatrix();
     scale(kamera[2]);
     //Kald funktioner her der tegner ting

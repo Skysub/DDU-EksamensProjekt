@@ -8,9 +8,12 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = false, baneStart = false, endZone = false, hand = false;
+  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
   int shadow = 3;
-  Vec2 startPos = new Vec2(0,0);
+  Vec2 startPos = new Vec2(0, 0);
+
+  boolean popup = false;
+  BanePopUp popUp;
 
   //int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc
   Button logoutButton = new Button(1630, 10, 170, 60, "Log out", color(235, 80, 80), color(135, 28, 28), 20, color(0, 0, 0));
@@ -28,13 +31,18 @@ class BaneScreen extends GameState {
     this.kb = kb;
     timer = new Timer();
     player = new Player(bane, box2d, startPos);
+
+    popUp = new BanePopUp(this);
   }
 
   void Update() {
     if (player.InGoalZone(kb.getToggle(72)) && playing) { //Er spilleren nået til målzonen så er dette true
       endZone = true;
       playing = false;
+      done = true;
+      popup = true;
     }
+    if (popup) popUp.Update();
     timer.Update(playing, baneStart, endZone);
 
     if (playing) {
@@ -63,7 +71,7 @@ class BaneScreen extends GameState {
     player.Draw(kb.getToggle(72));
     popMatrix();
 
-    if (!playing) {
+    if (!playing && !done) {
       textSize(100);
       textAlign(CENTER);
       fill(0, 0, 65);
@@ -74,15 +82,17 @@ class BaneScreen extends GameState {
       fill(237, 223, 197);
       text("Press SPACE to start", width/2, height/2);
     }
+
+    if (popup) popUp.Draw(done);
   }
 
   void handleStart() {
     baneStart = false;
-    if (!playing && kb.Shift(32)) {
+    if (!playing && kb.Shift(32) && !done) {
       endZone = false;
       playing = true;
       baneStart = true;
-      player.finalize();
+      player.finalize(); //Spilleren destrueres
       player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
     }
   }
