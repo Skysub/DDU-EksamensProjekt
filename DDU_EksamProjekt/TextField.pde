@@ -26,11 +26,11 @@ class TextField {
     cp5.draw();
   }  
 
-  String input(Boolean remove) {
+  String input(Boolean remove, int minL, int maxL) {
 
-    if (enteredString.length() > 16) tooLong = true;
+    if (enteredString.length() > maxL && maxL != 0) tooLong = true;
     else tooLong = false;
-    if (enteredString.length() < 3) tooShort = true;
+    if (enteredString.length() < minL) tooShort = true;
     else tooShort = false;
 
     if (remove) enteredString = "";
