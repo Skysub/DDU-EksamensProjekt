@@ -12,7 +12,7 @@ void setup() {
 }
 
 void draw() {
-  background(180);
+  background(95, 90, 100);
   mainLogic.Draw();
   mainLogic.Update();
 }

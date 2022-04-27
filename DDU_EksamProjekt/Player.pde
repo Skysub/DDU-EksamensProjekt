@@ -20,10 +20,17 @@ class Player {
 
     //En kraftvektor, og punktet hvor hooken sidder på spilleren
     body.applyForce(retning, new Vec2(body.getPosition().x+(sin(-body.getAngle())*wobble), body.getPosition().y+(cos(-body.getAngle())*wobble)));
+
+    SetView();
   }
 
   void Draw(boolean hitboxDebug, float[] kamera) {
     DrawPlayer(hitboxDebug, kamera);
+  }
+
+  void SetView() {
+    Vec2 playerPos = body.getPosition();
+    bane.setKamera(new Vec2(-(playerPos.x)*10, (playerPos.y)*10));
   }
 
   boolean InGoalZone(boolean hitboxDebug) {

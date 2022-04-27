@@ -37,6 +37,7 @@ class BanePopUp {
     if (done) { //Til hvis banen er færdig
       textSize(30);
       fill(25);
+      textAlign(CENTER);
       text("Time: "+time[0]+"         Record: "+time[1], width/(2*size), 180);
       if (newRecord)text("New Record!", width/(2*size), 230);
       textAlign(LEFT, TOP);

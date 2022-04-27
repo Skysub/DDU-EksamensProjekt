@@ -11,6 +11,8 @@ class Timer {
   }
 
   void Draw() {
+    fill(180);
+    rect(0, 0, width, 80);
     rectMode(CORNER);
 
 

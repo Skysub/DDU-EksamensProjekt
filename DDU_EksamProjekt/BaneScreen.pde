@@ -20,7 +20,7 @@ class BaneScreen extends GameState {
 
     box2d = new Box2DProcessing(program);  
     box2d.createWorld();
-    box2d.setGravity(0, -15);
+    box2d.setGravity(0, -35);
 
     bane = new Bane(box2d);
     this.kb = kb;
@@ -53,15 +53,15 @@ class BaneScreen extends GameState {
   }
 
   void Draw() {
-    if (!kb.getToggle(84)) {
-      timer.Draw();
-    }
+
     pushMatrix();
     translate(0, 80);
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
     player.Draw(kb.getToggle(72), bane.getKamera());
     popMatrix();
-
+    if (!kb.getToggle(84)) {
+      timer.Draw();
+    }
     if (!playing && !done) {
       textSize(100);
       textAlign(CENTER);
@@ -85,6 +85,7 @@ class BaneScreen extends GameState {
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
+    player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
   }
 
   void handleStart() {

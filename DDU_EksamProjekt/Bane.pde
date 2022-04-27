@@ -34,7 +34,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   int Draw(boolean tileTest, boolean hitboxDebug) {
     rectMode(CORNER);
     pushMatrix();
-    translate(kamera[0], kamera[1]);
+    if (!tileTest) translate(kamera[0], kamera[1]);
     scale(kamera[2]);
     //Kald funktioner her der tegner ting
     if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
@@ -212,5 +212,21 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       }
     }
     tileSetTest = test;
+  }
+
+  //For changing all possible kamera attributes
+  void setKamera(float[] k) {
+    kamera = k;
+  }
+
+  //For setting the kamera offset
+  void setKamera(Vec2 p) {
+    kamera[0] = p.x;
+    kamera[1] = p.y;
+  }
+
+  //For setting the scale
+  void setKamera(float s) {
+    kamera[2] = s;
   }
 }
