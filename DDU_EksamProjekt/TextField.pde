@@ -30,7 +30,7 @@ class TextField {
 
     if (enteredString.length() > 16) tooLong = true;
     else tooLong = false;
-    if (enteredString.length() < 4) tooShort = true;
+    if (enteredString.length() < 3) tooShort = true;
     else tooShort = false;
 
     if (remove) enteredString = "";

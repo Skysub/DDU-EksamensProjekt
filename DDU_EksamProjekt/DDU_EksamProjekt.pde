@@ -4,6 +4,9 @@ import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import java.util.Random;
 import controlP5.*;
+import de.bezier.data.sql.*;
+import de.bezier.data.sql.mapper.*;
+import java.security.*;
 MainLogic mainLogic;
 
 void setup() {
