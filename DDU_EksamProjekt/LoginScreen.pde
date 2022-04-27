@@ -1,15 +1,30 @@
 class LoginScreen extends GameState {
   TextFieldString username, password;
+  boolean toggleLogin = true;
+  String Toggle = "Log in", toggle = "log in";
+  Button toggleButton = new Button(width/2-150, 700, 300, 80, "Log in/sign up", color(80, 235, 80), color(135, 28, 28), 20, color(0, 0, 0));
 
   LoginScreen(PApplet program, Keyboard kb) {
     super(program, kb);
   }
 
-  void Draw() {
-  }
-
 
   void Update() {
+    toggleButton.Update();
+    if (toggleButton.isClicked() && toggleLogin) toggleLogin = false;
+    //if (toggleButton.isClicked() && !toggleLogin) toggleLogin = true;
+    
+
+    if (toggleLogin) {
+      Toggle = "Log in";
+      toggle = "log in";
+    } else {
+      Toggle = "Sign up";
+      toggle = "sign up";
+    }
+  }
+
+  void Draw() {
     rectMode(CENTER);
 
     fill(200);
@@ -20,6 +35,15 @@ class LoginScreen extends GameState {
     fill(0);
     textSize(50);
     textAlign(CENTER, CENTER);
-    text("Log in", width/2, 200);
+    text(Toggle, width/2, 200);
+
+    toggleButton.Draw();
+  }
+
+  void RunLogin() {
+  }
+
+
+  void RunSignup() {
   }
 }

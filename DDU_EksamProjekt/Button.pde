@@ -59,6 +59,10 @@ class Button {
   boolean isClicked() {
     return clicked;
   }
+  
+  void MouseReleased(){
+    
+  }
 }
 /* 
  Når en knap skal instantieres:
