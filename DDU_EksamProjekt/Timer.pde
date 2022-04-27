@@ -1,6 +1,7 @@
 class Timer {
 
   int record = 0, time = 0, baneTimeStart = 0, waitTimer = 0;
+  int recordMin, recordSec, min, sec;
 
   Timer() {
   }
@@ -11,8 +12,8 @@ class Timer {
 
   void Draw() {
     rectMode(CORNER);
-    int min, sec;
-    int recordMin, recordSec;
+
+
     fill(0, 0, 0);
     textSize(50);
     textAlign(LEFT, CENTER);
@@ -50,5 +51,14 @@ class Timer {
       waitTimer = millis();
       if (time < record || (record == 0 && time != 0)) record = time;
     }
+  }
+
+  String[] getText() {
+    String[] out = {min+":"+sec+"."+(time - floor(time/1000f)*1000), recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000)};
+    return out;
+  }
+
+  boolean getNewRecord() {
+    return record >= time;
   }
 }
