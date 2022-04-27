@@ -15,7 +15,6 @@ class Timer {
     rect(0, 0, width, 80);
     rectMode(CORNER);
 
-
     fill(0, 0, 0);
     textSize(50);
     textAlign(LEFT, CENTER);
