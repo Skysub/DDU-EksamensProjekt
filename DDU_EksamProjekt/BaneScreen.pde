@@ -59,7 +59,7 @@ class BaneScreen extends GameState {
     pushMatrix();
     translate(0, 80);
     bane.Draw(kb.getToggle(84), kb.getToggle(72));
-    player.Draw(kb.getToggle(72));
+    player.Draw(kb.getToggle(72), bane.getKamera());
     popMatrix();
 
     if (!playing && !done) {

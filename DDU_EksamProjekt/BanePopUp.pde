@@ -58,6 +58,6 @@ class BanePopUp {
   void drawButtons(boolean done) {
     mainMenuButton.Draw();
     baneMenuButton.Draw();
-    if(done)nextLevelButton.Draw();
+    if (done)nextLevelButton.Draw();
   }
 }

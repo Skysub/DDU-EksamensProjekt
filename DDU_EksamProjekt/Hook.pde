@@ -60,7 +60,7 @@ class Hook {
     return new Vec2(0, 0);
   }
 
-  void Draw(boolean hitboxDebug, Vec2 playerPos, float rotation) {
+  void Draw(boolean hitboxDebug, Vec2 playerPos, float rotation, float[] kamera) {
     float thetaTrue = theta + rotation; //Tager hensyn til hookens og spillerens rotation
     if (afsted) thetaTrue = thetaT; //bruger den gemte vinkel
 
@@ -68,37 +68,35 @@ class Hook {
     Vec2 pSted = new Vec2(playerPos.x+width/20+(sin(-rotation)), playerPos.y-height/20+(cos(-rotation)));
 
     fill(255, 100, 100);
+    pushMatrix();
+    resetMatrix();
+    translate(kamera[0], kamera[1]);
     if (hitboxDebug) {
       //Tegner en linje til hookens position
-      pushMatrix();
-      resetMatrix();
       fill(100, 100, 255);
       stroke(1);
       line(0, 80, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
       noStroke();
-      popMatrix();
     }
     if (!hitboxDebug) {
       //Tegner snoren mellem player og hook
-      pushMatrix();
-      resetMatrix();
       stroke(140, 110, 45); //Farven af snoren mellem hook og spiller
       strokeWeight(3);
       if (!afsted) line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y+80, box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80);
       else line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y+80, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
       strokeWeight(1);
       noStroke();
-      popMatrix();
     }
+    popMatrix();
     pushMatrix();
     //Flytter hooken til det korrekte sted alt efter om den sidder på spilleren
     if (afsted) {
       resetMatrix();
+      translate(kamera[0], kamera[1]);
       translate(box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
     } else {
       translate(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y);
     }
-
     if (!hitboxDebug) stroke(0); //Fjerner outline hvis hitboxDebug
     rotate(-thetaTrue);
     rectMode(CENTER);
@@ -108,6 +106,7 @@ class Hook {
 
     pushMatrix(); //Tegner crosshair
     resetMatrix();
+    translate(kamera[0], kamera[1]);
     Vec2 searchPoint = new Vec2(playerPos.x+(sin(-rotation))+(search*cos(thetaTrue)), playerPos.y+(cos(-rotation))+(search*sin(thetaTrue)));
     Vec2 start = new Vec2(playerPos.x+(sin(-rotation)), playerPos.y+(cos(-rotation)));
     box2d.world.raycast(rcCallback, start, searchPoint);

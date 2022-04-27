@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
@@ -28,14 +28,13 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   }
 
   void Update() {
-    //ting der skal opdateres hver frame
+    //kamera[0]--;
   }
-
-
 
   int Draw(boolean tileTest, boolean hitboxDebug) {
     rectMode(CORNER);
     pushMatrix();
+    translate(kamera[0], kamera[1]);
     scale(kamera[2]);
     //Kald funktioner her der tegner ting
     if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
@@ -89,7 +88,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
     //Tjekker for hver hitbox i en blok
     for (int i = 0; i<hitBoxes.length; i++) {
       //Tjekker om p er inden for x boundet af kassen
-      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x //<>//
+      if (gridP[0]*gridSize+hitBoxes[i][0].x < p.x
         && gridP[0]*gridSize+hitBoxes[i][0].x+hitBoxes[i][1].x >= p.x) {
 
         //Tjekker om p er inden for y boundet af kassen
@@ -170,17 +169,17 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
   //Til test og debugging
   void LavTestBane() {
-    IntList[][] test = new IntList[45][20];
-    for (int i = 0; i < 45; i++) {
+    IntList[][] test = new IntList[70][20];
+    for (int i = 0; i < 70; i++) {
       for (int j = 0; j < 20; j++) {
         test[i][j] = new IntList();
         if (i == 0 && j == 0) {
-          test[0][0].append(45);
+          test[0][0].append(70);
           test[0][0].append(20);
           test[0][0].append(-1);
         } else {
           if ((j > 1 && j < 6) && (i > 31 && i < 35)) test[i][j].append(2);
-          else if (j==19 || i == 35 || i == 1 || j == 1) test[i][j].append(0);
+          else if (j==19 || i == 60 || i == 1 || j == 1) test[i][j].append(0);
           else test[i][j].append(1);
           test[i][j].append(0);
         }

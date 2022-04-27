@@ -22,8 +22,8 @@ class Player {
     body.applyForce(retning, new Vec2(body.getPosition().x+(sin(-body.getAngle())*wobble), body.getPosition().y+(cos(-body.getAngle())*wobble)));
   }
 
-  void Draw(boolean hitboxDebug) {
-    DrawPlayer(hitboxDebug);
+  void Draw(boolean hitboxDebug, float[] kamera) {
+    DrawPlayer(hitboxDebug, kamera);
   }
 
   boolean InGoalZone(boolean hitboxDebug) {
@@ -33,12 +33,13 @@ class Player {
     return false;
   }
 
-  void DrawPlayer(boolean hitboxDebug) {
+  void DrawPlayer(boolean hitboxDebug, float[] kamera) {
     Vec2 pos = box2d.getBodyPixelCoord(body); //Får positionen af spilleren på skærmen i pixels
     float a = body.getAngle();
+    translate(kamera[0], kamera[1]);
 
     //Tegner hooken, det er vigtigt at det sker her, så snoren ikke overlapper spilleren
-    hook.Draw(hitboxDebug, body.getPosition(), body.getAngle());
+    hook.Draw(hitboxDebug, body.getPosition(), body.getAngle(), kamera);
 
     //Spilleren tegnes
     stroke(1);
