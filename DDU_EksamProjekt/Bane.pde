@@ -28,7 +28,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   }
 
   void Update() {
-    //kamera[0]--;
+    //kamera[2] -= 0.001;
   }
 
   int Draw(boolean tileTest, boolean hitboxDebug) {
@@ -79,7 +79,11 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         pushMatrix();
         resetMatrix();
         fill(0, 255, 0);
-        translate(gridP[0]*gridSize, gridP[1]*gridSize+80);
+        translate(kamera[0], kamera[1]+80);
+        scale(kamera[2]);
+        translate(gridP[0]*gridSize, gridP[1]*gridSize);
+
+
         rect(hitBoxes[i][0].x, hitBoxes[i][0].y, hitBoxes[i][1].x, hitBoxes[i][1].y);
         popMatrix();
       }

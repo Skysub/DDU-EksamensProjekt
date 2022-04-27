@@ -37,7 +37,7 @@ class Player {
     Vec2 pos = box2d.getBodyPixelCoord(body); //Får positionen af spilleren på skærmen i pixels
     float a = body.getAngle();
     translate(kamera[0], kamera[1]);
-
+    scale(kamera[2]);
     //Tegner hooken, det er vigtigt at det sker her, så snoren ikke overlapper spilleren
     hook.Draw(hitboxDebug, body.getPosition(), body.getAngle(), kamera);
 

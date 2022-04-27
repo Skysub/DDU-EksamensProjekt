@@ -70,20 +70,21 @@ class Hook {
     fill(255, 100, 100);
     pushMatrix();
     resetMatrix();
-    translate(kamera[0], kamera[1]);
+    translate(kamera[0], kamera[1]+80);
+    scale(kamera[2]);
     if (hitboxDebug) {
       //Tegner en linje til hookens position
       fill(100, 100, 255);
       stroke(1);
-      line(0, 80, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
+      line(0, 0, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y);
       noStroke();
     }
     if (!hitboxDebug) {
       //Tegner snoren mellem player og hook
       stroke(140, 110, 45); //Farven af snoren mellem hook og spiller
       strokeWeight(3);
-      if (!afsted) line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y+80, box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80);
-      else line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y+80, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
+      if (!afsted) line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y, box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y);
+      else line(box2d.vectorWorldToPixels(pSted).x, box2d.vectorWorldToPixels(pSted).y, box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y);
       strokeWeight(1);
       noStroke();
     }
@@ -92,8 +93,9 @@ class Hook {
     //Flytter hooken til det korrekte sted alt efter om den sidder på spilleren
     if (afsted) {
       resetMatrix();
-      translate(kamera[0], kamera[1]);
-      translate(box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y+80);
+      translate(kamera[0], kamera[1]+80);
+      scale(kamera[2]);
+      translate(box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y);
     } else {
       translate(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y);
     }
@@ -106,17 +108,18 @@ class Hook {
 
     pushMatrix(); //Tegner crosshair
     resetMatrix();
-    translate(kamera[0], kamera[1]);
+    translate(kamera[0], kamera[1]+80);
+    scale(kamera[2]);
     Vec2 searchPoint = new Vec2(playerPos.x+(sin(-rotation))+(search*cos(thetaTrue)), playerPos.y+(cos(-rotation))+(search*sin(thetaTrue)));
     Vec2 start = new Vec2(playerPos.x+(sin(-rotation)), playerPos.y+(cos(-rotation)));
     box2d.world.raycast(rcCallback, start, searchPoint);
     if (hitboxDebug) {
       stroke(1);
-      line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y+80, box2d.vectorWorldToPixels(searchPoint).x+width/2, box2d.vectorWorldToPixels(searchPoint).y+80+height/2);
+      line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y, box2d.vectorWorldToPixels(searchPoint).x+width/2, box2d.vectorWorldToPixels(searchPoint).y+height/2);
     }
     noStroke();
     fill(255, 100, 100);
-    if (!afsted)circle(box2d.vectorWorldToPixels(crosshairPos).x+width/2, box2d.vectorWorldToPixels(crosshairPos).y+80+height/2, 12);
+    if (!afsted)circle(box2d.vectorWorldToPixels(crosshairPos).x+width/2, box2d.vectorWorldToPixels(crosshairPos).y+height/2, 12);
     popMatrix();
   }
 
