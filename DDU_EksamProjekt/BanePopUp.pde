@@ -3,6 +3,7 @@ class BanePopUp {
   BaneScreen baneScreen;
   float size = 2.5; //inverse of size
 
+
   //int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc
   Button mainMenuButton = new Button(int(width/2-width/(2*size))+82, int(height/2-height/(2*size))+280, 170, 60, "Main menu", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
   Button baneMenuButton = new Button(int(width/2-width/(2*size))+522, int(height/2-height/(2*size))+280, 170, 60, "Levels", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));

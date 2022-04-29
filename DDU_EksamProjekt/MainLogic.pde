@@ -2,6 +2,7 @@ class MainLogic {
   Keyboard kb;
   GameStateManager gameStateManager;
   Player player;
+  String username;
 
   MainLogic(PApplet program) {
     kb = new Keyboard();
@@ -14,7 +15,6 @@ class MainLogic {
 
     gameStateManager.Update();
 
-    //gameStateManager.SkiftGameState("BaneScreen");
     kb.Update();
   }
 
@@ -33,5 +33,6 @@ class MainLogic {
   void InitializeScreens(PApplet program) {
     gameStateManager.AddGameState("MenuScreen", new MenuScreen(program, kb));
     gameStateManager.AddGameState("BaneScreen", new BaneScreen(program, kb));
+    gameStateManager.AddGameState("LogInScreen", new LoginScreen(program, kb));
   }
 }

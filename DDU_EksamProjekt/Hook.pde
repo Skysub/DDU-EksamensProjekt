@@ -115,64 +115,64 @@ class Hook {
     box2d.world.raycast(rcCallback, start, searchPoint);
     if (hitboxDebug) {
       stroke(1);
-      line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y, box2d.vectorWorldToPixels(searchPoint).x+width/2, box2d.vectorWorldToPixels(searchPoint).y+height/2);
+        line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y, box2d.vectorWorldToPixels(searchPoint).x+width/2, box2d.vectorWorldToPixels(searchPoint).y+height/2);
     }
     noStroke();
     fill(255, 100, 100);
     if (!afsted)circle(box2d.vectorWorldToPixels(crosshairPos).x+width/2, box2d.vectorWorldToPixels(crosshairPos).y+height/2, 12);
     popMatrix();
-  }
+}
 
-  void SpaceGotClicked(Vec2 sted, Vec2 pSted, float rotation) {
-    if (afsted) {
-      if (hit) {
-        //Hvis hooken sidder i en væg og der trykkes mellemrum bliver den reset
-        hit = false;
-        afsted = false;
-      }
-    } else {
-      //sidder hooken hos spilleren skydes den afsted
-      thetaT = theta + rotation; //Gemmer hookens rotation
-      afsted = true;
-
-      //Sætter hookens hastighed og i den rigtige retning
-      vel = sted.sub(pSted);
-      vel.normalize();
-      vel = new Vec2(vel.x * 0.1 * hookSpeed, vel.y * 0.1 * hookSpeed);
+void SpaceGotClicked(Vec2 sted, Vec2 pSted, float rotation) {
+  if (afsted) {
+    if (hit) {
+      //Hvis hooken sidder i en væg og der trykkes mellemrum bliver den reset
+      hit = false;
+      afsted = false;
     }
-  }
+  } else {
+    //sidder hooken hos spilleren skydes den afsted
+    thetaT = theta + rotation; //Gemmer hookens rotation
+    afsted = true;
 
-  boolean InGoalZone(boolean hitboxDebug) {
-    //Bruger CalcCollision til at beregne om hooken kolliderer med en væg.
-    //CalcCollision er fra før vi skiftede til at bruge Box2d, det kan ses ved at der stadig bruges PVector her
-    //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet det :p
-    if (bane.CalcCollision(new PVector(pos.x*10, -pos.y*10), hitboxDebug) == 1) return true;
-    return false;
+    //Sætter hookens hastighed og i den rigtige retning
+    vel = sted.sub(pSted);
+    vel.normalize();
+    vel = new Vec2(vel.x * 0.1 * hookSpeed, vel.y * 0.1 * hookSpeed);
   }
+}
 
-  boolean CheckCollisions(boolean hitboxDebug) {
-    //Bruger CalcCollision til at beregne om hooken kolliderer med en væg.
-    //CalcCollision er fra før vi skiftede til at bruge Box2d, det kan ses ved at der stadig bruges PVector her
-    //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet det :p
-    if (bane.CalcCollision(new PVector(pos.x*10, -pos.y*10), hitboxDebug) == 1) return true;
-    return false;
-  }
+boolean InGoalZone(boolean hitboxDebug) {
+  //Bruger CalcCollision til at beregne om hooken kolliderer med en væg.
+  //CalcCollision er fra før vi skiftede til at bruge Box2d, det kan ses ved at der stadig bruges PVector her
+  //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet det :p
+  if (bane.CalcCollision(new PVector(pos.x*10, -pos.y*10), hitboxDebug) == 1) return true;
+  return false;
+}
 
-  void HandleControls(boolean left, boolean right) { //Controls, drejer på graplling hooken
-    if (left) thetaR+= aimSpeed;
-    if (right) thetaR-= aimSpeed;
-    //Clamping
-    if (thetaR < -PI*0.15) thetaR = -PI*0.15;
-    if (thetaR > 1.15*PI) thetaR = 1.15*PI;
-  }
+boolean CheckCollisions(boolean hitboxDebug) {
+  //Bruger CalcCollision til at beregne om hooken kolliderer med en væg.
+  //CalcCollision er fra før vi skiftede til at bruge Box2d, det kan ses ved at der stadig bruges PVector her
+  //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet det :p
+  if (bane.CalcCollision(new PVector(pos.x*10, -pos.y*10), hitboxDebug) == 1) return true;
+  return false;
+}
 
-  void MakeTriangleForm() { //Skalerer trekanten hooken består af
-    t1.mult(size);
-    t2.mult(size);
-    t3.mult(size);
-  }
+void HandleControls(boolean left, boolean right) { //Controls, drejer på graplling hooken
+  if (left) thetaR+= aimSpeed;
+  if (right) thetaR-= aimSpeed;
+  //Clamping
+  if (thetaR < -PI*0.15) thetaR = -PI*0.15;
+  if (thetaR > 1.15*PI) thetaR = 1.15*PI;
+}
 
-  void setSigtePos(Vec2 p) {
-    crosshairPos = p;
-  }
+void MakeTriangleForm() { //Skalerer trekanten hooken består af
+  t1.mult(size);
+  t2.mult(size);
+  t3.mult(size);
+}
+
+void setSigtePos(Vec2 p) {
+  crosshairPos = p;
+}
 }
