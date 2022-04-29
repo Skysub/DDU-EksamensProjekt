@@ -2,6 +2,7 @@ class MainLogic {
   Keyboard kb;
   GameStateManager gameStateManager;
   Player player;
+  String username;
 
   MainLogic(PApplet program) {
     kb = new Keyboard();

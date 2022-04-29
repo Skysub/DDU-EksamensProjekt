@@ -26,19 +26,18 @@ class TextField {
     cp5.draw();
   }  
 
-  String input(Boolean remove, int minL, int maxL) {
+  String input(int minL, int maxL) {
 
     if (enteredString.length() > maxL && maxL != 0) tooLong = true;
     else tooLong = false;
     if (enteredString.length() < minL) tooShort = true;
     else tooShort = false;
 
-    if (remove) enteredString = "";
     if (enteredString.length()==0) return null;
     return enteredString;
   }
 
-  void openRemoveText() {
+  void RemoveText() {
     cp5.get(Textfield.class, stringTextfield).setText("");
   }
 }

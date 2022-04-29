@@ -11,8 +11,8 @@ class LoginScreen extends GameState {
   LoginScreen(PApplet program, Keyboard kb) {
     super(program, kb);
     this.kb = kb;
-    logInButton = new Button(width/2+50, 290, 100, 50, "Log in", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
-    signUpButton = new Button(width/2-150, 290, 100, 50, "Sign up", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
+    logInButton = new Button(width/2-150, 290, 100, 50, "Log in", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
+    signUpButton = new Button(width/2+50, 290, 100, 50, "Sign up", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
     username = new TextField(program, "", new PVector(width/2-250, 440));
     password = new TextField(program, "", new PVector(width/2-250, 620));
 
@@ -22,8 +22,8 @@ class LoginScreen extends GameState {
 
 
   void Update() {  
-    username.input(true, minLengthUN, maxLengthUN);
-    password.input(true, minLengthPW, 0);
+    username.input(minLengthUN, maxLengthUN);
+    password.input(minLengthPW, 0);
 
     //Toggler om brugeren er i gang med at signe op eller logge ind
     if (toggleLogin) {
@@ -47,41 +47,27 @@ class LoginScreen extends GameState {
       triedUN = true;
       triedPW = true;
 
-      enteredUsername = username.input(true, minLengthUN, maxLengthUN);
-      enteredPassword = password.input(true, minLengthPW, 0);
+      enteredUsername = username.input(minLengthUN, maxLengthUN);
+      enteredPassword = password.input(minLengthPW, 0);
 
-      hashedPassword = Hash(enteredPassword);
-      print(enteredUsername, hashedPassword, "||");
+      if (!username.tooShort && !username.tooLong && !password.tooShort) {
+        hashedPassword = Hash(enteredPassword);
+        status = DoDB(enteredUsername, hashedPassword);
+      } 
 
-      db.query("SELECT username FROM PW WHERE username='"+enteredUsername+"';");
-      if (!toggleLogin) {
-        if (!db.next()) {
-          sql = "INSERT INTO PW VALUES('"+enteredUsername+"','"+hashedPassword+"');";
-          db.execute(sql);
-          currentUsername = enteredUsername;
-          status = 4;//Bruger opretet og logget ind
-        } else status = 1; //Brugernavnet findes allerede
-      } else {
-        if (db.next()) {
-          db.query( "SELECT username FROM PW WHERE username='"+enteredUsername+"' AND password='"+hashedPassword+"';" ); 
-          if (db.next()) { 
-            currentUsername = enteredUsername;
-            status = 4; //Bruger logget ind
-          }
-        } else status = 2; //Ingen bruger med dette brugernavn
-      }
-      status = 3; //Forkert password eller brugernavn
-      print(status); 
-      //ryk det ned i egen metode måske
-
-      username.input(true, minLengthUN, maxLengthUN);
-      password.input(true, minLengthPW, 0);
       if (status == 4) {
+        username.RemoveText();
+        password.RemoveText();
+        enteredUsername = null;
+        enteredPassword = null;
         status = 0;
+        toggleLogin = true;
+        mainLogic.username = currentUsername;
+        
         mainLogic.gameStateManager.SkiftGameState("MenuScreen");
       }
     }
-    
+
     if (!username.tooShort && !username.tooLong) triedUN = false;
     if (!password.tooShort) triedPW = false;
   }
@@ -114,9 +100,9 @@ class LoginScreen extends GameState {
     if (username.tooShort && triedUN) text("Your username has to be at least " + minLengthUN + " characters", width/2, 500);
     if (password.tooShort && triedPW) text("Your password has to be at least " + minLengthPW + " characters", width/2, 680);
 
-    if (status == 1) text("Username is taken", width/2, 750);
-    if (status == 2) text("No user with this name exists", width/2, 750);
-    if (status == 3 && !username.tooShort && !username.tooLong && !password.tooShort) text("Wrong username or password", width/2, 750);
+    if (status == 1 && !toggleLogin) text("Username is taken", width/2, 750);
+    if (status == 2 && toggleLogin) text("No user with this name exists", width/2, 750);
+    if (status == 3 && toggleLogin) text("Wrong username or password", width/2, 750);
 
     logInButton.Draw();
     signUpButton.Draw();
@@ -138,5 +124,26 @@ class LoginScreen extends GameState {
       System.out.println("Exception: "+e);
     }
     return hpw;
+  }
+
+  int DoDB(String un, String pw) {
+    db.query("SELECT username FROM PW WHERE username='"+un+"';");
+    if (!toggleLogin) {
+      if (!db.next()) {
+        sql = "INSERT INTO PW VALUES('"+un+"','"+pw+"');";
+        db.execute(sql);
+        currentUsername = un;
+        return 4;//Bruger opretet og logget ind
+      } else return 1; //Brugernavnet findes allerede
+    } else {
+      if (db.next()) {
+        db.query( "SELECT username FROM PW WHERE username='"+un+"' AND password='"+pw+"';" ); 
+        if (db.next()) { 
+          currentUsername = un;
+          return 4; //Bruger logget ind
+        }
+      } else return 2; //Ingen bruger med dette brugernavn
+    }
+    return 3; //Forkert password eller brugernavn
   }
 }
