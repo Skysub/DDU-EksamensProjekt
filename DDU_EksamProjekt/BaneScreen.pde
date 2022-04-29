@@ -40,7 +40,7 @@ class BaneScreen extends GameState {
       popup = true;
     }
     timer.Update(playing, baneStart, endZone);
-    if (popup) popUp.Update();
+    if (popup) popUp.Update(done);
     else {
       if (playing) {
         bane.Update();
@@ -52,7 +52,7 @@ class BaneScreen extends GameState {
   }
 
   void Draw() {
-
+    background(95, 90, 100);
     pushMatrix();
     translate(0, 80);
     bane.Draw(kb.getToggle(84), kb.getToggle(72));

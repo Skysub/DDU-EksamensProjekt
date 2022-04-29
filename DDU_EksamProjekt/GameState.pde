@@ -14,6 +14,7 @@ public class GameState
 
   void ChangeScreen(String name)
   {
+    cursor(ARROW);
     mainLogic.gameStateManager.SkiftGameState(name);
   }
 }

@@ -14,13 +14,17 @@ class BanePopUp {
     this.baneScreen = baneScreen;
   }
 
-  int Update() {
+  int Update(boolean done) {
     hand = false;
     if (mainMenuButton.Update()) hand = true;
     if (baneMenuButton.Update()) hand = true;
-    if (nextLevelButton.Update()) hand = true;
+    if (done && nextLevelButton.Update()) hand = true;
     if (hand)cursor(HAND);
     else cursor(ARROW);
+
+    if (mainMenuButton.MouseReleased()) baneScreen.ChangeScreen("MenuScreen");
+    if (baneMenuButton.MouseReleased());
+    if (nextLevelButton.MouseReleased());
 
     return 0;
   }

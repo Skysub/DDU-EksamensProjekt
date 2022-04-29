@@ -1,5 +1,5 @@
 class Button {
-  Boolean pressed = false, clicked = false, mouseOver = false, hand = false; //pressed er om selve mussen klikkes på, clicked er om knappen klikkes på
+  Boolean pressed = false, clicked = false, mouseOver = false, hand = false, clickedPrev = false; //pressed er om selve mussen klikkes på, clicked er om knappen klikkes på
   int x, y, widthB, heightB, textSize;
   String buttonText;
   color currentColor, buttonColor, clickColor, textColor;
@@ -23,6 +23,7 @@ class Button {
   }
 
   boolean Update() {
+    clickedPrev = clicked;
     if (mouseX >= x && mouseX <= x + widthB && mouseY >= y && mouseY <= y + heightB) {
       hand = true;
       mouseOver = true;
@@ -62,8 +63,8 @@ class Button {
     return clicked;
   }
   
-  void MouseReleased(){
-    
+  boolean MouseReleased(){
+    return (!clicked && clickedPrev);
   }
 }
 /* 

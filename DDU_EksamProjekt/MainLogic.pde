@@ -8,7 +8,7 @@ class MainLogic {
     kb = new Keyboard();
     gameStateManager = new GameStateManager();
     InitializeScreens(program);
-    gameStateManager.SkiftGameState("BaneScreen");
+    gameStateManager.SkiftGameState("MenuScreen");
   }
 
   void Update() {
@@ -34,5 +34,6 @@ class MainLogic {
     gameStateManager.AddGameState("MenuScreen", new MenuScreen(program, kb));
     gameStateManager.AddGameState("BaneScreen", new BaneScreen(program, kb));
     gameStateManager.AddGameState("LogInScreen", new LoginScreen(program, kb));
+    gameStateManager.AddGameState("LevelSelectionScreen", new LevelSelectionScreen(program, kb));
   }
 }
