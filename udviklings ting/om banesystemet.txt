@@ -24,5 +24,5 @@ Guide til hvad CalcCollisions() returner og hvad det betyder
 0: nothing/background
 1: wall
 2: button
-3: hazard (saw?)
+3: hazard (sav?)
 n: ...

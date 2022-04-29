@@ -2,6 +2,7 @@ class BaneScreen extends GameState {
   //Det er her vi er når der bliver spillet en bane
 
   Bane bane;
+  LevelSelectionScreen lSelScreen;
   Keyboard kb;
   Player player;
   Timer timer;
@@ -85,6 +86,11 @@ class BaneScreen extends GameState {
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
     player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
+  }
+
+  void LoadBane(IntList[][] a) {
+    bane.LoadBane(a);
+    reset();
   }
 
   void handleStart() {

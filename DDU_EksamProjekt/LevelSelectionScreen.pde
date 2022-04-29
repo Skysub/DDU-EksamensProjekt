@@ -2,9 +2,11 @@ class LevelSelectionScreen extends GameState {
   Button MenuScreenButton = new Button(width/2-150, 600, 300, 100, "Main Menu", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button baneScreenButton = new Button(width/2-150, 450, 300, 100, "BaneScreen (debug)", color(#253FFF), color(80, 100, 80), 20, color(230));
   boolean hand;
+  BaneScreen baneScreen;
 
-  LevelSelectionScreen(PApplet program, Keyboard kb) {
+  LevelSelectionScreen(PApplet program, Keyboard kb, BaneScreen baneScreen, BaneHandler baneHandler) {
     super(program, kb);
+    this.baneScreen = baneScreen;
   }
 
   void Update() {
@@ -28,5 +30,8 @@ class LevelSelectionScreen extends GameState {
 
     if (MenuScreenButton.isClicked()) ChangeScreen("MenuScreen");
     if (baneScreenButton.isClicked()) ChangeScreen("BaneScreen");
+  }
+
+  void LoadBaneNr(int baneId) {
   }
 }

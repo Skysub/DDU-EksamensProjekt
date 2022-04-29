@@ -1,0 +1,5 @@
+class BaneHandler {
+
+  BaneHandler() {
+  }
+}
