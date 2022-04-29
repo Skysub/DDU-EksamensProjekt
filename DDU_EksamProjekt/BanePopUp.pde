@@ -23,7 +23,7 @@ class BanePopUp {
     else cursor(ARROW);
 
     if (mainMenuButton.MouseReleased()) baneScreen.ChangeScreen("MenuScreen");
-    if (baneMenuButton.MouseReleased());
+    if (baneMenuButton.MouseReleased()) baneScreen.ChangeScreen("LevelSelectionScreen");
     if (nextLevelButton.MouseReleased());
 
     return 0;
