@@ -4,7 +4,7 @@ class LevelSelectionScreen extends GameState {
   boolean hand;
   BaneScreen baneScreen;
 
-  LevelSelectionScreen(PApplet program, Keyboard kb, BaneScreen baneScreen, BaneHandler baneHandler) {
+  LevelSelectionScreen(PApplet program, Keyboard kb, BaneScreen baneScreen, FileHandler FileHandler) {
     super(program, kb);
     this.baneScreen = baneScreen;
   }

@@ -2,13 +2,13 @@ class MainLogic {
   Keyboard kb;
   GameStateManager gameStateManager;
   Player player;
-  BaneHandler baneHandler;
+  FileHandler fileHandler;
   String username;
 
   MainLogic(PApplet program) {
     kb = new Keyboard();
     gameStateManager = new GameStateManager();
-    baneHandler = new BaneHandler();
+    fileHandler = new FileHandler();
     InitializeScreens(program);
     gameStateManager.SkiftGameState("MenuScreen");
   }
@@ -34,7 +34,7 @@ class MainLogic {
 
   void InitializeScreens(PApplet program) {
     BaneScreen bs = new BaneScreen(program, kb);
-    LevelSelectionScreen lss = new LevelSelectionScreen(program, kb, bs, baneHandler);
+    LevelSelectionScreen lss = new LevelSelectionScreen(program, kb, bs, fileHandler);
     bs.lSelScreen = lss;
 
     gameStateManager.AddGameState("MenuScreen", new MenuScreen(program, kb));
