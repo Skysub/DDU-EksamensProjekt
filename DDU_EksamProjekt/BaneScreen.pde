@@ -3,6 +3,7 @@ class BaneScreen extends GameState {
 
   Bane bane;
   LevelSelectionScreen lSelScreen;
+  FileHandler fileHandler;
   Keyboard kb;
   Player player;
   Timer timer;
@@ -16,14 +17,15 @@ class BaneScreen extends GameState {
   boolean popup = false;
   BanePopUp popUp;
 
-  BaneScreen(PApplet program, Keyboard kb) {
+  BaneScreen(PApplet program, Keyboard kb, FileHandler fileHandler) {
     super(program, kb);
+    this.fileHandler = fileHandler;
 
     box2d = new Box2DProcessing(program);  
     box2d.createWorld();
     box2d.setGravity(0, -35);
 
-    bane = new Bane(box2d);
+    bane = new Bane(box2d, fileHandler);
     this.kb = kb;
     timer = new Timer();
     player = new Player(bane, box2d, startPos);

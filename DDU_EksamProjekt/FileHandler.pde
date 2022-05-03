@@ -11,8 +11,8 @@ class FileHandler { //<>// //<>// //<>//
     bane.addColumn("rotation");
     bane.addColumn("extra"); //Extra bruges kun til selve banens information
 
-    for (int i = 0; i < b[0][0].get(1); i++) { //Højde
-      for (int j = 0; j < b[0][0].get(0); j++) { //Bredde
+    for (int i = 0; i < b[0][0].get(0); i++) {
+      for (int j = 0; j < b[0][0].get(1); j++) {
         TableRow newRow = bane.addRow();
         if (j == 0 && i == 0) {    
           newRow.setInt("id", b[0][0].get(0));
@@ -26,6 +26,7 @@ class FileHandler { //<>// //<>// //<>//
     }
 
     try {
+      saveTable(bane, "levels\\level_"+b[0][0].get(2)+".csv");
     }
     catch(Exception e) {
       println("Time: "+millis()+" Exception: "+e);
@@ -34,8 +35,32 @@ class FileHandler { //<>// //<>// //<>//
     return 0;
   }
 
-  IntList[][] ParseLevelFile() {
-    return new IntList[0][0];
+  IntList[][] LoadLevelFile(String path) {
+    IntList[][] out;
+    try {
+      Table table = loadTable(path, "header");
+      out = new IntList[table.getInt(0, "id")][table.getInt(0, "rotation")];
+
+      for (int i = 0; i < table.getInt(0, "id"); i++) {
+        for (int j = 0; j < table.getInt(0, "rotation"); j++) {
+          out[i][j] = new IntList();
+          if (i == 0 && j == 0) {
+            out[i][j].append(table.getInt(0, "id"));
+            out[i][j].append(table.getInt(0, "rotation"));
+            out[i][j].append(table.getInt(0, "extra"));
+          } else {
+            out[i][j].append(table.getInt((i*out[0][0].get(1))+j, "id"));
+            out[i][j].append(table.getInt((i*out[0][0].get(1))+j, "rotation"));
+          }
+        }
+      }
+    }
+    catch(Exception e) {
+      println("Time: "+millis()+" Exception: "+e);
+      println("Couldn't load and parse level file");
+      out = new IntList[0][0];
+    }
+    return out;
   }
 
   void MakeDataFolder(PApplet program) {
@@ -46,8 +71,13 @@ class FileHandler { //<>// //<>// //<>//
         directory.mkdir();
       }
 
+      directory = new File(sketchPath()+"\\levels");
+      if (!directory.exists()) {
+        directory.mkdir();
+      }
+
       //Laver SQLite filen hvis den ikke existerer
-      File tempFile = new File(sketchPath()+"\\data\\hookdb.SQLite"); //<>//
+      File tempFile = new File(sketchPath()+"\\data\\hookdb.SQLite");
       if (!tempFile.exists()) {
         tempFile.createNewFile();
         delay(100);

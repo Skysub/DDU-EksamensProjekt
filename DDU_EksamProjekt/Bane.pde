@@ -4,6 +4,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
   Blok blok;
   Box2DProcessing box2d;
+  FileHandler fileHandler;
 
   IntList[][] bane, tileSetTest;
   int bred = -1, lang = -1, id = -1;
@@ -11,8 +12,9 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
   int blokkeIalt;
 
-  Bane(Box2DProcessing b) {
+  Bane(Box2DProcessing b, FileHandler fileHandler) {
     box2d = b;
+    this.fileHandler = fileHandler;
 
     bane = new IntList[1][1];
     bane[0][0] = new IntList();
@@ -189,6 +191,9 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         }
       }
     }
+    //Til test af file handler
+    //fileHandler.MakeLevelFile(test);
+    //LoadBane(fileHandler.LoadLevelFile("Level_0.csv"));
     LoadBane(test);
   }
 

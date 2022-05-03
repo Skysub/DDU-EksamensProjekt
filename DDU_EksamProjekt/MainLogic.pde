@@ -33,7 +33,7 @@ class MainLogic {
   }
 
   void InitializeScreens(PApplet program) {
-    BaneScreen bs = new BaneScreen(program, kb);
+    BaneScreen bs = new BaneScreen(program, kb, fileHandler);
     LevelSelectionScreen lss = new LevelSelectionScreen(program, kb, bs, fileHandler);
     bs.lSelScreen = lss;
 
