@@ -48,14 +48,19 @@ class BanePopUp {
       textAlign(LEFT, TOP);
       text("Congratulations! Level cleared.", 15, 10);
       textSize(22);
-      text("Press or 'R' to play the level again.", 15, 55);
+      textAlign(CENTER);
+      text("Press or '  ' to play the level again.", width/(2*size), 300);
+      fill(255, 50, 50);
+      text("R", width/(2*size)-78, 300);
     } else { //Til hvis menuen blev åbnet manuelt af spilleren, altså hvis spilleren ikke er i mål endnu
       textSize(30);
       fill(25);
       textAlign(LEFT, TOP);
       text("Pause Menu", 15, 10);
-      textSize(22);
-      text("Press 'R' to restart the level or 'TAB' to close the menu.", 15, 55);
+      textSize(25);
+      text("Press '       ' to close the menu.", 15, 55);
+      fill(255, 50, 50);
+      text("TAB", 95, 55);
     }
     popMatrix();
     drawButtons(done);

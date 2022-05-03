@@ -15,13 +15,13 @@ class Player {
     makeBody(startPos);
   }
 
-  void Update(boolean left, boolean right, boolean space, boolean hitboxDebug) {
+  void Update(boolean left, boolean right, boolean space, boolean hitboxDebug, boolean cameraLock) {
     Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug);
 
     //En kraftvektor, og punktet hvor hooken sidder på spilleren
     body.applyForce(retning, new Vec2(body.getPosition().x+(sin(-body.getAngle())*wobble), body.getPosition().y+(cos(-body.getAngle())*wobble)));
 
-    SetView();
+    if (cameraLock)SetView(); //Sørger for at kameraet er låst til spilleren
   }
 
   void Draw(boolean hitboxDebug, float[] kamera) {

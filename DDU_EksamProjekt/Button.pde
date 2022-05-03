@@ -62,8 +62,8 @@ class Button {
   boolean isClicked() {
     return clicked;
   }
-  
-  boolean MouseReleased(){
+
+  boolean MouseReleased() {
     return (!clicked && clickedPrev);
   }
 }

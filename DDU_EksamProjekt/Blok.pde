@@ -129,7 +129,15 @@ class Blok {
   void DrawB1() {
     //square
     SetSquareSettings();
-    square(0, 0, gridSize);
+
+    //No grid
+    noStroke();
+    fill(255);
+    square(2, 2, gridSize+1);
+
+    //Light grid
+    //stroke(180);
+    //square(0, 0, gridSize);
   }
 
   //Goal tile

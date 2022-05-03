@@ -12,7 +12,7 @@ class BaneScreen extends GameState {
 
   boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
   int shadow = 3;
-  Vec2 startPos = new Vec2(0, 0);
+  Vec2 startPos = new Vec2(-65, 40);
 
   boolean popup = false;
   BanePopUp popUp;
@@ -47,7 +47,7 @@ class BaneScreen extends GameState {
     else {
       if (playing) {
         bane.Update();
-        player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
+        player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76));
         box2d.step();
       }
       handleStart();
@@ -87,7 +87,7 @@ class BaneScreen extends GameState {
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
-    player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72));
+    player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76));
   }
 
   void LoadBane(IntList[][] a) {

@@ -14,9 +14,7 @@ class MainLogic {
   }
 
   void Update() {
-
     gameStateManager.Update();
-
     kb.Update();
   }
 
