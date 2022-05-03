@@ -8,7 +8,7 @@ class MainLogic {
   MainLogic(PApplet program) {
     kb = new Keyboard();
     gameStateManager = new GameStateManager();
-    fileHandler = new FileHandler();
+    fileHandler = new FileHandler(program);
     InitializeScreens(program);
     gameStateManager.SkiftGameState("MenuScreen");
   }

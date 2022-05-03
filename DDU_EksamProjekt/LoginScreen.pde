@@ -16,7 +16,7 @@ class LoginScreen extends GameState {
     username = new TextField(program, "", new PVector(width/2-250, 440));
     password = new TextField(program, "", new PVector(width/2-250, 620));
 
-    db = new SQLite(program, "hookdb.sqlite");
+    db = new SQLite(program, sketchPath()+"\\data\\hookdb.sqlite");
     db.connect();
   }
 
