@@ -2,7 +2,7 @@ class FileHandler { //<>// //<>// //<>//
   SQLite db;
 
   FileHandler(PApplet program) {
-    MakeDataFolder();
+    MakeDataFolder(program);
   }
 
   int MakeLevelFile(IntList[][] b) {
@@ -38,7 +38,7 @@ class FileHandler { //<>// //<>// //<>//
     return new IntList[0][0];
   }
 
-  void MakeDataFolder() {
+  void MakeDataFolder(PApplet program) {
     try {
       //Makes data folder
       File directory = new File(sketchPath()+"\\data");
@@ -47,7 +47,7 @@ class FileHandler { //<>// //<>// //<>//
       }
 
       //Laver SQLite filen hvis den ikke existerer
-      File tempFile = new File(sketchPath()+"\\data\\hookdb.SQLite");
+      File tempFile = new File(sketchPath()+"\\data\\hookdb.SQLite"); //<>//
       if (!tempFile.exists()) {
         tempFile.createNewFile();
         delay(100);
