@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+class Bane { //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
