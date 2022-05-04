@@ -49,9 +49,9 @@ class BanePopUp {
       text("Congratulations! Level cleared.", 15, 10);
       textSize(22);
       textAlign(CENTER);
-      text("Press or '  ' to play the level again.", width/(2*size), 300);
+      text("Press '  ' to play the level again.", width/(2*size), 300);
       fill(255, 50, 50);
-      text("R", width/(2*size)-78, 300);
+      text("R", width/(2*size) - 92, 300);
     } else { //Til hvis menuen blev åbnet manuelt af spilleren, altså hvis spilleren ikke er i mål endnu
       textSize(30);
       fill(25);

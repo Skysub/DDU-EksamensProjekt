@@ -20,7 +20,7 @@ class Timer {
     textAlign(LEFT, CENTER);
     //konverterer tiden til læsbar format for racetime
     min = floor(time/60000f);
-    sec = floor(time/1000f);
+    sec = floor(time/1000f)-floor(time/60000f)*60;
     text("Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000), 10, 30);
 
     //samme som overstående men blot for rekord tiden
