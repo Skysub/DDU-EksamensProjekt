@@ -25,7 +25,7 @@ class Timer {
 
     //samme som overstående men blot for rekord tiden
     recordMin = floor(record/60000f);
-    recordSec = floor(record/1000f);
+    recordSec = floor(record/1000f)-floor(record/60000f)*60;
     text("Record: "+recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), 420, 30);
 
     stroke(0);
