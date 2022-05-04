@@ -14,12 +14,13 @@ class TextField {
     PFont p = createFont("Verdana", 20);
     ControlFont font = new ControlFont(p);
     cp5.setFont(font);
-    textfield = cp5.addTextfield("StringTextField").setPosition(pos.x, pos.y).setSize(500, 50).setAutoClear(false).setText(s).setCaptionLabel("").keepFocus(false);
+    textfield = cp5.addTextfield("StringTextField").setPosition(pos.x, pos.y).setSize(500, 50).setAutoClear(false).setText(s).setCaptionLabel("").keepFocus(false).setColor(0).setColorBackground(color(200)).setColorForeground(0).setColorActive(color(80, 235, 80));                                  
   }
 
   void Update() {
     Draw();
     enteredString = cp5.get(Textfield.class, stringTextfield).getText();
+    
   }
 
   void Draw() {
