@@ -14,6 +14,8 @@ class BaneScreen extends GameState {
 
   boolean popup = false;
   BanePopUp popUp;
+  
+  String username;
 
   BaneScreen(PApplet program, Keyboard kb) {
     super(program, kb);
@@ -49,6 +51,8 @@ class BaneScreen extends GameState {
       }
       handleStart();
     }
+    
+    username = mainLogic.username;
   }
 
   void Draw() {

@@ -24,6 +24,8 @@ class LoginScreen extends GameState {
 
 
   void Update() {  
+    username.ChangeFocus(true);
+    
     username.Input(minLengthUN, maxLengthUN);
     password.Input(minLengthPW, 0);
 

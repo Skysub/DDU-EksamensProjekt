@@ -8,19 +8,24 @@ class BanePopUp {
   Button mainMenuButton = new Button(int(width/2-width/(2*size))+82, int(height/2-height/(2*size))+280, 170, 60, "Main menu", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
   Button baneMenuButton = new Button(int(width/2-width/(2*size))+522, int(height/2-height/(2*size))+280, 170, 60, "Levels", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
   Button nextLevelButton = new Button(int(width/2-width/(2*size))+302, int(height/2-height/(2*size))+280, 170, 60, "Next level", color(200, 200, 255), color(115, 135, 45), 20, color(0, 0, 0));
-  boolean hand;
+  boolean hand, loggedIn;
 
   BanePopUp(BaneScreen baneScreen) {
     this.baneScreen = baneScreen;
   }
 
   int Update() {
+    //dette burde vi vel gøre i button klassen, så det er universelt for alle knapper?
     hand = false;
     if (mainMenuButton.Update()) hand = true;
     if (baneMenuButton.Update()) hand = true;
     if (nextLevelButton.Update()) hand = true;
     if (hand)cursor(HAND);
     else cursor(ARROW);
+
+    //Ting til scoreboardet
+    if (baneScreen.username == null) loggedIn = false;
+    else loggedIn = true;
 
     return 0;
   }
@@ -53,6 +58,13 @@ class BanePopUp {
       textSize(22);
       text("Press 'R' to restart the level or 'TAB' to close the menu.", 15, 55);
     }
+
+    if (loggedIn) {
+      //ting der skal ske når scoreboardet skal være på
+    } else {
+      text("Your scores will NOT be saved since you aren't logged in", 15, 85);
+    }
+
     popMatrix();
     drawButtons(done);
   }
