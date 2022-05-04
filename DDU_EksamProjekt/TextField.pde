@@ -27,7 +27,7 @@ class TextField {
     cp5.draw();
   }  
 
-  String input(int minL, int maxL) {
+  String Input(int minL, int maxL) {
 
     if (enteredString.length() > maxL && maxL != 0) tooLong = true;
     else tooLong = false;
@@ -36,6 +36,15 @@ class TextField {
 
     if (enteredString.length()==0) return null;
     return enteredString;
+  }
+  
+  boolean isActive(){
+    if(textfield.isFocus()) return true;
+    else return false;
+  }
+  
+  void ChangeFocus(boolean c){
+    textfield.setFocus(c);
   }
 
   void RemoveText() {

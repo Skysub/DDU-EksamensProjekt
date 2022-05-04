@@ -3,7 +3,7 @@ class LoginScreen extends GameState {
   String Toggle = "Log in", toggle = "log in", enteredUsername, enteredPassword, hashedPassword, hpw, currentUsername, sql;
   int status, minLengthUN = 3, maxLengthUN = 16, minLengthPW = 6;
 
-  Button logInButton, signUpButton;
+  Button logInButton, signUpButton, exitButton, enterButton;
   TextField username, password;
   Keyboard kb;
   SQLite db;
@@ -13,17 +13,20 @@ class LoginScreen extends GameState {
     this.kb = kb;
     logInButton = new Button(width/2-150, 290, 100, 50, "Log in", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
     signUpButton = new Button(width/2+50, 290, 100, 50, "Sign up", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
+    exitButton = new Button(width/2+310, 150, 80, 80, "Back", color(200), color(80, 100, 80), 20, color(0, 0, 0));
+    enterButton = new Button(width/2-100, 760, 200, 40, "", color(180), color(80, 100, 80), 20, color(0, 0, 0));
     username = new TextField(program, "", new PVector(width/2-250, 440));
     password = new TextField(program, "", new PVector(width/2-250, 620));
 
     db = new SQLite(program, "hookdb.sqlite");
     db.connect();
+    username.ChangeFocus(true);
   }
 
 
   void Update() {  
-    username.input(minLengthUN, maxLengthUN);
-    password.input(minLengthPW, 0);
+    username.Input(minLengthUN, maxLengthUN);
+    password.Input(minLengthPW, 0);
 
     //Toggler om brugeren er i gang med at signe op eller logge ind
     if (toggleLogin) {
@@ -42,13 +45,20 @@ class LoginScreen extends GameState {
 
     username.Update();
     password.Update();
+    exitButton.Update();
+    enterButton.Update();
 
-    if (kb.Shift(ENTER)) {
+    if (exitButton.isClicked()) {
+      RemoveText();
+      mainLogic.gameStateManager.SkiftGameState("MenuScreen");
+    }
+
+    if (kb.Shift(ENTER) || enterButton.isClicked()) {
       triedUN = true;
       triedPW = true;
 
-      enteredUsername = username.input(minLengthUN, maxLengthUN);
-      enteredPassword = password.input(minLengthPW, 0);
+      enteredUsername = username.Input(minLengthUN, maxLengthUN);
+      enteredPassword = password.Input(minLengthPW, 0);
 
       if (!username.tooShort && !username.tooLong && !password.tooShort) {
         hashedPassword = Hash(enteredPassword);
@@ -56,16 +66,19 @@ class LoginScreen extends GameState {
       } 
 
       if (status == 4) {
-        username.RemoveText();
-        password.RemoveText();
-        enteredUsername = null;
-        enteredPassword = null;
+        RemoveText();
         status = 0;
         toggleLogin = true;
         mainLogic.username = currentUsername;
-        
+
         mainLogic.gameStateManager.SkiftGameState("MenuScreen");
       }
+    }
+
+    if (username.isActive() && kb.Shift(ENTER)) {
+      username.ChangeFocus(false);
+      password.ChangeFocus(true);
+      triedPW = false;
     }
 
     if (!username.tooShort && !username.tooLong) triedUN = false;
@@ -79,6 +92,11 @@ class LoginScreen extends GameState {
     rect(width/2, height/2, 820, 820);
     fill(180);
     rect(width/2, height/2, 800, 800);
+
+    logInButton.Draw();
+    signUpButton.Draw();
+    exitButton.Draw();
+    enterButton.Draw();
 
     fill(0);
     textSize(50);
@@ -102,10 +120,7 @@ class LoginScreen extends GameState {
 
     if (status == 1 && !toggleLogin) text("Username is taken", width/2, 750);
     if (status == 2 && toggleLogin) text("No user with this name exists", width/2, 750);
-    if (status == 3 && toggleLogin) text("Wrong username or password", width/2, 750);
-
-    logInButton.Draw();
-    signUpButton.Draw();
+    if (status == 3 && toggleLogin) text("Wrong password", width/2, 750);
   }
 
   String Hash(String pw) {
@@ -145,5 +160,14 @@ class LoginScreen extends GameState {
       } else return 2; //Ingen bruger med dette brugernavn
     }
     return 3; //Forkert password eller brugernavn
+  }
+
+  void RemoveText() {
+    username.RemoveText();
+    password.RemoveText();
+    triedUN = false;
+    triedPW = false;
+    enteredUsername = null;
+    enteredPassword = null;
   }
 }
