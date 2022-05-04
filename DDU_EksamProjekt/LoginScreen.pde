@@ -20,7 +20,6 @@ class LoginScreen extends GameState {
 
     db = new SQLite(program, "hookdb.sqlite");
     db.connect();
-    username.ChangeFocus(true);
   }
 
 
