@@ -3,6 +3,13 @@ class FileHandler { //<>// //<>// //<>//
 
   FileHandler(PApplet program) {
     MakeDataFolder(program);
+    //File folder = new File(sketchPath());
+    //listFilesForFolder(folder);
+    try (Stream<Path> paths = Files.walk(Paths.get(sketchPath()))) {
+      paths
+        .filter(Files::isRegularFile)
+        .forEach(System.out::println);
+    }
   }
 
   int MakeLevelFile(IntList[][] b) {
@@ -61,6 +68,16 @@ class FileHandler { //<>// //<>// //<>//
       out = new IntList[0][0];
     }
     return out;
+  }
+
+  void listFilesForFolder(File folder) {
+    for (File fileEntry : folder.listFiles()) {
+      if (fileEntry.isDirectory()) {
+        listFilesForFolder(fileEntry);
+      } else {
+        System.out.println(fileEntry.getName());
+      }
+    }
   }
 
   void MakeDataFolder(PApplet program) {
