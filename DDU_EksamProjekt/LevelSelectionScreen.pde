@@ -2,7 +2,7 @@ class LevelSelectionScreen extends GameState {
   Button MenuScreenButton = new Button(width/2-150, 600, 300, 100, "Main Menu", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button baneScreenButton = new Button(width/2-150, 450, 300, 100, "BaneScreen (debug)", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button loadCostumLvl = new Button(150, height-190, 200, 50, "Load level", color(#253FFF), color(80, 100, 80), 20, color(230));
-  boolean hand;
+  boolean hand, lastCustom = true;
   BaneScreen baneScreen;
   FileHandler fileHandler;
   int timer = -3000, totalLevels = 1;
@@ -67,13 +67,14 @@ class LevelSelectionScreen extends GameState {
 
   int LoadBaneNr(int baneId, boolean custom) {
     IntList[][] b;
+    lastCustom = custom;
     if (custom) b = fileHandler.LoadLevelFile("\\custom_levels\\level_"+baneId+".csv");
     else b = fileHandler.LoadLevelFile("\\data\\levels\\level_"+baneId+".csv");
-      if (b != null) {
-        baneScreen.bane.LoadBane(b);
-        ChangeScreen("BaneScreen");
-        return 0;
-      } else return -1;
+    if (b != null) {
+      baneScreen.bane.LoadBane(b);
+      ChangeScreen("BaneScreen");
+      return 0;
+    } else return -1;
   }
 
   void MakeLevelButtons() {
@@ -91,5 +92,13 @@ class LevelSelectionScreen extends GameState {
         timer = millis();
       }
     }
+  }
+
+  boolean getCustom() {
+    return lastCustom;
+  }
+
+  int getTotalLevels() {
+    return totalLevels;
   }
 }

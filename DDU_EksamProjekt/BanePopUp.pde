@@ -18,13 +18,13 @@ class BanePopUp {
     hand = false;
     if (mainMenuButton.Update()) hand = true;
     if (baneMenuButton.Update()) hand = true;
-    if (done && nextLevelButton.Update()) hand = true;
+    if (done && baneScreen.bane.bane[0][0].get(2)+1 < baneScreen.lSelScreen.getTotalLevels() && !baneScreen.lSelScreen.getCustom() && nextLevelButton.Update()) hand = true;
     if (hand)cursor(HAND);
     else cursor(ARROW);
 
     if (mainMenuButton.MouseReleased()) baneScreen.ChangeScreen("MenuScreen");
     if (baneMenuButton.MouseReleased()) baneScreen.ChangeScreen("LevelSelectionScreen");
-    //if (nextLevelButton.MouseReleased()) baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1);
+    if (nextLevelButton.MouseReleased()) baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom());
 
     return 0;
   }
@@ -69,6 +69,6 @@ class BanePopUp {
   void drawButtons(boolean done) {
     mainMenuButton.Draw();
     baneMenuButton.Draw();
-    if (done)nextLevelButton.Draw();
+    if (done && baneScreen.bane.bane[0][0].get(2)+1 < baneScreen.lSelScreen.getTotalLevels() && !baneScreen.lSelScreen.getCustom())nextLevelButton.Draw();
   }
 }
