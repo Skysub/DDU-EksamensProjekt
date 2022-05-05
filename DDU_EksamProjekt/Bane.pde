@@ -1,4 +1,4 @@
-class Bane { //<>//
+class Bane { //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
 
@@ -207,7 +207,6 @@ class Bane { //<>//
     }
     //Til test af file handler
     //fileHandler.MakeLevelFile(test);
-    //LoadBane(fileHandler.LoadLevelFile("Level_0.csv"));
     LoadBane(test);
   }
 
@@ -237,6 +236,7 @@ class Bane { //<>//
         }
       }
     }
+    //fileHandler.MakeLevelFile(test);
     LoadBane(test);
   }
 

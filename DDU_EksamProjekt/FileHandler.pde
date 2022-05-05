@@ -1,8 +1,10 @@
-class FileHandler { //<>// //<>// //<>//
+class FileHandler { //<>//
   SQLite db;
 
   FileHandler(PApplet program) {
     MakeDataFolder(program);
+    //File folder = new File(sketchPath());
+    //listFilesForFolder(folder);
   }
 
   int MakeLevelFile(IntList[][] b) {
@@ -58,9 +60,19 @@ class FileHandler { //<>// //<>// //<>//
     catch(Exception e) {
       println("Time: "+millis()+" Exception: "+e);
       println("Couldn't load and parse level file");
-      out = new IntList[0][0];
+      out = null;
     }
     return out;
+  }
+
+  void listFilesForFolder(File folder) {
+    for (File fileEntry : folder.listFiles()) {
+      if (fileEntry.isDirectory()) {
+        listFilesForFolder(fileEntry);
+      } else {
+        System.out.println(fileEntry.getName());
+      }
+    }
   }
 
   void MakeDataFolder(PApplet program) {
