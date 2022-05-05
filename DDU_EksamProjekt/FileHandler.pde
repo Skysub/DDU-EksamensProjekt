@@ -60,7 +60,7 @@ class FileHandler { //<>//
     catch(Exception e) {
       println("Time: "+millis()+" Exception: "+e);
       println("Couldn't load and parse level file");
-      out = new IntList[0][0];
+      out = null;
     }
     return out;
   }
