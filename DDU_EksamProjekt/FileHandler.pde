@@ -1,15 +1,10 @@
-class FileHandler { //<>// //<>// //<>//
+class FileHandler { //<>//
   SQLite db;
 
   FileHandler(PApplet program) {
     MakeDataFolder(program);
     //File folder = new File(sketchPath());
     //listFilesForFolder(folder);
-    try (Stream<Path> paths = Files.walk(Paths.get(sketchPath()))) {
-      paths
-        .filter(Files::isRegularFile)
-        .forEach(System.out::println);
-    }
   }
 
   int MakeLevelFile(IntList[][] b) {
