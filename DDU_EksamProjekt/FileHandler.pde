@@ -28,7 +28,7 @@ class FileHandler { //<>//
     }
 
     try {
-      saveTable(bane, "levels\\level_"+b[0][0].get(2)+".csv");
+      saveTable(bane, "custom_levels\\level_"+b[0][0].get(2)+".csv");
     }
     catch(Exception e) {
       println("Time: "+millis()+" Exception: "+e);
@@ -83,7 +83,12 @@ class FileHandler { //<>//
         directory.mkdir();
       }
 
-      directory = new File(sketchPath()+"\\levels");
+      directory = new File(sketchPath()+"\\custom_levels");
+      if (!directory.exists()) {
+        directory.mkdir();
+      }
+
+      directory = new File(sketchPath()+"\\data\\levels");
       if (!directory.exists()) {
         directory.mkdir();
       }

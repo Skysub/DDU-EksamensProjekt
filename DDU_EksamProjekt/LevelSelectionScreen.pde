@@ -5,9 +5,9 @@ class LevelSelectionScreen extends GameState {
   boolean hand;
   BaneScreen baneScreen;
   FileHandler fileHandler;
-  int timer = -3000;
+  int timer = -3000, totalLevels = 1;
 
-  //ArrayList<Button> levelButtons = new ArrayList<Button>();
+  ArrayList<Button> levelButtons = new ArrayList<Button>();
   TextField username;
 
   LevelSelectionScreen(PApplet program, Keyboard kb, BaneScreen baneScreen, FileHandler fileHandler) {
@@ -15,6 +15,8 @@ class LevelSelectionScreen extends GameState {
     this.baneScreen = baneScreen;
     this.fileHandler = fileHandler;
     username = new TextField(program, "", new PVector(175, height-265), new PVector(150, 40), true);
+
+    MakeLevelButtons();
   }
 
   void Update() {
@@ -29,8 +31,12 @@ class LevelSelectionScreen extends GameState {
     MenuScreenButton.Draw();
     baneScreenButton.Draw();
     loadCostumLvl.Draw();
+    for (Button x : levelButtons) {
+      x.Draw();
+    }
     textAlign(LEFT);
     textSize(25);
+    fill(255);
     text("Enter costum level id", 130, height-300);
 
     if (millis() < timer+3000) {
@@ -40,6 +46,11 @@ class LevelSelectionScreen extends GameState {
 
   void handleButton() {
     hand = false;
+
+    for (Button x : levelButtons) {
+      if (x.Update()) hand = true;
+    }
+
     if (MenuScreenButton.Update()) hand = true;
     if (baneScreenButton.Update()) hand = true;
     if (loadCostumLvl.Update()) hand = true;
@@ -48,22 +59,34 @@ class LevelSelectionScreen extends GameState {
 
     if (MenuScreenButton.isClicked()) ChangeScreen("MenuScreen");
     if (baneScreenButton.isClicked()) ChangeScreen("BaneScreen");
+
+    for (int i = 0; i < totalLevels; i++) {
+      if (levelButtons.get(i).isClicked()) LoadBaneNr(i, false);
+    }
   }
 
-  int LoadBaneNr(int baneId) {
-    IntList[][] b = fileHandler.LoadLevelFile("\\levels\\level_"+baneId+".csv");
-    if (b != null) {
-      baneScreen.bane.LoadBane(b);
-      ChangeScreen("BaneScreen");
-      return 0;
-    } else return -1;
+  int LoadBaneNr(int baneId, boolean custom) {
+    IntList[][] b;
+    if (custom) b = fileHandler.LoadLevelFile("\\custom_levels\\level_"+baneId+".csv");
+    else b = fileHandler.LoadLevelFile("\\data\\levels\\level_"+baneId+".csv");
+      if (b != null) {
+        baneScreen.bane.LoadBane(b);
+        ChangeScreen("BaneScreen");
+        return 0;
+      } else return -1;
+  }
+
+  void MakeLevelButtons() {
+    for (int i = 1; i < totalLevels+1; i++) {
+      levelButtons.add(new Button(width-300, (i*((height-200)/(totalLevels+1))), 220, 65, "Level "+i, color(#253FFF), color(80, 100, 80), 20, color(230)));
+    }
   }
 
   void costumLvl() {
     username.input(0, 10);
     username.Update();
     if (loadCostumLvl.isClicked() && username.input(0, 10) != null) {
-      if (LoadBaneNr(int(username.input(0, 10))) != 0) {
+      if (LoadBaneNr(int(username.input(0, 10)), true) != 0) {
 
         timer = millis();
       }

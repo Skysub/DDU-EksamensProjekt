@@ -24,7 +24,7 @@ class BanePopUp {
 
     if (mainMenuButton.MouseReleased()) baneScreen.ChangeScreen("MenuScreen");
     if (baneMenuButton.MouseReleased()) baneScreen.ChangeScreen("LevelSelectionScreen");
-    if (nextLevelButton.MouseReleased()) baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1);
+    //if (nextLevelButton.MouseReleased()) baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1);
 
     return 0;
   }
