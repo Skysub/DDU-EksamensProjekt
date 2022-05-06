@@ -1,5 +1,5 @@
 class LoginScreen extends GameState {
-  boolean toggleLogin = true, triedUN, triedPW, passwordSecure;
+  boolean toggleLogin = true, triedUN, triedPW, triedPWS, passwordSecure;
   String Toggle = "Log in", toggle = "log in", enteredUsername, enteredPassword, hashedPassword, hpw, currentUsername, sql;
   int status, minLengthUN = 3, maxLengthUN = 16, minLengthPW = 6;
 
@@ -47,10 +47,6 @@ class LoginScreen extends GameState {
     exitButton.Update();
     enterButton.Update();
 
-    if (toggleLogin) passwordSecure = true;
-    if (!toggleLogin && enteredPassword != null && !enteredPassword.equals(enteredPassword.toLowerCase()) && !enteredPassword.equals(enteredPassword.toUpperCase()) && enteredPassword.contains("[a-zA-Z]+") && enteredPassword.contains("-?[0-9]+")) passwordSecure = true;
-    else if (!toggleLogin) passwordSecure = false;
-
     if (exitButton.isClicked()) {
       RemoveText();
       mainLogic.gameStateManager.SkiftGameState("MenuScreen");
@@ -59,11 +55,16 @@ class LoginScreen extends GameState {
     if (kb.Shift(ENTER) || enterButton.isClicked()) {
       triedUN = true;
       triedPW = true;
+      triedPWS = true;
 
       enteredUsername = username.Input(minLengthUN, maxLengthUN);
       enteredPassword = password.Input(minLengthPW, 0);
 
-      if (!username.tooShort && !username.tooLong && !password.tooShort) { // && paswordSecure
+      if (toggleLogin) passwordSecure = true;
+      if (!toggleLogin && enteredPassword != null && !enteredPassword.equals(enteredPassword.toLowerCase()) && !enteredPassword.equals(enteredPassword.toUpperCase())) passwordSecure = true;                                         
+      else if (!toggleLogin) passwordSecure = false;
+
+      if (!username.tooShort && !username.tooLong && !password.tooShort && passwordSecure) { 
         hashedPassword = Hash(enteredPassword);
         status = DoDB(enteredUsername, hashedPassword);
       } 
@@ -82,10 +83,12 @@ class LoginScreen extends GameState {
       username.ChangeFocus(false);
       password.ChangeFocus(true);
       triedPW = false;
+      triedPWS = false;
     }
 
     if (!username.tooShort && !username.tooLong) triedUN = false;
     if (!password.tooShort) triedPW = false;
+    if (password.Input(minLengthPW, 0) != null && password.Input(minLengthPW, 0).equals(password.Input(minLengthPW, 0).toLowerCase()) && password.Input(minLengthPW, 0).equals(password.Input(minLengthPW, 0).toUpperCase())) triedPWS = false;
   }
 
   void Draw() {
@@ -120,7 +123,7 @@ class LoginScreen extends GameState {
     if (username.tooLong && triedUN) text("Your username must be less than " + maxLengthUN + " characters", width/2, 500);
     if (username.tooShort && triedUN) text("Your username has to be at least " + minLengthUN + " characters", width/2, 500);
     if (password.tooShort && triedPW) text("Your password has to be at least " + minLengthPW + " characters", width/2, 680);
-    if (!passwordSecure) text("Password must have an uppercase letter, a lowercase letter and a number", width/2, 750);
+    if (!passwordSecure && triedPWS) text("Password must have an uppercase letter, a lowercase letter and a number", width/2, 750);
 
     if (status == 1 && !toggleLogin) text("Username is taken", width/2, 750);
     if (status == 2 && toggleLogin) text("No user with this name exists", width/2, 750);
@@ -171,6 +174,7 @@ class LoginScreen extends GameState {
     password.RemoveText();
     triedUN = false;
     triedPW = false;
+    triedPWS = false;
     enteredUsername = null;
     enteredPassword = null;
   }
