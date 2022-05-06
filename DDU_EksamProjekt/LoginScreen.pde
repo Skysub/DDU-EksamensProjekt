@@ -1,5 +1,5 @@
 class LoginScreen extends GameState {
-  boolean toggleLogin = true, triedUN, triedPW;
+  boolean toggleLogin = true, triedUN, triedPW, passwordSecure;
   String Toggle = "Log in", toggle = "log in", enteredUsername, enteredPassword, hashedPassword, hpw, currentUsername, sql;
   int status, minLengthUN = 3, maxLengthUN = 16, minLengthPW = 6;
 
@@ -23,9 +23,7 @@ class LoginScreen extends GameState {
   }
 
 
-  void Update() {  
-    username.ChangeFocus(true);
-    
+  void Update() {      
     username.Input(minLengthUN, maxLengthUN);
     password.Input(minLengthPW, 0);
 
@@ -49,6 +47,10 @@ class LoginScreen extends GameState {
     exitButton.Update();
     enterButton.Update();
 
+    if (toggleLogin) passwordSecure = true;
+    if (!toggleLogin && enteredPassword != null && !enteredPassword.equals(enteredPassword.toLowerCase()) && !enteredPassword.equals(enteredPassword.toUpperCase()) && enteredPassword.contains("[a-zA-Z]+") && enteredPassword.contains("-?[0-9]+")) passwordSecure = true;
+    else if (!toggleLogin) passwordSecure = false;
+
     if (exitButton.isClicked()) {
       RemoveText();
       mainLogic.gameStateManager.SkiftGameState("MenuScreen");
@@ -61,7 +63,7 @@ class LoginScreen extends GameState {
       enteredUsername = username.Input(minLengthUN, maxLengthUN);
       enteredPassword = password.Input(minLengthPW, 0);
 
-      if (!username.tooShort && !username.tooLong && !password.tooShort) {
+      if (!username.tooShort && !username.tooLong && !password.tooShort) { // && paswordSecure
         hashedPassword = Hash(enteredPassword);
         status = DoDB(enteredUsername, hashedPassword);
       } 
@@ -118,6 +120,7 @@ class LoginScreen extends GameState {
     if (username.tooLong && triedUN) text("Your username must be less than " + maxLengthUN + " characters", width/2, 500);
     if (username.tooShort && triedUN) text("Your username has to be at least " + minLengthUN + " characters", width/2, 500);
     if (password.tooShort && triedPW) text("Your password has to be at least " + minLengthPW + " characters", width/2, 680);
+    if (!passwordSecure) text("Password must have an uppercase letter, a lowercase letter and a number", width/2, 750);
 
     if (status == 1 && !toggleLogin) text("Username is taken", width/2, 750);
     if (status == 2 && toggleLogin) text("No user with this name exists", width/2, 750);
