@@ -1,13 +1,22 @@
 class BaneScoreboard {
-  String sql;
+  String sql, time;
+  SQLite db;
+  boolean insert;
 
   BaneScoreboard() {
+    //db.connect();
   }
 
-  void Update(String newTime) {
-    sql = "INSERT INTO PW VALUES('"+un+"','"+pw+"');";
-    db.execute(sql);
+  void Update(String un, String newTime) {
     
+    if(newTime != time) insert = true;
+    if(insert){
+    sql = "INSERT INTO b1 VALUES('"+null+"','"+un+"','"+newTime+"');";
+    db.execute(sql);
+    insert = false;
+    print("haha");
+    }
+    time = newTime;
   }
 
   void Draw() {

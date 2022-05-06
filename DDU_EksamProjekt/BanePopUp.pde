@@ -26,11 +26,11 @@ class BanePopUp {
     else cursor(ARROW);
 
     //Ting til scoreboardet
-    if (baneScreen.username == null){
-      loggedIn = false;
-      sb.Update(time[0]);
-      
-    } else loggedIn = true;
+    if (baneScreen.username == null) loggedIn = false;
+    else {
+      loggedIn = true;
+      sb.Update(baneScreen.username, time[0]);
+    }
 
     return 0;
   }
