@@ -1,9 +1,9 @@
 class LoginScreen extends GameState {
-  boolean toggleLogin = true, triedUN, triedPW;
+  boolean toggleLogin = true, triedUN, triedPW, triedPWS, passwordSecure;
   String Toggle = "Log in", toggle = "log in", enteredUsername, enteredPassword, hashedPassword, hpw, currentUsername, sql;
   int status, minLengthUN = 3, maxLengthUN = 16, minLengthPW = 6;
 
-  Button logInButton, signUpButton, MenuScreenButton;
+  Button logInButton, signUpButton, exitButton, enterButton;
   TextField username, password;
   Keyboard kb;
   SQLite db;
@@ -13,20 +13,19 @@ class LoginScreen extends GameState {
     this.kb = kb;
     logInButton = new Button(width/2-150, 290, 100, 50, "Log in", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
     signUpButton = new Button(width/2+50, 290, 100, 50, "Sign up", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
-    MenuScreenButton = new Button(50, 50, 150, 50, "Main Menu", color(235, 80, 80), color(80, 100, 80), 20, color(230));
+    exitButton = new Button(width/2+310, 150, 80, 80, "Back", color(200), color(80, 100, 80), 20, color(0, 0, 0));
+    enterButton = new Button(width/2-100, 760, 200, 40, "", color(180), color(80, 100, 80), 20, color(0, 0, 0));
     username = new TextField(program, "", new PVector(width/2-250, 440), new PVector(500, 50), false);
     password = new TextField(program, "", new PVector(width/2-250, 620), new PVector(500, 50), false);
 
-    db = new SQLite(program, sketchPath()+"\\data\\hookdb.sqlite");
+    db = new SQLite(program, "hookdb.sqlite");
     db.connect();
   }
 
 
-  void Update() {  
-    MenuScreenButton.Update();
-    if (MenuScreenButton.isClicked()) ChangeScreen("MenuScreen");
-    username.input(minLengthUN, maxLengthUN);
-    password.input(minLengthPW, 0);
+  void Update() {      
+    username.Input(minLengthUN, maxLengthUN);
+    password.Input(minLengthPW, 0);
 
     //Toggler om brugeren er i gang med at signe op eller logge ind
     if (toggleLogin) {
@@ -45,24 +44,33 @@ class LoginScreen extends GameState {
 
     username.Update();
     password.Update();
+    exitButton.Update();
+    enterButton.Update();
 
-    if (kb.Shift(ENTER)) {
+    if (exitButton.isClicked()) {
+      RemoveText();
+      mainLogic.gameStateManager.SkiftGameState("MenuScreen");
+    }
+
+    if (kb.Shift(ENTER) || enterButton.isClicked()) {
       triedUN = true;
       triedPW = true;
+      triedPWS = true;
 
-      enteredUsername = username.input(minLengthUN, maxLengthUN);
-      enteredPassword = password.input(minLengthPW, 0);
+      enteredUsername = username.Input(minLengthUN, maxLengthUN);
+      enteredPassword = password.Input(minLengthPW, 0);
 
-      if (!username.tooShort && !username.tooLong && !password.tooShort) {
+      if (toggleLogin) passwordSecure = true;
+      if (!toggleLogin && enteredPassword != null && !enteredPassword.equals(enteredPassword.toLowerCase()) && !enteredPassword.equals(enteredPassword.toUpperCase())) passwordSecure = true;                                         
+      else if (!toggleLogin) passwordSecure = false;
+
+      if (!username.tooShort && !username.tooLong && !password.tooShort && passwordSecure) { 
         hashedPassword = Hash(enteredPassword);
         status = DoDB(enteredUsername, hashedPassword);
       } 
 
       if (status == 4) {
-        username.RemoveText();
-        password.RemoveText();
-        enteredUsername = null;
-        enteredPassword = null;
+        RemoveText();
         status = 0;
         toggleLogin = true;
         mainLogic.username = currentUsername;
@@ -71,8 +79,16 @@ class LoginScreen extends GameState {
       }
     }
 
+    if (username.isActive() && kb.Shift(ENTER)) {
+      username.ChangeFocus(false);
+      password.ChangeFocus(true);
+      triedPW = false;
+      triedPWS = false;
+    }
+
     if (!username.tooShort && !username.tooLong) triedUN = false;
     if (!password.tooShort) triedPW = false;
+    if (password.Input(minLengthPW, 0) != null && password.Input(minLengthPW, 0).equals(password.Input(minLengthPW, 0).toLowerCase()) && password.Input(minLengthPW, 0).equals(password.Input(minLengthPW, 0).toUpperCase())) triedPWS = false;
   }
 
   void Draw() {
@@ -82,6 +98,11 @@ class LoginScreen extends GameState {
     rect(width/2, height/2, 820, 820);
     fill(180);
     rect(width/2, height/2, 800, 800);
+
+    logInButton.Draw();
+    signUpButton.Draw();
+    exitButton.Draw();
+    enterButton.Draw();
 
     fill(0);
     textSize(50);
@@ -102,14 +123,11 @@ class LoginScreen extends GameState {
     if (username.tooLong && triedUN) text("Your username must be less than " + maxLengthUN + " characters", width/2, 500);
     if (username.tooShort && triedUN) text("Your username has to be at least " + minLengthUN + " characters", width/2, 500);
     if (password.tooShort && triedPW) text("Your password has to be at least " + minLengthPW + " characters", width/2, 680);
+    if (!passwordSecure && triedPWS) text("Password must have an uppercase letter, a lowercase letter and a number", width/2, 750);
 
     if (status == 1 && !toggleLogin) text("Username is taken", width/2, 750);
     if (status == 2 && toggleLogin) text("No user with this name exists", width/2, 750);
-    if (status == 3 && toggleLogin) text("Wrong username or password", width/2, 750);
-
-    logInButton.Draw();
-    signUpButton.Draw();
-    MenuScreenButton.Draw();
+    if (status == 3 && toggleLogin) text("Wrong password", width/2, 750);
   }
 
   String Hash(String pw) {
@@ -149,5 +167,15 @@ class LoginScreen extends GameState {
       } else return 2; //Ingen bruger med dette brugernavn
     }
     return 3; //Forkert password eller brugernavn
+  }
+
+  void RemoveText() {
+    username.RemoveText();
+    password.RemoveText();
+    triedUN = false;
+    triedPW = false;
+    triedPWS = false;
+    enteredUsername = null;
+    enteredPassword = null;
   }
 }

@@ -84,10 +84,10 @@ class LevelSelectionScreen extends GameState {
   }
 
   void costumLvl() {
-    username.input(0, 10);
+    username.Input(0, 10);
     username.Update();
-    if (loadCostumLvl.isClicked() && username.input(0, 10) != null) {
-      if (LoadBaneNr(int(username.input(0, 10)), true) != 0) {
+    if (loadCostumLvl.isClicked() && username.Input(0, 10) != null) {
+      if (LoadBaneNr(int(username.Input(0, 10)), true) != 0) {
 
         timer = millis();
       }
