@@ -1,7 +1,6 @@
 class BanePopUp {
 
   BaneScreen baneScreen;
-  BaneScoreboard sb;
   float size = 2.5; //inverse of size
 
 
@@ -13,7 +12,6 @@ class BanePopUp {
 
   BanePopUp(BaneScreen baneScreen) {
     this.baneScreen = baneScreen;
-    sb = new BaneScoreboard();
   }
 
   int Update(String[] time) {
@@ -29,7 +27,6 @@ class BanePopUp {
     if (baneScreen.username == null) loggedIn = false;
     else {
       loggedIn = true;
-      sb.Update(baneScreen.username, time[0]);
     }
 
     return 0;
@@ -64,7 +61,9 @@ class BanePopUp {
       text("Press 'R' to restart the level or 'TAB' to close the menu.", 15, 55);
     }
 
-    if (loggedIn) sb.Draw();
+    if (loggedIn){
+      //hh
+    }
     else text("Your scores will NOT be saved since you aren't logged in", 15, 85);
 
     popMatrix();
