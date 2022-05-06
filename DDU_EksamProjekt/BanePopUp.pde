@@ -1,6 +1,7 @@
 class BanePopUp {
 
   BaneScreen baneScreen;
+  BaneScoreboard sb;
   float size = 2.5; //inverse of size
 
 
@@ -12,9 +13,10 @@ class BanePopUp {
 
   BanePopUp(BaneScreen baneScreen) {
     this.baneScreen = baneScreen;
+    sb = new BaneScoreboard();
   }
 
-  int Update() {
+  int Update(String[] time) {
     //dette burde vi vel gøre i button klassen, så det er universelt for alle knapper?
     hand = false;
     if (mainMenuButton.Update()) hand = true;
@@ -24,8 +26,11 @@ class BanePopUp {
     else cursor(ARROW);
 
     //Ting til scoreboardet
-    if (baneScreen.username == null) loggedIn = false;
-    else loggedIn = true;
+    if (baneScreen.username == null){
+      loggedIn = false;
+      sb.Update(time[0]);
+      
+    } else loggedIn = true;
 
     return 0;
   }
@@ -59,11 +64,8 @@ class BanePopUp {
       text("Press 'R' to restart the level or 'TAB' to close the menu.", 15, 55);
     }
 
-    if (loggedIn) {
-      //ting der skal ske når scoreboardet skal være på
-    } else {
-      text("Your scores will NOT be saved since you aren't logged in", 15, 85);
-    }
+    if (loggedIn) sb.Draw();
+    else text("Your scores will NOT be saved since you aren't logged in", 15, 85);
 
     popMatrix();
     drawButtons(done);

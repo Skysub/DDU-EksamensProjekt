@@ -42,7 +42,7 @@ class BaneScreen extends GameState {
       popup = true;
     }
     timer.Update(playing, baneStart, endZone);
-    if (popup) popUp.Update();
+    if (popup) popUp.Update(timer.getText());
     else {
       if (playing) {
         bane.Update();
