@@ -27,6 +27,7 @@ class LevelSelectionScreen extends GameState {
   void Draw() {
     fill(20);
     textSize(40);
+    textAlign(CENTER);
     text("Level selection", 400, 200);
     MenuScreenButton.Draw();
     baneScreenButton.Draw();
