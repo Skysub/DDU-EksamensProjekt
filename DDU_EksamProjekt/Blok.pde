@@ -1,7 +1,7 @@
 class Blok {
   Box2DProcessing box2d;
 
-  int blokkeIalt = 3;
+  int blokkeIalt = 4;
   int gridSize;
 
   Blok(int g, Box2DProcessing w) {
