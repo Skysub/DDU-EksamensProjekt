@@ -25,6 +25,10 @@ class Blok {
       DrawB2();
       break;
 
+    case 3: //Start blok
+      DrawB3();
+      break;
+
     default:
       break;
     }
@@ -39,6 +43,8 @@ class Blok {
       return 0;
     case 2: //Mål blok
       return 2;
+    case 3: //Start blok
+      return 0;
 
     default:
       return -1;
@@ -68,6 +74,10 @@ class Blok {
       break;
     case 2:
       temp = BoxesB2();
+      break;
+
+    case 3:
+      temp = BoxesB1();
       break;
 
     default:
@@ -113,12 +123,6 @@ class Blok {
     strokeWeight(2);
     square(0, 0, gridSize);
 
-    //For the lines
-    stroke(100);
-    strokeWeight(1);
-    //line(0, 0, 40, 40);
-    //line(0, 40, 40, 0);
-
     //Text
     textSize(10);
     fill(10);
@@ -138,6 +142,19 @@ class Blok {
     //Light grid
     //stroke(180);
     //square(0, 0, gridSize);
+  }
+
+  //Start tile
+  void DrawB3() {
+    //square
+    SetSquareSettings();
+    fill(150, 255, 150);
+    noStroke();
+    square(0, 0, gridSize+2);
+    //Text
+    textSize(10);
+    fill(10);
+    text("Start", 20, 26);
   }
 
   //Goal tile

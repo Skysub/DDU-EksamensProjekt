@@ -1,6 +1,7 @@
 class Bane { //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
+  Vec2 startPos = new Vec2(0, 0);
 
   Blok blok;
   Box2DProcessing box2d;
@@ -164,6 +165,19 @@ class Bane { //<>// //<>// //<>//
     id   = b[0][0].get(2);
     bane = b;
     LavBaneIVerden();
+
+    for (int i = 0; i < bred; i++) {
+      for (int j = 0; j < lang; j++) {
+        if (b[i][j].get(0) == 3) {
+          int[] t = new int[2];
+          t[0] = i;
+          t[1] = j;
+          startPos = GridToWorld(t);
+          startPos.addLocal(new Vec2(2,-1));
+          return;
+        }
+      }
+    }
   }
 
   //Konverterer screen koordinater til world koordinater
@@ -230,6 +244,7 @@ class Bane { //<>// //<>// //<>//
           else if (j > 6 && i == 24) test[i][j].append(0);
           else if (j == 12 && i > 15) test[i][j].append(0);
           else if (j > 11 && i == 15) test[i][j].append(0);
+          else if (j == 4 && i == 7) test[i][j].append(3);
           else test[i][j].append(1);
 
           test[i][j].append(0); //Rotation of 0
@@ -238,6 +253,10 @@ class Bane { //<>// //<>// //<>//
     }
     //fileHandler.MakeLevelFile(test);
     LoadBane(test);
+  }
+
+  Vec2 getStartPos() {
+    return startPos;
   }
 
   //Til visning af tileSettet

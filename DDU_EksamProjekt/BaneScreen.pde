@@ -12,7 +12,6 @@ class BaneScreen extends GameState {
 
   boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
   int shadow = 3;
-  Vec2 startPos = new Vec2(-65, 40);
 
   boolean popup = false;
   BanePopUp popUp;
@@ -28,7 +27,8 @@ class BaneScreen extends GameState {
     bane = new Bane(box2d, fileHandler);
     this.kb = kb;
     timer = new Timer();
-    player = new Player(bane, box2d, startPos);
+    
+    player = new Player(bane, box2d, bane.getStartPos());
 
     popUp = new BanePopUp(this);
   }
@@ -86,7 +86,7 @@ class BaneScreen extends GameState {
     popup = false;
 
     player.finalize(); //Spilleren destrueres
-    player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
+    player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
     player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76));
   }
 
@@ -102,7 +102,7 @@ class BaneScreen extends GameState {
       playing = true;
       baneStart = true;
       player.finalize(); //Spilleren destrueres
-      player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
+      player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
     }
   }
 }
