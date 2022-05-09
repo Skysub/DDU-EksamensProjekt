@@ -1,28 +1,45 @@
 class Blok {
   Box2DProcessing box2d;
 
-  int blokkeIalt = 3;
+  int blokkeIalt = 4;
   int gridSize;
+
+  HashMap<String, Kasse> kasser;
+  ArrayList<Body> walls = new ArrayList<Body>();
 
   Blok(int g, Box2DProcessing w) {
     gridSize = g;
     box2d = w;
+    kasser = new HashMap<String, Kasse>();
   }
 
   //tegner blokken, al translation og rotation gøres ikke her men i metoden der kalder denne metode
   //Vælger hvilken blok draw metode der skal bruges ud fra blok id'et
-  void DrawBlok(int id, boolean HitboxDebug) {
+  void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass) {
     switch (id) {
     case 0:
-      DrawB0();
+      DrawB0(); //Wall blok
       break;
 
     case 1:
-      DrawB1();
+      DrawB1(); //Luft blok
       break;
 
     case 2: //Mål blok
       DrawB2();
+      break;
+
+    case 3: //Start blok
+      DrawB3();
+      break;
+
+    case 4:
+      if (specialPass) {
+        pushMatrix();
+        resetMatrix();
+        kasser.get(g).Draw(kamera, HitboxDebug); //Kasse
+        popMatrix();
+      } else DrawB1();
       break;
 
     default:
@@ -39,6 +56,10 @@ class Blok {
       return 0;
     case 2: //Mål blok
       return 2;
+    case 3: //Start blok
+      return 0;
+    case 4: //Kasse blok
+      return 0;
 
     default:
       return -1;
@@ -54,6 +75,22 @@ class Blok {
     Body body = box2d.createBody(bd);
     ps.setAsBox(gridSize/20, gridSize/20);
     body.createFixture(ps, 1);
+
+    walls.add(body);
+  }
+
+  void MakeKasse(String g, Vec2 pos) {
+    kasser.put(g, new Kasse(pos, box2d));
+  }
+
+  void DestroyStuff() {
+    for (String x : kasser.keySet()) {
+      kasser.get(x).finalize();
+    }
+
+    //for (Body x : walls) {
+    //  box2d.destroyBody(x);
+    //}
   }
 
   //returnerer alle hitboxes fra blokken med relativt shift i forhold til blokken bilen er i
@@ -68,6 +105,10 @@ class Blok {
       break;
     case 2:
       temp = BoxesB2();
+      break;
+
+    case 3:
+      temp = BoxesB1();
       break;
 
     default:
@@ -113,12 +154,6 @@ class Blok {
     strokeWeight(2);
     square(0, 0, gridSize);
 
-    //For the lines
-    stroke(100);
-    strokeWeight(1);
-    //line(0, 0, 40, 40);
-    //line(0, 40, 40, 0);
-
     //Text
     textSize(10);
     fill(10);
@@ -138,6 +173,19 @@ class Blok {
     //Light grid
     //stroke(180);
     //square(0, 0, gridSize);
+  }
+
+  //Start tile
+  void DrawB3() {
+    //square
+    SetSquareSettings();
+    fill(150, 255, 150);
+    noStroke();
+    square(0, 0, gridSize+2);
+    //Text
+    textSize(10);
+    fill(10);
+    text("Start", 20, 26);
   }
 
   //Goal tile

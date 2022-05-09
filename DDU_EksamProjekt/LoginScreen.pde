@@ -35,6 +35,9 @@ class LoginScreen extends GameState {
       toggle = "sign up";
       signUpButton.currentColor = color(80, 100, 80);
       if (logInButton.isClicked() && !toggleLogin) toggleLogin = true;  
+      textSize(14);
+      fill(100, 100, 100);
+      text("Ved at oprette en bruger giver du sammentykke til opbevaring af dine rekordtider samt brugernavn. \nDisse er synlige af andre spillere", 960, 900);
       logInButton.Update();
     }
 

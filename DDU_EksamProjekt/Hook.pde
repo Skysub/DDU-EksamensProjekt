@@ -1,19 +1,23 @@
-class Hook {
+class Hook { //<>// //<>// //<>// //<>// //<>//
   Vec2 pos, vel = new Vec2(0, 0);
   Box2DProcessing box2d;
+  Fixture kasseFixture;
+  Vec2 kasseHit, kassePos = new Vec2(0, 0);
+  float gemtKasseVinkel = 0;
 
   //Hvor langt hooken er fra spilleren når den sidder, hookens vinkel, en gemt vinkel af hooken 
-  float distanceSit = 3, theta = 0, thetaR = 0, thetaT = 0;
+  float distanceSit = 3, theta = 0, thetaR = 0, thetaT = 0, kasseSearchLength = 5;
 
   //størrelsen af hooken visuelt, hvor hurtigt man drejer med hooken, hookens hastighed i luften, kraften hooken trækker spilleren med, hvor tæt på spilleren skal være for at hooken bliver reset
-  float size = 10, aimSpeed = 0.04, hookSpeed = 35, hookStrength = 15, doneLength = 6;
+  float size = 10, aimSpeed = 0.04, hookSpeed = 35, hookStrength = 15, hookKasseStrength = 1.5, doneLength = 6;
 
-  boolean afsted = false, hit = false; //Afsted er når hooken er skudt afsted, hit er når hooken sidder i en væg
+  boolean afsted = false, hit = false, kasse = false; //Afsted er når hooken er skudt afsted, hit er når hooken sidder i en væg
 
   PVector t1 = new PVector(-0.5, -0.5), t2 = new PVector(-0.5, 0.5), t3 = new PVector(1, 0); //Koordinater til de tre punkter af hookens trekantede form
   Bane bane;
 
-  RcCallback rcCallback;
+  RcCallbackCrosshair rcCallbackCrosshair;
+  RcCallbackKasse rcCallbackKasse;
   Vec2 crosshairPos = new Vec2(0, 0);
   float search = 1000; //How far the game looks for a wall the crosshair could point to
 
@@ -23,10 +27,11 @@ class Hook {
     MakeTriangleForm(); //Sætter størrelsen af hooken
     this.bane = bane;
 
-    rcCallback = new RcCallback(this);
+    rcCallbackCrosshair = new RcCallbackCrosshair(this);
+    rcCallbackKasse = new RcCallbackKasse(this);
   }
 
-  Vec2 Update(boolean left, boolean right, Vec2 playerPos, float rotation, boolean space, boolean hitboxDebug) {
+  Vec2 Update(boolean left, boolean right, Vec2 playerPos, float rotation, boolean space, boolean hitboxDebug, float[] kamera) {
     float thetaTrue = theta + rotation; //Tager hensyn til hookens og spillerens rotation
 
     //Sted er hvor hooken er, pSted er hvor hooken sidder fast på playeren (1 over spillerens centrum i worldspace)
@@ -38,7 +43,17 @@ class Hook {
     else if (!afsted) pos = sted; //afsted = true; //testing ting
 
     if (space) SpaceGotClicked(sted, pSted, rotation); //Giver lidt sig selv
-    if (afsted && !hit) hit = CheckCollisions(hitboxDebug); //Tjekker om hooken har ramt en væg
+    if (afsted && !hit) {
+      if (CheckCollisions(hitboxDebug)) { //Tjekker om hooken har ramt en væg
+        hit = true;
+      } else if (CheckKasseCollisions(hitboxDebug, kamera)) { //Tjekker om hooken har ramt en kasse
+        hit = true;
+        kasse = true;
+        kassePos = pos.sub(kasseFixture.getBody().getPosition());
+        Vec2 tem = pos.sub(kasseFixture.getBody().getPosition().add(new Vec2(+width/20, -height/20)));
+        gemtKasseVinkel = kasseFixture.getBody().getAngle()-(new PVector(tem.x, tem.y).heading());
+      }
+    }
 
     HandleControls(left, right);
 
@@ -47,15 +62,28 @@ class Hook {
     if (!afsted) theta = thetaR;
 
     if (hit) { //Er hooken i en væg
+      if (kasse) { //Er denne væg faktisk en kasse
+        pos.addLocal(kassePos.sub(pos.sub(kasseFixture.getBody().getPosition())));
+
+        //Dont touch this whatever you do
+        Vec2 nys = kasseFixture.getBody().getPosition().add(new Vec2(+width/20, -height/20)).sub(pos);
+        float vinkel = kasseFixture.getBody().getAngle()-gemtKasseVinkel;
+        Vec2 vinkelVektor = new Vec2(cos(vinkel), sin(vinkel)).mul(nys.length());
+
+        pos.addLocal(nys);
+        pos.addLocal(vinkelVektor);
+      }
       //pos = new Vec2(crosshairPos.x, crosshairPos.y); //Et forsøg på at få hooken til at snap til væggens kant når den rammer
       //Laver en vektor fra spilleren til hooken
       Vec2 t = pos.sub(new Vec2(playerPos.x+96, playerPos.y-54));
       if (t.length() < doneLength) { //Hvis spilleren er tæt nok på hooken bliver hooken reset
         hit = false;
         afsted = false;
+        kasse = false;
       }
       t.normalize();
       t = new Vec2(t.x * hookStrength*100, t.y * hookStrength*100); //For at kontrollere hvor stærkt hooken trækker
+      if (kasse) t = new Vec2(-t.x*hookKasseStrength, -t.y*hookKasseStrength);
       return t;
     }
     return new Vec2(0, 0);
@@ -113,7 +141,7 @@ class Hook {
     scale(kamera[2]);
     Vec2 searchPoint = new Vec2(playerPos.x+(sin(-rotation))+(search*cos(thetaTrue)), playerPos.y+(cos(-rotation))+(search*sin(thetaTrue)));
     Vec2 start = new Vec2(playerPos.x+(sin(-rotation)), playerPos.y+(cos(-rotation)));
-    box2d.world.raycast(rcCallback, start, searchPoint);
+    box2d.world.raycast(rcCallbackCrosshair, start, searchPoint);
     if (hitboxDebug) {
       stroke(1);
       line(box2d.vectorWorldToPixels(sted).x, box2d.vectorWorldToPixels(sted).y, box2d.vectorWorldToPixels(searchPoint).x+width/2, box2d.vectorWorldToPixels(searchPoint).y+height/2);
@@ -130,6 +158,7 @@ class Hook {
         //Hvis hooken sidder i en væg og der trykkes mellemrum bliver den reset
         hit = false;
         afsted = false;
+        kasse = false;
       }
     } else {
       //sidder hooken hos spilleren skydes den afsted
@@ -143,7 +172,7 @@ class Hook {
     }
   }
 
-  boolean InGoalZone(boolean hitboxDebug) {
+  boolean CheckCollisions(boolean hitboxDebug) {
     //Bruger CalcCollision til at beregne om hooken kolliderer med en væg.
     //CalcCollision er fra før vi skiftede til at bruge Box2d, det kan ses ved at der stadig bruges PVector her
     //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet det :p
@@ -151,11 +180,30 @@ class Hook {
     return false;
   }
 
-  boolean CheckCollisions(boolean hitboxDebug) {
-    //Bruger CalcCollision til at beregne om hooken kolliderer med en væg.
-    //CalcCollision er fra før vi skiftede til at bruge Box2d, det kan ses ved at der stadig bruges PVector her
-    //Funktionen virker dog meget fint selvom der lige skal oversættet til det gamle system, det er trods alt mig der har skrevet det :p
-    if (bane.CalcCollision(new PVector(pos.x*10, -pos.y*10), hitboxDebug) == 1) return true;
+  boolean CheckKasseCollisions(boolean hitboxDebug, float[] kamera) {
+    Vec2 searchPoint = new Vec2(pos.x, pos.y);
+    Vec2 start = new Vec2(pos.x - kasseSearchLength * cos(thetaT), pos.y - kasseSearchLength * sin(thetaT));
+    kasseFixture = null;
+
+    //Visualisering af Søge linjen
+    pushMatrix();
+    resetMatrix();
+    translate(kamera[0], kamera[1]+80);
+    scale(kamera[2]);
+    stroke(255, 50, 50);
+    if (hitboxDebug)line(box2d.vectorWorldToPixels(pos).x, box2d.vectorWorldToPixels(pos).y, box2d.vectorWorldToPixels(searchPoint).x, box2d.vectorWorldToPixels(searchPoint).y);
+    popMatrix();
+
+    searchPoint.addLocal(new Vec2(-width/20, height/20));
+    start.addLocal(new Vec2(-width/20, height/20));
+
+    box2d.world.raycast(rcCallbackKasse, start, searchPoint);
+    //delay(50);
+    if (kasseFixture == null) return false;
+    Body b = kasseFixture.getBody();
+    for (String x : bane.blok.kasser.keySet()) {
+      if (bane.blok.kasser.get(x).body == b) return true;
+    }
     return false;
   }
 
@@ -175,5 +223,10 @@ class Hook {
 
   void setSigtePos(Vec2 p) {
     crosshairPos = p;
+  }
+
+  void kasseHit(Fixture k) {
+    kasseFixture = k;
+    //kasseHit = h;
   }
 }

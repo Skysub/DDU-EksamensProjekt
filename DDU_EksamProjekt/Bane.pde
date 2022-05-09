@@ -1,6 +1,7 @@
 class Bane { //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
+  Vec2 startPos = new Vec2(0, 0);
 
   Blok blok;
   Box2DProcessing box2d;
@@ -26,8 +27,6 @@ class Bane { //<>// //<>// //<>//
 
     LavTileTestBane();
     LavTestBaneTo();
-
-    LavBaneIVerden();
   }
 
   void Update() {
@@ -56,6 +55,10 @@ class Bane { //<>// //<>// //<>//
           if (bane[i][j].get(0) == 0) {
             int[] temp = {i, j};
             blok.MakeWall(GridToWorld(temp));
+          } else if (bane[i][j].get(0) == 4) {
+            String g = i+","+j;
+            int[] temp = {i, j};
+            blok.MakeKasse(g, GridToWorld(temp));
           }
         }
       }
@@ -95,7 +98,6 @@ class Bane { //<>// //<>// //<>//
         scale(kamera[2]);
         translate(gridP[0]*gridSize, gridP[1]*gridSize);
 
-
         rect(hitBoxes[i][0].x, hitBoxes[i][0].y, hitBoxes[i][1].x, hitBoxes[i][1].y);
         popMatrix();
       }
@@ -121,24 +123,38 @@ class Bane { //<>// //<>// //<>//
   }
 
   void DrawBane(boolean tileTest, boolean hitboxDebug) {
+    String g;
     if (!tileTest) { //Banen tegnes
       for (int i=0; i<bred; i++) {
         for (int j=0; j<lang; j++) {
           if (bane[i][j] != null) {
+            g = i+","+j;
             pushMatrix();
             //flytter hen til hvor vi skal tegne på griddet
             translate((gridSize*i), (gridSize*j));
 
-            if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug);
+            if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug, g, kamera, false);
             //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
-            else blok.DrawBlok(bane[i][j].get(0), hitboxDebug);
+            else blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, false);
             popMatrix();
+          }
+        }
+      }
+      //Special pass
+      for (int i=0; i<bred; i++) {
+        for (int j=0; j<lang; j++) {
+          if (bane[i][j] != null) {
+            if (bane[i][j].get(0) == 4) {
+              g = i+","+j;
+              blok.DrawBlok(4, hitboxDebug, g, kamera, true);
+            }
           }
         }
       }
     } else { //Displayer tileSettet
       for (int i=0; i<tileSetTest[0][0].get(0); i++) {
         for (int j=0; j<tileSetTest[0][0].get(1); j++) {
+          g = i+","+j;
           pushMatrix();
           //flytter hen til hvor vi skal tegne på griddet
           translate((gridSize*i), (gridSize*j));
@@ -147,7 +163,7 @@ class Bane { //<>// //<>// //<>//
           translate(2*i, 2*j);
 
           //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
-          blok.DrawBlok(tileSetTest[i][j].get(0), hitboxDebug);
+          blok.DrawBlok(tileSetTest[i][j].get(0), hitboxDebug, g, kamera, false);
           popMatrix();
         }
       }
@@ -159,11 +175,34 @@ class Bane { //<>// //<>// //<>//
   }
 
   void LoadBane(IntList[][] b) {
+    UnLoadBane();
+
     bred = b[0][0].get(0);
     lang = b[0][0].get(1);
     id   = b[0][0].get(2);
     bane = b;
     LavBaneIVerden();
+
+    for (int i = 0; i < bred; i++) {
+      for (int j = 0; j < lang; j++) {
+        if (b[i][j].get(0) == 3) {
+          int[] t = new int[2];
+          t[0] = i;
+          t[1] = j;
+          startPos = GridToWorld(t);
+          startPos.addLocal(new Vec2(2, -1));
+          return;
+        }
+      }
+    }
+  }
+
+  void UnLoadBane() {
+    blok.DestroyStuff();
+  }
+
+  void ReloadBane() {
+    LoadBane(bane);
   }
 
   //Konverterer screen koordinater til world koordinater
@@ -219,10 +258,12 @@ class Bane { //<>// //<>// //<>//
         if (i == 0 && j == 0) {
           test[0][0].append(35);
           test[0][0].append(18);
-          test[0][0].append(0);
+          test[0][0].append(-1);
         } else {
           if (j > 12 && i > 15) test[i][j].append(-1);
           else if (j > 6 && i > 24) test[i][j].append(-1);
+          else if (j == 5 && i == 7) test[i][j].append(3);
+          else if (j == 11 && i == 8) test[i][j].append(4);
           else if ((j > 0 && j < 6) && (i > 30 && i < 34)) test[i][j].append(2);
           else if (j == 17 || i == 34 || i == 0 || j == 0) test[i][j].append(0);
           else if (((j == 6 || j == 7) && i < 12 && i > 4) || ((i == 10 || i == 11) && j < 7)) test[i][j].append(0);
@@ -230,6 +271,7 @@ class Bane { //<>// //<>// //<>//
           else if (j > 6 && i == 24) test[i][j].append(0);
           else if (j == 12 && i > 15) test[i][j].append(0);
           else if (j > 11 && i == 15) test[i][j].append(0);
+
           else test[i][j].append(1);
 
           test[i][j].append(0); //Rotation of 0
@@ -238,6 +280,10 @@ class Bane { //<>// //<>// //<>//
     }
     //fileHandler.MakeLevelFile(test);
     LoadBane(test);
+  }
+
+  Vec2 getStartPos() {
+    return startPos;
   }
 
   //Til visning af tileSettet

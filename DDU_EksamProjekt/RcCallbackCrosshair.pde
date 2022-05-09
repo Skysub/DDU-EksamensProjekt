@@ -1,9 +1,9 @@
 import org.jbox2d.callbacks.RayCastCallback;
 
-class RcCallback implements RayCastCallback {
+class RcCallbackCrosshair implements RayCastCallback {
 
   Hook p;
-  RcCallback(Hook p) {
+  RcCallbackCrosshair(Hook p) {
     this.p = p;
   }
 

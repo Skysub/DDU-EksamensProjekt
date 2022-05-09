@@ -27,6 +27,7 @@ class LevelSelectionScreen extends GameState {
   void Draw() {
     fill(20);
     textSize(40);
+    textAlign(CENTER);
     text("Level selection", 400, 200);
     MenuScreenButton.Draw();
     baneScreenButton.Draw();
@@ -71,7 +72,7 @@ class LevelSelectionScreen extends GameState {
     if (custom) b = fileHandler.LoadLevelFile("\\custom_levels\\level_"+baneId+".csv");
     else b = fileHandler.LoadLevelFile("\\data\\levels\\level_"+baneId+".csv");
     if (b != null) {
-      baneScreen.bane.LoadBane(b);
+      baneScreen.LoadBane(b);
       ChangeScreen("BaneScreen");
       return 0;
     } else return -1;

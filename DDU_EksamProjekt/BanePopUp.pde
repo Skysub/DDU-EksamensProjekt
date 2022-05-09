@@ -27,19 +27,18 @@ class BanePopUp {
     else cursor(ARROW);
 
     if (mainMenuButton.MouseReleased()) {
-      baneScreen.reset();
-      baneScreen.ChangeScreen("MenuScreen");
+      baneScreen.ChangeScreen("MenuScreen"); 
+      baneScreen.popup = false;
+      baneScreen.ToggleTab(false);
     }
     if (baneMenuButton.MouseReleased()) {
-      baneScreen.reset();
-      baneScreen.ChangeScreen("LevelSelectionScreen");
+      baneScreen.ChangeScreen("LevelSelectionScreen"); 
+      baneScreen.popup = false;
+      baneScreen.ToggleTab(false);
     }
-    if (nextLevelButton.MouseReleased()) {
-      baneScreen.reset();
-      baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom());
-    }
+    if (nextLevelButton.MouseReleased()) baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom());
 
-    if (un != null) {
+if (un != null) {
       sb.Update(levelNr, un, time[0]);
     } else {
     }

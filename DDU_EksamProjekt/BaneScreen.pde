@@ -12,8 +12,6 @@ class BaneScreen extends GameState {
 
   boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
   int shadow = 3;
-  IntList[][] b;
-  Vec2 startPos = new Vec2(-65, 40);
 
   boolean popup = false;
   BanePopUp popUp;
@@ -29,14 +27,18 @@ class BaneScreen extends GameState {
     bane = new Bane(box2d, fileHandler);
     this.kb = kb;
     timer = new Timer();
-    player = new Player(bane, box2d, startPos);
+
+    player = new Player(bane, box2d, bane.getStartPos());
 
     popUp = new BanePopUp(this, program);
   }
 
   void Update() {
     if (!done)popup = kb.getToggle(9);
-    if (kb.Shift(82)) reset();
+    if (kb.Shift(82)) {
+      reset();
+      bane.ReloadBane();
+    }
     if (player.InGoalZone(kb.getToggle(72)) && playing) { //Er spilleren nået til målzonen så er dette true
       endZone = true;
       playing = false;
@@ -88,7 +90,7 @@ class BaneScreen extends GameState {
     popup = false;
 
     player.finalize(); //Spilleren destrueres
-    player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
+    player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
     player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76));
   }
 
@@ -105,7 +107,27 @@ class BaneScreen extends GameState {
       playing = true;
       baneStart = true;
       player.finalize(); //Spilleren destrueres
-      player = new Player(bane, box2d, startPos); //Spilleren bliver genskabt
+      player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
     }
+  }
+
+  void WorldSetup(PApplet program) {
+    box2d = new Box2DProcessing(program);  
+    box2d.createWorld();
+    box2d.setGravity(0, -35);
+    bane = new Bane(box2d, fileHandler);
+    player = new Player(bane, box2d, bane.getStartPos());
+  }
+
+  void ToggleTab(boolean x) {
+    kb.setToggle(9, x);
+  }
+
+  //Denne funktion skal køres når spilleren dør
+  void PlayerDied() {
+    reset();
+    bane.ReloadBane();
+    //Yderligere kode, måske spil en sound effekt. En eksplosion måske???
+    //Vær kreativ
   }
 }

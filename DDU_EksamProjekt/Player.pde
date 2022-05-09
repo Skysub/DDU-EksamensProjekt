@@ -7,6 +7,7 @@ class Player {
   FixtureDef fd = new FixtureDef();
   Hook hook;
   float wobble = 0.05; //OG value = 0,05
+  float extraForceUp = 1.3; //OG value 1.2, altså 20% ekstra
 
   Player(Bane ba, Box2DProcessing b, Vec2 startPos) {
     bane = ba;
@@ -16,12 +17,19 @@ class Player {
   }
 
   void Update(boolean left, boolean right, boolean space, boolean hitboxDebug, boolean cameraLock) {
-    Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug);
+    if (cameraLock) SetView(); //Sørger for at kameraet er låst til spilleren
+    Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug, bane.getKamera());
+    if (retning.y > 0) retning = new Vec2(retning.x, retning.y * extraForceUp);
 
     //En kraftvektor, og punktet hvor hooken sidder på spilleren
-    body.applyForce(retning, new Vec2(body.getPosition().x+(sin(-body.getAngle())*wobble), body.getPosition().y+(cos(-body.getAngle())*wobble)));
-
-    if (cameraLock)SetView(); //Sørger for at kameraet er låst til spilleren
+    if (!hook.kasse)body.applyForce(retning, new Vec2(body.getPosition().x+(sin(-body.getAngle())*wobble), body.getPosition().y+(cos(-body.getAngle())*wobble)));
+    else {
+      Vec2 sted = new Vec2(hook.kassePos.x, hook.kassePos.y);
+      sted.addLocal(new Vec2(-width/20, height/20));
+      sted.addLocal(hook.kasseFixture.getBody().getPosition());
+      hook.kasseFixture.getBody().applyForce(retning, sted);
+      //println(sted+"  "+hook.kasseFixture.getBody().getPosition());
+    }
   }
 
   void Draw(boolean hitboxDebug, float[] kamera) {
@@ -109,8 +117,7 @@ class Player {
     body.createFixture(fd);
   }
 
-  protected void finalize()  
-  {  
+  protected void finalize() {  
     box2d.destroyBody(body);
   }
 }
