@@ -69,7 +69,6 @@ class BanePopUp {
       text("Press '  ' to play the level again.", width/(2*size), 440);
       fill(255, 50, 50);
       text("R", width/(2*size) - 92, 440);
-      print("haha");
       if(un != null) sb.Draw(size);
     } else { //Til hvis menuen blev åbnet manuelt af spilleren, altså hvis spilleren ikke er i mål endnu
       textSize(30);

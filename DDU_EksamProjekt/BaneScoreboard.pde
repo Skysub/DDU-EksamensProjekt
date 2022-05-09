@@ -22,7 +22,7 @@ class BaneScoreboard {
       if (mainLogic.db.next()) {
         tableSize = mainLogic.db.getInt("count(*)");
       }
-
+      
       sbInfo = new String[2][tableSize];
       for (int i = 0; i < tableSize; i++) {
         mainLogic.db.query("SELECT username, ftime FROM bane"+lNr+" WHERE ID = "+i+";");
@@ -31,6 +31,7 @@ class BaneScoreboard {
           sbInfo[1][i] = mainLogic.db.getString("username");
         }
       }
+      //lav sortering
       sbInfoSorted = sbInfo;
       first = false;
     }
