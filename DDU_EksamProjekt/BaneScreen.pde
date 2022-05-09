@@ -12,6 +12,7 @@ class BaneScreen extends GameState {
 
   boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
   int shadow = 3;
+  IntList[][] b;
   Vec2 startPos = new Vec2(-65, 40);
 
   boolean popup = false;
@@ -30,7 +31,7 @@ class BaneScreen extends GameState {
     timer = new Timer();
     player = new Player(bane, box2d, startPos);
 
-    popUp = new BanePopUp(this);
+    popUp = new BanePopUp(this, program);
   }
 
   void Update() {
@@ -43,7 +44,7 @@ class BaneScreen extends GameState {
       popup = true;
     }
     timer.Update(playing, baneStart, endZone);
-    if (popup) popUp.Update(done);
+    if (popup) popUp.Update(done, mainLogic.username, 1 /*Når load bane virker skal 1-tallet erstattes med b[0][0].get(2), så det rigtige banenummer fås*/, timer.getText());
     else {
       if (playing) {
         bane.Update();
@@ -76,7 +77,7 @@ class BaneScreen extends GameState {
       text("Press SPACE to start", width/2, height/2);
     }
 
-    if (popup) popUp.Draw(done, timer.getText(), timer.getNewRecord());
+    if (popup) popUp.Draw(done, timer.getText(), timer.getNewRecord(), mainLogic.username);
   }
 
   void reset() {
@@ -91,6 +92,7 @@ class BaneScreen extends GameState {
   }
 
   void LoadBane(IntList[][] a) {
+    b = a;
     bane.LoadBane(a);
     reset();
   }

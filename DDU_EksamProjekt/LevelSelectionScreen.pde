@@ -6,6 +6,7 @@ class LevelSelectionScreen extends GameState {
   BaneScreen baneScreen;
   FileHandler fileHandler;
   int timer = -3000, totalLevels = 1;
+  IntList[][] b;
 
   ArrayList<Button> levelButtons = new ArrayList<Button>();
   TextField username;
@@ -66,7 +67,7 @@ class LevelSelectionScreen extends GameState {
   }
 
   int LoadBaneNr(int baneId, boolean custom) {
-    IntList[][] b;
+    //IntList[][] b;                                                                                HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     lastCustom = custom;
     if (custom) b = fileHandler.LoadLevelFile("\\custom_levels\\level_"+baneId+".csv");
     else b = fileHandler.LoadLevelFile("\\data\\levels\\level_"+baneId+".csv");
