@@ -4,6 +4,7 @@ class MainLogic {
   Player player;
   FileHandler fileHandler;
   String username;
+  SQLite db;
 
   MainLogic(PApplet program) {
     kb = new Keyboard();
@@ -11,6 +12,9 @@ class MainLogic {
     fileHandler = new FileHandler(program);
     InitializeScreens(program);
     gameStateManager.SkiftGameState("MenuScreen");
+    
+    db = new SQLite(program, sketchPath()+"\\data\\hookdb.SQLite");
+    db.connect();
   }
 
   void Update() {
