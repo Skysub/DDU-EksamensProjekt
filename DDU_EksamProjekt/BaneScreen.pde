@@ -84,6 +84,7 @@ class BaneScreen extends GameState {
     endZone = false;
     playing = false;
     done = false;
+    popUp.sb.first = true;
     popup = false;
 
     player.finalize(); //Spilleren destrueres

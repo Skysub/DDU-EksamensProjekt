@@ -1,6 +1,7 @@
 class BaneScoreboard {
   SQLite db;
   String sql;
+  boolean first = true;
 
   BaneScoreboard(PApplet program) {
 
@@ -10,13 +11,13 @@ class BaneScoreboard {
 
   void Update(int lNr, String un, String time) {
     db.execute("CREATE TABLE IF NOT EXISTS [bane" +lNr+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time)");
+    delay(100);
 
-    db.query( "SELECT ftime FROM bane"+lNr+" WHERE username='"+un+"' AND ftime='"+time+"';" ); 
-    if (db.next()) { 
-      print("Time for this user already exists/is already inserted into the databse");
-    } else {
+    if (first) {
       sql = "INSERT INTO bane"+lNr+" VALUES(null,'"+un+"','"+time+"');";
       db.execute(sql);
+      print("inserted");
+      first = false;
     }
   }
 

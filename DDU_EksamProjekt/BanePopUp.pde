@@ -26,9 +26,18 @@ class BanePopUp {
     if (hand)cursor(HAND);
     else cursor(ARROW);
 
-    if (mainMenuButton.MouseReleased()) baneScreen.ChangeScreen("MenuScreen");
-    if (baneMenuButton.MouseReleased()) baneScreen.ChangeScreen("LevelSelectionScreen");
-    if (nextLevelButton.MouseReleased()) baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom());
+    if (mainMenuButton.MouseReleased()){
+      sb.first = true;
+      baneScreen.ChangeScreen("MenuScreen");
+    }
+    if (baneMenuButton.MouseReleased()){
+      sb.first = true;
+      baneScreen.ChangeScreen("LevelSelectionScreen");
+    }
+    if (nextLevelButton.MouseReleased()){
+      sb.first = true;
+      baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom());
+    }
 
     if (un != null) {
       sb.Update(levelNr, un, time[0]);
