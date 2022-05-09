@@ -201,6 +201,10 @@ class Bane { //<>// //<>// //<>//
     blok.DestroyStuff();
   }
 
+  void ReloadBane() {
+    LoadBane(bane);
+  }
+
   //Konverterer screen koordinater til world koordinater
   PVector ScreenToWorld(PVector p) {
     return new PVector((p.x/kamera[2])+kamera[0], (p.y/kamera[2])+kamera[1]);
@@ -274,7 +278,7 @@ class Bane { //<>// //<>// //<>//
         }
       }
     }
-    fileHandler.MakeLevelFile(test);
+    //fileHandler.MakeLevelFile(test);
     LoadBane(test);
   }
 

@@ -1,8 +1,10 @@
 class Kasse {
-  float size = 40;
+  float size = 60, masse = 1; //masse bruges ikke lige nu
   Box2DProcessing box2d;
   Body body;
   PolygonShape ps;
+
+  boolean hooked = false;
 
   Kasse(Vec2 pos, Box2DProcessing box2d) {
     this.box2d = box2d;
@@ -46,7 +48,7 @@ class Kasse {
     } else {
       strokeWeight(2);
       fill(220);
-      square(-20, -20, 40);
+      square(-size/2, -size/2, size);
       fill(0);
       text("Kasse", 0, 0);
     }

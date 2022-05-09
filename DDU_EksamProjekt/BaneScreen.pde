@@ -35,7 +35,10 @@ class BaneScreen extends GameState {
 
   void Update() {
     if (!done)popup = kb.getToggle(9);
-    if (kb.Shift(82)) reset();
+    if (kb.Shift(82)) {
+      reset();
+      bane.ReloadBane();
+    }
     if (player.InGoalZone(kb.getToggle(72)) && playing) { //Er spilleren nået til målzonen så er dette true
       endZone = true;
       playing = false;
@@ -121,6 +124,7 @@ class BaneScreen extends GameState {
   //Denne funktion skal køres når spilleren dør
   void PlayerDied() {
     reset();
+    bane.ReloadBane();
     //Yderligere kode, måske spil en sound effekt. En eksplosion måske???
     //Vær kreativ
   }
