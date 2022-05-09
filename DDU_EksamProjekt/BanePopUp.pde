@@ -27,15 +27,15 @@ class BanePopUp {
     else cursor(ARROW);
 
     if (mainMenuButton.MouseReleased()) {
-      sb.first = true;
+      baneScreen.reset();
       baneScreen.ChangeScreen("MenuScreen");
     }
     if (baneMenuButton.MouseReleased()) {
-      sb.first = true;
+      baneScreen.reset();
       baneScreen.ChangeScreen("LevelSelectionScreen");
     }
     if (nextLevelButton.MouseReleased()) {
-      sb.first = true;
+      baneScreen.reset();
       baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom());
     }
 
@@ -69,6 +69,8 @@ class BanePopUp {
       text("Press '  ' to play the level again.", width/(2*size), 440);
       fill(255, 50, 50);
       text("R", width/(2*size) - 92, 440);
+      print("haha");
+      if(un != null) sb.Draw(size);
     } else { //Til hvis menuen blev åbnet manuelt af spilleren, altså hvis spilleren ikke er i mål endnu
       textSize(30);
       fill(25);
@@ -81,8 +83,6 @@ class BanePopUp {
     }
     textAlign(CENTER);
     if (un == null) text("You are not logged in so your score won't be saved", width/(2*size), 410); 
-    
-    sb.Draw(size);
     popMatrix();
     drawButtons(done);
   }

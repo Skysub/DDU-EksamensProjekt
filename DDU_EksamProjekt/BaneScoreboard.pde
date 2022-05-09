@@ -1,8 +1,8 @@
 class BaneScoreboard {
-  String sql;
+  String sql, textTime, textUN;
   boolean first = true;
   int tableSize;
-  String[][] sbInfo;
+  String[][] sbInfo, sbInfoSorted;
 
   BaneScoreboard(PApplet program) {
   }
@@ -21,7 +21,6 @@ class BaneScoreboard {
       mainLogic.db.query("SELECT count(*) FROM bane"+lNr+";");
       if (mainLogic.db.next()) {
         tableSize = mainLogic.db.getInt("count(*)");
-        print(tableSize);
       }
 
       sbInfo = new String[2][tableSize];
@@ -32,6 +31,7 @@ class BaneScoreboard {
           sbInfo[1][i] = mainLogic.db.getString("username");
         }
       }
+      sbInfoSorted = sbInfo;
       first = false;
     }
   }
@@ -43,15 +43,19 @@ class BaneScoreboard {
     textSize(20);
     textAlign(LEFT);
     for (int i = 1; i < 11; i++) {
+      if(i < tableSize){
+      textTime = sbInfoSorted[0][i];
+      textUN = sbInfoSorted[1][i];
+      }
       fill(230);
       if (i%2 == 0) rect(width/(2*size)-200, i*30+40, 400, 30);
       fill(0);
       line(width/(2*size)-200, i*30 + 70, width/(2*size)+200, i*30 + 70);
       text(i + ".", width/(2*size)-190, i*30 + 65);
-      text("ole", width/(2*size)-150, i*30+65);
-      text("1:01:2", width/(2*size)+65, i*30+65);
+      text(textUN, width/(2*size)-150, i*30+65);
+      text(textTime, width/(2*size)+65, i*30+65);
     }
-    line(width/(size*2)-165, 70, width/(size*2)-165, 370);
+    line(width/(size*2)-160, 70, width/(size*2)-160, 370);
     line(width/(size*2)+55, 70, width/(size*2)+55, 370);
   }
 }
