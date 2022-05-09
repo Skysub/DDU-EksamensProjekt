@@ -1,19 +1,39 @@
 class BaneScoreboard {
   String sql;
   boolean first = true;
+  int tableSize;
+  String[][] sbInfo;
 
   BaneScoreboard(PApplet program) {
   }
 
   void Update(int lNr, String un, String time) {
     if (first) {
-     sql = "CREATE TABLE IF NOT EXISTS [bane" +lNr+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time)";
-     mainLogic.db.execute(sql);
-     delay(100);
-     sql = "INSERT INTO bane"+lNr+" VALUES(null,'"+un+"','"+time+"');";
-     mainLogic.db.execute(sql);
-     first = false;
-     }
+      //Laver en tabel med banen hvis der ikke eksisterer en
+      sql = "CREATE TABLE IF NOT EXISTS [bane" +lNr+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time)";
+      mainLogic.db.execute(sql);
+      delay(100);
+      //Indsætter tiden i tabellen
+      sql = "INSERT INTO bane"+lNr+" VALUES(null,'"+un+"','"+time+"');";
+      mainLogic.db.execute(sql);
+
+      //Finder antallet af gemte tider
+      mainLogic.db.query("SELECT count(*) FROM bane"+lNr+";");
+      if (mainLogic.db.next()) {
+        tableSize = mainLogic.db.getInt("count(*)");
+        print(tableSize);
+      }
+
+      sbInfo = new String[2][tableSize];
+      for (int i = 0; i < tableSize; i++) {
+        mainLogic.db.query("SELECT username, ftime FROM bane"+lNr+" WHERE ID = "+i+";");
+        if (mainLogic.db.next()) {
+          sbInfo[0][i] = mainLogic.db.getString("ftime");
+          sbInfo[1][i] = mainLogic.db.getString("username");
+        }
+      }
+      first = false;
+    }
   }
 
   void Draw(float size) {
