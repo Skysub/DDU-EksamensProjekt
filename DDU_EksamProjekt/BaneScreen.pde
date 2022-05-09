@@ -27,7 +27,7 @@ class BaneScreen extends GameState {
     bane = new Bane(box2d, fileHandler);
     this.kb = kb;
     timer = new Timer();
-    
+
     player = new Player(bane, box2d, bane.getStartPos());
 
     popUp = new BanePopUp(this);
@@ -104,5 +104,24 @@ class BaneScreen extends GameState {
       player.finalize(); //Spilleren destrueres
       player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
     }
+  }
+
+  void WorldSetup(PApplet program) {
+    box2d = new Box2DProcessing(program);  
+    box2d.createWorld();
+    box2d.setGravity(0, -35);
+    bane = new Bane(box2d, fileHandler);
+    player = new Player(bane, box2d, bane.getStartPos());
+  }
+
+  void ToggleTab(boolean x) {
+    kb.setToggle(9, x);
+  }
+
+  //Denne funktion skal køres når spilleren dør
+  void PlayerDied() {
+    reset();
+    //Yderligere kode, måske spil en sound effekt. En eksplosion måske???
+    //Vær kreativ
   }
 }

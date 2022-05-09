@@ -72,7 +72,7 @@ class LevelSelectionScreen extends GameState {
     if (custom) b = fileHandler.LoadLevelFile("\\custom_levels\\level_"+baneId+".csv");
     else b = fileHandler.LoadLevelFile("\\data\\levels\\level_"+baneId+".csv");
     if (b != null) {
-      baneScreen.bane.LoadBane(b);
+      baneScreen.LoadBane(b);
       ChangeScreen("BaneScreen");
       return 0;
     } else return -1;
