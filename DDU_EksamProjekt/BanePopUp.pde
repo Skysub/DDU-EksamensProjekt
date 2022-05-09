@@ -38,7 +38,7 @@ class BanePopUp {
     }
     if (nextLevelButton.MouseReleased()) baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom());
 
-if (un != null) {
+    if (un != null) {
       sb.Update(levelNr, un, time[0]);
     } else {
     }
@@ -59,7 +59,7 @@ if (un != null) {
       textSize(30);
       fill(25);
       textAlign(CENTER);
-      text("Time: "+time[0]+"         Record: "+time[1], width/(2*size), -200/size + 80);
+      text("Time: "+time[0]+"         Record: "+time[1], width/(2*size), -200/size + 87);
       if (newRecord)text("New Record!", width/(2*size), -200/size + 130);
       textAlign(LEFT, TOP);
       text("Congratulations! Level "+ levelNr +" cleared.", 15, -200/size + 10);
@@ -68,7 +68,7 @@ if (un != null) {
       text("Press '  ' to play the level again.", width/(2*size), 440);
       fill(255, 50, 50);
       text("R", width/(2*size) - 92, 440);
-      if(un != null) sb.Draw(size);
+      if (un != null) sb.Draw(size);
     } else { //Til hvis menuen blev åbnet manuelt af spilleren, altså hvis spilleren ikke er i mål endnu
       textSize(30);
       fill(25);

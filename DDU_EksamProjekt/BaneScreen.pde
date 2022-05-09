@@ -95,7 +95,7 @@ class BaneScreen extends GameState {
   }
 
   void LoadBane(IntList[][] a) {
-    b = a;
+
     bane.LoadBane(a);
     reset();
   }
