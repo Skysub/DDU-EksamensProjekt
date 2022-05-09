@@ -1,24 +1,19 @@
 class BaneScoreboard {
-  SQLite db;
   String sql;
   boolean first = true;
 
   BaneScoreboard(PApplet program) {
-
-    db = new SQLite(program, "hookdb.sqlite");
-    db.connect();
   }
 
   void Update(int lNr, String un, String time) {
-    /*if (first) {
+    if (first) {
      sql = "CREATE TABLE IF NOT EXISTS [bane" +lNr+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time)";
-     db.execute(sql);
+     mainLogic.db.execute(sql);
      delay(100);
      sql = "INSERT INTO bane"+lNr+" VALUES(null,'"+un+"','"+time+"');";
-     db.execute(sql);
-     print("inserted");
+     mainLogic.db.execute(sql);
      first = false;
-     }*/
+     }
   }
 
   void Draw(float size) {

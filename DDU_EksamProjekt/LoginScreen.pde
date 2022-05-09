@@ -6,7 +6,6 @@ class LoginScreen extends GameState {
   Button logInButton, signUpButton, exitButton, enterButton;
   TextField username, password;
   Keyboard kb;
-  SQLite db;
 
   LoginScreen(PApplet program, Keyboard kb) {
     super(program, kb);
@@ -17,9 +16,6 @@ class LoginScreen extends GameState {
     enterButton = new Button(width/2-100, 760, 200, 40, "", color(180), color(80, 100, 80), 20, color(0, 0, 0));
     username = new TextField(program, "", new PVector(width/2-250, 440), new PVector(500, 50), false);
     password = new TextField(program, "", new PVector(width/2-250, 620), new PVector(500, 50), false);
-
-    db = new SQLite(program, "hookdb.sqlite");
-    db.connect();
   }
 
 
@@ -149,18 +145,18 @@ class LoginScreen extends GameState {
   }
 
   int DoDB(String un, String pw) {
-    db.query("SELECT username FROM PW WHERE username='"+un+"';");
+    mainLogic.db.query("SELECT username FROM PW WHERE username='"+un+"';");
     if (!toggleLogin) {
-      if (!db.next()) {
+      if (!mainLogic.db.next()) {
         sql = "INSERT INTO PW VALUES('"+un+"','"+pw+"');";
-        db.execute(sql);
+        mainLogic.db.execute(sql);
         currentUsername = un;
         return 4;//Bruger opretet og logget ind
       } else return 1; //Brugernavnet findes allerede
     } else {
-      if (db.next()) {
-        db.query( "SELECT username FROM PW WHERE username='"+un+"' AND password='"+pw+"';" ); 
-        if (db.next()) { 
+      if (mainLogic.db.next()) {
+        mainLogic.db.query( "SELECT username FROM PW WHERE username='"+un+"' AND password='"+pw+"';" ); 
+        if (mainLogic.db.next()) { 
           currentUsername = un;
           return 4; //Bruger logget ind
         }
