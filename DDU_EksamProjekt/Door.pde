@@ -1,14 +1,16 @@
 class Door {
   Vec2 pos;
-  Knap knap;
   int id;
   Body body;
   Box2DProcessing box2d;
+  //ArrayList<Knap> knapper = new ArrayList<Knap>();
+  boolean on;
 
   Door(Vec2 pos, int id, Box2DProcessing box2d) {
     this.pos = pos;
     this.id = id;
     this.box2d = box2d;
+    MakeBody();
   }
 
   void Update() {
@@ -19,10 +21,14 @@ class Door {
     if (HitboxDebug) {
       fill(255);
       square(0, 2, 42);
-      fill(255, 220, 190);
+      if(on) fill(200, 255, 190);
+      else fill(255, 220, 220);
       square(4, 6, 35);
-    } else if (!knap.on) {
+    } else if (!on) {
       fill(255, 220, 190);
+      square(0, 2, 42);
+    } else {
+      fill(255);
       square(0, 2, 42);
     }
   }

@@ -2,15 +2,20 @@ class Knap {
   Vec2 pos;
   boolean on;
   boolean invert = false;
-  Door door;
   int id;
+  ArrayList<Door> doors = new ArrayList<Door>();
 
   Knap(Vec2 pos, int id) {
-    this.pos = pos;
+    this.pos = pos.add(new Vec2(2, 2));
     this.id = id;
   }
 
   void Update(HashMap<String, Kasse> kasser) {
+    on = KnapCollision(kasser);
+    for (int i = 0; i < doors.size(); i++) {
+      doors.get(i).body.setActive(!on);
+      doors.get(i).on = on;
+    }
   }
 
   void Draw(boolean HitboxDebug) {
@@ -22,5 +27,12 @@ class Knap {
     textSize(10);
     fill(10);
     text("Knap", 20, 26);
+  }
+
+  boolean KnapCollision(HashMap<String, Kasse> kasser) {
+    for (String x : kasser.keySet()) {
+      if (kasser.get(x).body.getPosition().add(new Vec2(0, 0)).sub(pos).length() < kasser.get(x).size/10) return true;
+    }
+    return false;
   }
 }

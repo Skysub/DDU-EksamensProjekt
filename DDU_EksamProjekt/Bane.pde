@@ -82,8 +82,8 @@ class Bane { //<>// //<>// //<>// //<>//
     for (String x : blok.knapper.keySet()) {
       for (String y : blok.doors.keySet()) {
         if (blok.doors.get(y).id == blok.knapper.get(x).id) { 
-          blok.doors.get(y).knap = blok.knapper.get(x);
-          blok.knapper.get(x).door = blok.doors.get(y);
+          //blok.doors.get(y).knap = blok.knapper.get(x);
+          blok.knapper.get(x).doors.add(blok.doors.get(y));
         }
       }
     }
