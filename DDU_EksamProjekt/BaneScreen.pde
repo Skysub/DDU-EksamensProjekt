@@ -45,8 +45,8 @@ class BaneScreen extends GameState {
       done = true;
       popup = true;
     }
-    timer.Update(playing, baneStart, endZone);
-    if (popup) popUp.Update(done, mainLogic.username, 105 /*Når load bane virker skal 1-tallet erstattes med b[0][0].get(2), så det rigtige banenummer fås*/, timer.getText());
+    if (!popup) timer.Update(playing, baneStart, endZone);
+    if (popup) popUp.Update(done, mainLogic.username, 122 /*Når load bane virker skal 1-tallet erstattes med b[0][0].get(2), så det rigtige banenummer fås*/, timer.getText());
     else {
       if (playing) {
         bane.Update();
