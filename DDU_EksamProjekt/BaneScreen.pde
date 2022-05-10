@@ -90,6 +90,7 @@ class BaneScreen extends GameState {
     popUp.sb.first = true;
     popup = false;
     pause = false;
+    timer.pauseTime = 0;
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
