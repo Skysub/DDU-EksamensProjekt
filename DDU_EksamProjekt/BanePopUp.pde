@@ -38,8 +38,8 @@ class BanePopUp {
     }
     if (nextLevelButton.MouseReleased()) baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom());
 
-    if (un != null) {
-      sb.Update(levelNr, un, time[0]);
+    if (un != null && done) {
+      sb.Update(levelNr, un, time[0], int(time[2]));
     } else {
     }
 

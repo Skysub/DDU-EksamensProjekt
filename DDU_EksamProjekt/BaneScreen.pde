@@ -10,8 +10,9 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
-  int shadow = 3;
+  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, pause = false;
+  int shadow = 3, levelNr;
+  IntList[][] b;
 
   boolean popup = false;
   BanePopUp popUp;
@@ -45,8 +46,11 @@ class BaneScreen extends GameState {
       done = true;
       popup = true;
     }
-    timer.Update(playing, baneStart, endZone);
-    if (popup) popUp.Update(done, mainLogic.username, 1 /*Når load bane virker skal 1-tallet erstattes med b[0][0].get(2), så det rigtige banenummer fås*/, timer.getText());
+    timer.Update(playing, baneStart, endZone, kb.Shift(9));
+    if (popup && !done) timer.HandlePauseTime(kb.Shift(9));
+    if (b == null) levelNr = 900; //Midlertidig, til når vi prøver debug-banen
+    else levelNr = b[0][0].get(2) + 1;
+    if (popup) popUp.Update(done, mainLogic.username, levelNr, timer.getText());
     else {
       if (playing) {
         bane.Update();
@@ -65,7 +69,7 @@ class BaneScreen extends GameState {
     player.Draw(kb.getToggle(72), bane.getKamera());
     popMatrix();
     if (!kb.getToggle(84)) {
-      timer.Draw();
+      timer.Draw(popup);
     }
     if (!playing && !done) {
       textSize(100);
@@ -88,6 +92,8 @@ class BaneScreen extends GameState {
     done = false;
     popUp.sb.first = true;
     popup = false;
+    pause = false;
+    timer.pauseTime = 0;
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
@@ -95,7 +101,7 @@ class BaneScreen extends GameState {
   }
 
   void LoadBane(IntList[][] a) {
-
+    b = a;
     bane.LoadBane(a);
     reset();
   }
@@ -104,6 +110,7 @@ class BaneScreen extends GameState {
     baneStart = false;
     if (!playing && kb.Shift(32) && !done) {
       endZone = false;
+      pause = false;
       playing = true;
       baneStart = true;
       player.finalize(); //Spilleren destrueres

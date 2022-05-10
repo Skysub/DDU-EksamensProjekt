@@ -1,16 +1,17 @@
 class Timer {
 
-  int record = 0, time = 0, baneTimeStart = 0, waitTimer = 0;
+  int record = 0, time = 0, baneTimeStart = 0, pauseTimeStart = 0, pauseTime = 0;
   int recordMin, recordSec, min, sec;
+  String pauseTimeDisplay;
 
   Timer() {
   }
 
-  void Update(boolean playing, boolean baneStart, boolean endZone) {
-    handleTimer(playing, baneStart, endZone);
+  void Update(boolean playing, boolean baneStart, boolean endZone, boolean pause) {
+    HandleTimer(playing, baneStart, endZone, pause);
   }
 
-  void Draw() {
+  void Draw(boolean popup) {
     fill(180);
     rect(0, 0, width, 80);
     rectMode(CORNER);
@@ -21,12 +22,14 @@ class Timer {
     //konverterer tiden til læsbar format for racetime
     min = floor(time/60000f);
     sec = floor(time/1000f)-floor(time/60000f)*60;
-    text("Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000), 10, 30);
+    if (!popup) text("Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000), 10, 30);
+    else text(pauseTimeDisplay, 10, 30);
 
     //samme som overstående men blot for rekord tiden
     recordMin = floor(record/60000f);
     recordSec = floor(record/1000f)-floor(record/60000f)*60;
     text("Record: "+recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), 420, 30);
+
 
     stroke(0);
     strokeWeight(2);
@@ -34,7 +37,7 @@ class Timer {
     line(900, 0, 900, 80);
   }
 
-  void handleTimer(boolean playing, boolean baneStart, boolean endZone) {
+  void HandleTimer(boolean playing, boolean baneStart, boolean endZone, boolean pause) {
     if (baneStart) {
       playing = true;
       time = 0;
@@ -43,19 +46,31 @@ class Timer {
     }
     //måler tiden fra starten af race
     if (playing) {
-      time = millis() - baneTimeStart;
+      time = millis() - baneTimeStart - pauseTime;
     }
+    if (pause) pauseTimeDisplay = "Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000);
+    else pauseTimeDisplay = "Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000);
+
     //logic for når bane er ovre
     if (endZone) {
       playing = false;
-      //her havde vi ordenBil i racing game, vi kan evt. have lignende metode til at ordne spiller
-      waitTimer = millis();
       if (time < record || (record == 0 && time != 0)) record = time;
     }
   }
 
+  void HandlePauseTime(boolean pauseStop) {
+    if (pauseStop) {
+      pauseTimeStart = millis() - pauseTime;
+      pauseTime = 0;
+    }
+    pauseTime = millis() - pauseTimeStart;
+  }
+
   String[] getText() {
-    String[] out = {min+":"+sec+"."+(time - floor(time/1000f)*1000), recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000)};
+    String decimal = str((time - floor(time/1000f)*1000));
+    if (decimal.length() == 1) decimal = decimal + "00"; 
+    if (decimal.length() == 2) decimal = decimal + "0"; 
+    String[] out = {min+":"+sec+"."+(time - floor(time/1000f)*1000), recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), str(min)+str(sec)+decimal};
     return out;
   }
 
