@@ -22,7 +22,7 @@ class Sav {
       fill(255, 100, 100);
       Saw(0, 0, size*3.5, size*4.5, 10);
       fill(255);
-      circle(0,0, size*5);
+      circle(0, 0, size*5);
     } else {
       fill(100, 255, 100);
       circle(0, 0, (ekstra+size)*10);
@@ -53,8 +53,8 @@ class Sav {
     endShape(CLOSE);
     popMatrix();
   }
-  
-  void RotateSaw(){
+
+  void RotateSaw() {
     theta += 0.025;
   }
 }
