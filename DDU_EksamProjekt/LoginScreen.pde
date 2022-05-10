@@ -12,7 +12,7 @@ class LoginScreen extends GameState {
     this.kb = kb;
     logInButton = new Button(width/2-150, 290, 100, 50, "Log in", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
     signUpButton = new Button(width/2+50, 290, 100, 50, "Sign up", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
-    exitButton = new Button(width/2+310, 150, 80, 80, "Back", color(200), color(80, 100, 80), 20, color(0, 0, 0));
+    exitButton = new Button(width/2+310, 150, 80, 80, "Back", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
     enterButton = new Button(width/2-100, 760, 200, 40, "", color(180), color(80, 100, 80), 20, color(0, 0, 0));
     username = new TextField(program, "", new PVector(width/2-250, 440), new PVector(500, 50), false);
     password = new TextField(program, "", new PVector(width/2-250, 620), new PVector(500, 50), false);

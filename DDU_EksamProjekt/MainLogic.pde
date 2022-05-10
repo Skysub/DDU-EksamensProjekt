@@ -1,7 +1,7 @@
 class MainLogic {
   Keyboard kb;
   GameStateManager gameStateManager;
-  Player player;
+  //Player player;
   FileHandler fileHandler;
   String username;
   SQLite db;
@@ -39,9 +39,12 @@ class MainLogic {
     LevelSelectionScreen lss = new LevelSelectionScreen(program, kb, bs, fileHandler);
     bs.lSelScreen = lss;
 
+    LevelEditorScreen les = new LevelEditorScreen(program, kb, fileHandler);
+
     gameStateManager.AddGameState("MenuScreen", new MenuScreen(program, kb));
     gameStateManager.AddGameState("BaneScreen", bs);
     gameStateManager.AddGameState("LogInScreen", new LoginScreen(program, kb));
     gameStateManager.AddGameState("LevelSelectionScreen", lss);
+    gameStateManager.AddGameState("LevelEditorScreen", les);
   }
 }

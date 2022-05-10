@@ -12,9 +12,10 @@ class Bane { //<>// //<>// //<>// //<>//
   float[] kamera = {0, 0, 1, 1920, 1000};
 
   int blokkeIalt;
-  boolean o = false;
+  boolean o = false, editorMode = false;
 
-  Bane(Box2DProcessing b, FileHandler fileHandler) {
+  Bane(Box2DProcessing b, FileHandler fileHandler, boolean editorMode) {
+    this.editorMode = editorMode;
     box2d = b;
     this.fileHandler = fileHandler;
 

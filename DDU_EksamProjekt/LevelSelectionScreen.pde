@@ -1,5 +1,5 @@
 class LevelSelectionScreen extends GameState {
-  Button MenuScreenButton = new Button(width/2-150, 600, 300, 100, "Main Menu", color(#253FFF), color(80, 100, 80), 20, color(230));
+  Button exitButton = new Button(width/2-60, 585, 120, 60, "Main menu", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
   Button baneScreenButton = new Button(width/2-150, 450, 300, 100, "BaneScreen (debug)", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button loadCostumLvl = new Button(150, height-190, 200, 50, "Load level", color(#253FFF), color(80, 100, 80), 20, color(230));
   boolean hand, lastCustom = true;
@@ -29,7 +29,7 @@ class LevelSelectionScreen extends GameState {
     textSize(40);
     textAlign(CENTER);
     text("Level selection", 400, 200);
-    MenuScreenButton.Draw();
+    exitButton.Draw();
     baneScreenButton.Draw();
     loadCostumLvl.Draw();
     for (Button x : levelButtons) {
@@ -52,13 +52,13 @@ class LevelSelectionScreen extends GameState {
       if (x.Update()) hand = true;
     }
 
-    if (MenuScreenButton.Update()) hand = true;
+    if (exitButton.Update()) hand = true;
     if (baneScreenButton.Update()) hand = true;
     if (loadCostumLvl.Update()) hand = true;
     if (hand)cursor(HAND);
     else cursor(ARROW);
 
-    if (MenuScreenButton.isClicked()) ChangeScreen("MenuScreen");
+    if (exitButton.isClicked()) ChangeScreen("MenuScreen");
     if (baneScreenButton.isClicked()) ChangeScreen("BaneScreen");
 
     for (int i = 0; i < totalLevels; i++) {

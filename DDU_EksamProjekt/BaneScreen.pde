@@ -25,7 +25,7 @@ class BaneScreen extends GameState {
     box2d.createWorld();
     box2d.setGravity(0, -35);
 
-    bane = new Bane(box2d, fileHandler);
+    bane = new Bane(box2d, fileHandler, false);
     this.kb = kb;
     timer = new Timer();
 
@@ -122,7 +122,7 @@ class BaneScreen extends GameState {
     box2d = new Box2DProcessing(program);  
     box2d.createWorld();
     box2d.setGravity(0, -35);
-    bane = new Bane(box2d, fileHandler);
+    bane = new Bane(box2d, fileHandler, false);
     player = new Player(bane, box2d, bane.getStartPos());
   }
 

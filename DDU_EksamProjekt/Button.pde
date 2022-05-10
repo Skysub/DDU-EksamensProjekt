@@ -2,7 +2,7 @@ class Button {
   Boolean pressed = false, clicked = false, mouseOver = false, hand = false, clickedPrev = false; //pressed er om selve mussen klikkes på, clicked er om knappen klikkes på
   int x, y, widthB, heightB, textSize;
   String buttonText;
-  color currentColor, buttonColor, clickColor, textColor;
+  color currentColor, buttonColor, clickColor, textColor, mouseOverColor = -1;
 
   Button(int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc) {
     x = posX;
@@ -15,6 +15,21 @@ class Button {
     clickColor = cc;
     textSize = ts;
     textColor = tc;
+  }
+
+  //Alternativ constructor hvis man gerne vil have en speciel mouseover farve
+  Button(int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc, color mouseOverColor) {
+    x = posX;
+    y = posY;
+    widthB = w;
+    heightB = h;
+    buttonText = t;
+    buttonColor = c;
+    currentColor = c;
+    clickColor = cc;
+    textSize = ts;
+    textColor = tc;
+    this.mouseOverColor = mouseOverColor;
   }
 
   void Run() {
@@ -47,7 +62,8 @@ class Button {
   void Draw() {
     rectMode(CORNER);
     fill(currentColor);
-    if (mouseOver)fill(color(red(currentColor)*0.8f, green(currentColor)*0.8f, blue(currentColor)*0.8f)); 
+    if (mouseOver && mouseOverColor == -1)fill(color(red(currentColor)*0.8f, green(currentColor)*0.8f, blue(currentColor)*0.8f)); 
+    else if (mouseOver) fill(mouseOverColor);
 
     noStroke();
     rectMode(CORNER);
