@@ -30,7 +30,16 @@ class FileHandler { //<>//
     }
 
     try {
-      saveTable(bane, "custom_levels\\level_"+b[0][0].get(2)+".csv");
+      File tempFile = new File(sketchPath()+"\\custom_levels\\level_"+b[0][0].get(2)+".csv");
+      if (tempFile.exists()) {
+        for (int i = 1; i < 70; i++) {
+          File t = new File(sketchPath()+"\\custom_levels\\level_"+b[0][0].get(2)+"("+i+")"+".csv");
+          if (!t.exists()) { 
+            saveTable(bane, "custom_levels\\level_"+b[0][0].get(2)+"("+i+")"+".csv"); 
+            break;
+          }
+        }
+      } else saveTable(bane, "custom_levels\\level_"+b[0][0].get(2)+".csv");
     }
     catch(Exception e) {
       println("Time: "+millis()+" Exception: "+e);

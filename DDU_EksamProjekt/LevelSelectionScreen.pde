@@ -89,7 +89,6 @@ class LevelSelectionScreen extends GameState {
     username.Update();
     if (loadCostumLvl.isClicked() && username.Input(0, 10) != null) {
       if (LoadBaneNr(int(username.Input(0, 10)), true) != 0) {
-
         timer = millis();
       }
     }

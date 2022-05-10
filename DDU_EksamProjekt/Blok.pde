@@ -31,18 +31,22 @@ class Blok {
     for (String x : doors.keySet()) {
       doors.get(x).Update();
     }
+
+    for (String x : save.keySet()) {
+      save.get(x).Update();
+    }
   }
 
   //tegner blokken, al translation og rotation gøres ikke her men i metoden der kalder denne metode
   //Vælger hvilken blok draw metode der skal bruges ud fra blok id'et
-  void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass) {
+  void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass, boolean editorMode) {
     switch (id) {
     case 0:
       DrawB0(); //Wall blok
       break;
 
     case 1:
-      DrawB1(); //Luft blok
+      DrawB1(editorMode); //Luft blok
       break;
 
     case 2: //Mål blok
@@ -59,19 +63,19 @@ class Blok {
         resetMatrix();
         kasser.get(g).Draw(kamera, HitboxDebug);
         popMatrix();
-      } else DrawB1();
+      } else DrawB1(editorMode);
       break;
 
     case 5: //Saw
       if (specialPass) {
         save.get(g).Draw(HitboxDebug);
-      } else DrawB1();
+      } else DrawB1(editorMode);
       break;
 
     case 6: //Saw
       if (specialPass) {
         save.get(g).Draw(HitboxDebug);
-      } else DrawB1();
+      } else DrawB1(editorMode);
       break;
 
     case 7: //Knap blok
@@ -132,8 +136,8 @@ class Blok {
   }
 
   void MakeSav(String g, Vec2 pos, float type) {
-    if (type == 5) save.put(g, new Sav(pos, 4));
-    if (type == 6) save.put(g, new Sav(pos, 12));
+    if (type == 5) save.put(g, new Sav(pos, 4, 0.05));
+    if (type == 6) save.put(g, new Sav(pos, 12, 0.025));
   }
 
   void MakeKnap(String g, Vec2 pos, int id) {
@@ -246,20 +250,20 @@ class Blok {
   }
 
   //Background tile
-  void DrawB1() {
+  void DrawB1(boolean editorMode) {
     //square
     SetSquareSettings();
-
-    //No grid
-    noStroke();
-    fill(255);
-    square(2, 2, gridSize+1);
-
-    //Light grid
-    //stroke(180);
-    //square(0, 0, gridSize);
+    if (!editorMode) {
+      //No grid
+      noStroke();
+      fill(255);
+      square(2, 2, gridSize+1);
+    } else {
+      //Light grid
+      stroke(180);
+      square(0, 0, gridSize);
+    }
   }
-
   //Goal tile
   void DrawB2() {
     //square

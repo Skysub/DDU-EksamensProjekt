@@ -18,7 +18,7 @@ class LevelEditorScreen extends GameState {
 
     bane = new Bane(box2d, fileHandler, true);
     this.kb = kb;
-    popUp = new EditorPopUp(bane, program, this);
+    popUp = new EditorPopUp(bane, program, this, fileHandler);
   }
 
   void Update() {
@@ -26,6 +26,8 @@ class LevelEditorScreen extends GameState {
       popup = !popup;
     }
     if (popup) popUp.Update();
+    
+    //bane.Update();
   }
 
   void Draw() {

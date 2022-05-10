@@ -1,13 +1,15 @@
 class Sav {
-  float size, ekstra = 3, theta;
+  float size, ekstra = 3, theta, sawSpeed = 0.025;
   Vec2 pos;
 
-  Sav(Vec2 pos, float size) {
+  Sav(Vec2 pos, float size, float sawSpeed) {
     this.pos = pos;
     this.size = size;
+    this.sawSpeed = sawSpeed;
   }
 
   void Update() {
+    RotateSaw();
   }
 
   void Draw(boolean HitboxDebug) {
@@ -55,6 +57,6 @@ class Sav {
   }
 
   void RotateSaw() {
-    theta += 0.025;
+    theta += sawSpeed;
   }
 }

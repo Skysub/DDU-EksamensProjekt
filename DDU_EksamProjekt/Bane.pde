@@ -32,8 +32,10 @@ class Bane { //<>// //<>// //<>// //<>//
 
   void Update() {
     //kamera[2] -= 0.001;
-    kamera[0] = 0;
-    kamera[1] = 0;
+    if (!editorMode) {
+      kamera[0] = 0;
+      kamera[1] = 0;
+    }
 
     blok.Update();
   }
@@ -159,9 +161,9 @@ class Bane { //<>// //<>// //<>// //<>//
             //flytter hen til hvor vi skal tegne på griddet
             translate((gridSize*i), (gridSize*j));
 
-            if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug, g, kamera, false);
+            if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug, g, kamera, false, editorMode);
             //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
-            else blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, false);
+            else blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, false, editorMode);
             popMatrix();
           }
         }
@@ -174,7 +176,7 @@ class Bane { //<>// //<>// //<>// //<>//
               g = i+","+j;
               pushMatrix();
               translate((gridSize*i), (gridSize*j));
-              blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true);
+              blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true, editorMode);
               popMatrix();
             }
           }
@@ -192,7 +194,7 @@ class Bane { //<>// //<>// //<>// //<>//
           translate(2*i, 2*j);
 
           //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
-          blok.DrawBlok(tileSetTest[i][j].get(0), hitboxDebug, g, kamera, false);
+          blok.DrawBlok(tileSetTest[i][j].get(0), hitboxDebug, g, kamera, false, editorMode);
           popMatrix();
         }
       }
