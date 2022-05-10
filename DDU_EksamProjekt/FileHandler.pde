@@ -1,4 +1,4 @@
-class FileHandler { //<>//
+class FileHandler { //<>// //<>//
 
   FileHandler(PApplet program) {
     MakeDataFolder(program);

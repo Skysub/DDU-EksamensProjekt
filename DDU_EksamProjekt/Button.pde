@@ -32,11 +32,6 @@ class Button {
     this.mouseOverColor = mouseOverColor;
   }
 
-  void Run() {
-    Draw();
-    Update();
-  }
-
   boolean Update() {
     clickedPrev = clicked;
     if (mouseX >= x && mouseX <= x + widthB && mouseY >= y && mouseY <= y + heightB) {

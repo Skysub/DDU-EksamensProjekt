@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
   Vec2 startPos = new Vec2(0, 0);
@@ -374,6 +374,11 @@ class Bane { //<>// //<>// //<>// //<>//
     kamera[2] = s;
   }
 
+  void ResetKamera() {
+    float[] t = {80, 80, 1, 1920, 1000};
+    kamera = t;
+  }
+
   void MakeEmpty() {
     IntList[][] empty = new IntList[1][1];
     empty[0][0] = new IntList();
@@ -391,6 +396,12 @@ class Bane { //<>// //<>// //<>// //<>//
 
     if (rot == 0 || rot == 2) lang += t;
     else bred += t;
+
+    if (bred < 1 || lang < 1) {
+      bred = 1; 
+      lang = 1; 
+      return;
+    }
 
     IntList[][] out = new IntList[bred][lang];
 

@@ -1,4 +1,4 @@
-class EditorPopUp { //<>//
+class EditorPopUp { //<>// //<>//
 
   FileHandler fileHandler;
   Bane bane;
@@ -13,7 +13,7 @@ class EditorPopUp { //<>//
   TextField number;
   Button loadCostumLvl = new Button(width/2-300, height/2+170, 200, 50, "Load level", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button saveCostumLvl = new Button(width/2+100, height/2+170, 200, 50, "Save level", color(#253FFF), color(80, 100, 80), 20, color(230));
-  Button newLvl = new Button(width/2-300, height/2-200, 200, 50, "New level", color(#253FFF), color(80, 100, 80), 20, color(230));
+  Button newLvl = new Button(width/2-300, height/2-180, 200, 50, "New level", color(#253FFF), color(80, 100, 80), 20, color(230));
 
   EditorPopUp(Bane bane, PApplet program, LevelEditorScreen levelEditorScreen, FileHandler fileHandler) {
     this.fileHandler = fileHandler;
@@ -23,7 +23,7 @@ class EditorPopUp { //<>//
     number = new TextField(program, "", new PVector(width/2+125, height/2+110), new PVector(150, 40), true);
   }
 
-  void Update() {
+  boolean Update() {
     UpdateButtons();
     costumLvl();
 
@@ -44,9 +44,11 @@ class EditorPopUp { //<>//
       textSize(13);
       text("Level saved to: "+sketchPath()+"\\custom_levels", width/2, height/2+260);
     }
+    return hand;
   }
 
   void Draw() {
+    rectMode(CORNER);
     DrawBody();
     DrawButtons();
   }
@@ -57,9 +59,7 @@ class EditorPopUp { //<>//
     if (loadCostumLvl.Update()) hand = true;
     if (saveCostumLvl.Update()) hand = true;
     if (newLvl.Update()) hand = true;
-    if (hand)cursor(HAND);
-    else cursor(ARROW);
-
+    
     if (exitButton.MouseReleased()) levelEditorScreen.ChangeScreen("MenuScreen");
     if (newLvl.MouseReleased()) bane.MakeEmpty();
   }
@@ -82,6 +82,10 @@ class EditorPopUp { //<>//
     text("Press '       ' to close the menu.", 15, -200/size + 55);
     fill(255, 50, 50);
     text("TAB", 95, -200/size + 55);
+    fill(25);
+    text("Press '  ' to reset the view.", 15, -200/size + 90);
+    fill(255, 50, 50);
+    text("R", 92, -200/size + 90);
     popMatrix();
   }
 

@@ -19,6 +19,7 @@ void setup() {
 }
 
 void draw() {
+  surface.setTitle("Grapple adventure "+ nf(frameRate, 0, 1)+" FPS" );
   background(180);
   mainLogic.Draw();
   mainLogic.Update();
@@ -30,4 +31,8 @@ void keyPressed() {
 
 void keyReleased() {
   mainLogic.HandleInput(keyCode, false);
-} 
+}
+
+void mouseWheel(MouseEvent event) {
+  mainLogic.les.wheel = event.getCount();
+}

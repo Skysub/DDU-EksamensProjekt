@@ -3,6 +3,7 @@ class MainLogic {
   GameStateManager gameStateManager;
   //Player player;
   FileHandler fileHandler;
+  LevelEditorScreen les;
   String username;
   SQLite db;
 
@@ -39,7 +40,7 @@ class MainLogic {
     LevelSelectionScreen lss = new LevelSelectionScreen(program, kb, bs, fileHandler);
     bs.lSelScreen = lss;
 
-    LevelEditorScreen les = new LevelEditorScreen(program, kb, fileHandler);
+    les = new LevelEditorScreen(program, kb, fileHandler);
 
     gameStateManager.AddGameState("MenuScreen", new MenuScreen(program, kb));
     gameStateManager.AddGameState("BaneScreen", bs);
