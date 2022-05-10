@@ -28,6 +28,11 @@ class Bane { //<>// //<>// //<>// //<>//
 
     LavTileTestBane();
     LavTestBaneTo();
+
+    if (editorMode) {
+      kamera[0] = 80;
+      kamera[1] = 80;
+    }
   }
 
   void Update() {

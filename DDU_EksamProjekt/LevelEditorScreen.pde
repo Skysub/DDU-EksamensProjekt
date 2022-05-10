@@ -7,6 +7,7 @@ class LevelEditorScreen extends GameState {
 
   boolean popup = true;
   EditorPopUp popUp;
+  float lastX = -1, lastY = -1;
 
   LevelEditorScreen(PApplet program, Keyboard kb, FileHandler fileHandler) {
     super(program, kb);
@@ -28,6 +29,8 @@ class LevelEditorScreen extends GameState {
     if (popup) popUp.Update();
     //if(frameCount % 180 == 0) bane.EditCanvas(-1, floor(frameCount/180f) % 4); //Til testning af editing af banens størrelse
     //bane.Update();
+
+    pan();
   }
 
   void Draw() {
@@ -46,6 +49,14 @@ class LevelEditorScreen extends GameState {
     noStroke();
     fill(230);
     rect(0, 0, width, 80);
+  }
+
+  void pan() {
+    if (mousePressed && !popup) {
+      bane.setKamera(new Vec2(bane.kamera[0]+(mouseX-lastX), bane.kamera[1]+(mouseY-lastY)));
+    }
+    lastX = mouseX;
+    lastY = mouseY;
   }
 
   void LoadBane(IntList[][] a) {
