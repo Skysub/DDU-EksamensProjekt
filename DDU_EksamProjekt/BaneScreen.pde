@@ -50,7 +50,7 @@ class BaneScreen extends GameState {
     else {
       if (playing) {
         bane.Update();
-        player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76));
+        if (player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76)))PlayerDied();
         box2d.step();
       }
       handleStart();

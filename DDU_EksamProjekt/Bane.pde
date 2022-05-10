@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
   Vec2 startPos = new Vec2(0, 0);
@@ -59,11 +59,16 @@ class Bane { //<>// //<>// //<>//
             String g = i+","+j;
             int[] temp = {i, j};
             blok.MakeKasse(g, GridToWorld(temp));
+          } else if (bane[i][j].get(0) == 5 ||bane[i][j].get(0) == 6) {
+            String g = i+","+j;
+            int[] temp = {i, j};
+            blok.MakeSav(g, GridToWorld(temp), bane[i][j].get(0));
           }
         }
       }
     }
   }
+
 
   //Beregner om et punkt p i worldspace kolliderer med en hitbox og returner hitboxens type som int
   int CalcCollision(PVector p, boolean hitboxDebug) {
@@ -144,9 +149,12 @@ class Bane { //<>// //<>// //<>//
       for (int i=0; i<bred; i++) {
         for (int j=0; j<lang; j++) {
           if (bane[i][j] != null) {
-            if (bane[i][j].get(0) == 4) {
+            if (bane[i][j].get(0) > 3) {
               g = i+","+j;
-              blok.DrawBlok(4, hitboxDebug, g, kamera, true);
+              pushMatrix();
+              translate((gridSize*i), (gridSize*j));
+              blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true);
+              popMatrix();
             }
           }
         }
@@ -263,7 +271,7 @@ class Bane { //<>// //<>// //<>//
           if (j > 12 && i > 15) test[i][j].append(-1);
           else if (j > 6 && i > 24) test[i][j].append(-1);
           else if (j == 5 && i == 7) test[i][j].append(3);
-          else if (j == 11 && i == 8) test[i][j].append(4);
+          else if (j == 11 && i == 8) test[i][j].append(6);
           else if ((j > 0 && j < 6) && (i > 30 && i < 34)) test[i][j].append(2);
           else if (j == 17 || i == 34 || i == 0 || j == 0) test[i][j].append(0);
           else if (((j == 6 || j == 7) && i < 12 && i > 4) || ((i == 10 || i == 11) && j < 7)) test[i][j].append(0);

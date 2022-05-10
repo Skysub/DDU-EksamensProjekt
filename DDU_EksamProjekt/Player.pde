@@ -16,7 +16,7 @@ class Player {
     makeBody(startPos);
   }
 
-  void Update(boolean left, boolean right, boolean space, boolean hitboxDebug, boolean cameraLock) {
+  boolean Update(boolean left, boolean right, boolean space, boolean hitboxDebug, boolean cameraLock) {
     if (cameraLock) SetView(); //Sørger for at kameraet er låst til spilleren
     Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug, bane.getKamera());
     if (retning.y > 0) retning = new Vec2(retning.x, retning.y * extraForceUp);
@@ -28,8 +28,11 @@ class Player {
       sted.addLocal(new Vec2(-width/20, height/20));
       sted.addLocal(hook.kasseFixture.getBody().getPosition());
       hook.kasseFixture.getBody().applyForce(retning, sted);
-      //println(sted+"  "+hook.kasseFixture.getBody().getPosition());
     }
+    for (String x : bane.blok.save.keySet()) {
+      if (bane.blok.save.get(x).SavCollision(body.getPosition())) return true;
+    }
+    return false;
   }
 
   void Draw(boolean hitboxDebug, float[] kamera) {

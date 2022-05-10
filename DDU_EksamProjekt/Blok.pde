@@ -1,16 +1,18 @@
 class Blok {
   Box2DProcessing box2d;
 
-  int blokkeIalt = 4;
+  int blokkeIalt = 7;
   int gridSize;
 
   HashMap<String, Kasse> kasser;
+  HashMap<String, Sav> save;
   ArrayList<Body> walls = new ArrayList<Body>();
 
   Blok(int g, Box2DProcessing w) {
     gridSize = g;
     box2d = w;
     kasser = new HashMap<String, Kasse>();
+    save = new HashMap<String, Sav>();
   }
 
   //tegner blokken, al translation og rotation gøres ikke her men i metoden der kalder denne metode
@@ -33,12 +35,24 @@ class Blok {
       DrawB3();
       break;
 
-    case 4:
+    case 4: //Kasse
       if (specialPass) {
         pushMatrix();
         resetMatrix();
-        kasser.get(g).Draw(kamera, HitboxDebug); //Kasse
+        kasser.get(g).Draw(kamera, HitboxDebug);
         popMatrix();
+      } else DrawB1();
+      break;
+
+    case 5: //Saw
+      if (specialPass) {
+        save.get(g).Draw(HitboxDebug);
+      } else DrawB1();
+      break;
+
+    case 6: //Saw
+      if (specialPass) {
+        save.get(g).Draw(HitboxDebug);
       } else DrawB1();
       break;
 
@@ -59,6 +73,10 @@ class Blok {
     case 3: //Start blok
       return 0;
     case 4: //Kasse blok
+      return 0;
+    case 5: //Sav blok lille
+      return 0;
+    case 6: //Sav blok stor
       return 0;
 
     default:
@@ -83,10 +101,17 @@ class Blok {
     kasser.put(g, new Kasse(pos, box2d));
   }
 
+  void MakeSav(String g, Vec2 pos, float type) {
+    if (type == 5) save.put(g, new Sav(pos, 4));
+    if (type == 6) save.put(g, new Sav(pos, 12));
+  }
+
   void DestroyStuff() {
     for (String x : kasser.keySet()) {
       kasser.get(x).finalize();
     }
+
+    save = new HashMap<String, Sav>();
 
     //for (Body x : walls) {
     //  box2d.destroyBody(x);
@@ -108,6 +133,18 @@ class Blok {
       break;
 
     case 3:
+      temp = BoxesB1();
+      break;
+
+    case 4:
+      temp = BoxesB1();
+      break;
+
+    case 5:
+      temp = BoxesB1();
+      break;
+
+    case 6:
       temp = BoxesB1();
       break;
 

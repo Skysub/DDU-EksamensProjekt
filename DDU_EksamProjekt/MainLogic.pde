@@ -12,7 +12,7 @@ class MainLogic {
     fileHandler = new FileHandler(program);
     InitializeScreens(program);
     gameStateManager.SkiftGameState("MenuScreen");
-    
+
     db = new SQLite(program, sketchPath()+"\\data\\hookdb.SQLite");
     db.connect();
   }
