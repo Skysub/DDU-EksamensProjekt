@@ -67,7 +67,7 @@ class Timer {
   }
 
   String[] getText() {
-    String[] out = {min+":"+sec+"."+(time - floor(time/1000f)*1000), recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000)};
+    String[] out = {min+":"+sec+"."+(time - floor(time/1000f)*1000), recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), str(min)+str(sec)+str(time - floor(time/1000f)*1000)};
     return out;
   }
 
