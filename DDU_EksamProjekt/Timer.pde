@@ -49,6 +49,7 @@ class Timer {
       time = millis() - baneTimeStart - pauseTime;
     }
     if (pause) pauseTimeDisplay = "Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000);
+    else pauseTimeDisplay = "Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000);
 
     //logic for når bane er ovre
     if (endZone) {
