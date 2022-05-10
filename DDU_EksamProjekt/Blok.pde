@@ -87,6 +87,7 @@ class Blok {
       break;
 
     default:
+      if (editorMode) DrawEmpty();
       break;
     }
   }
@@ -287,6 +288,15 @@ class Blok {
     textSize(10);
     fill(10);
     text("Start", 20, 26);
+  }
+
+  //Empty tile
+  void DrawEmpty() {
+    textAlign(CENTER);
+    //Text
+    textSize(10);
+    fill(230);
+    text("Void", 20, 26);
   }
 
   //Helps standardize the way the square part of a block looks, easier to make quick changes to all blocks

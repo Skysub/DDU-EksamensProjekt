@@ -13,6 +13,7 @@ class EditorPopUp { //<>//
   TextField number;
   Button loadCostumLvl = new Button(width/2-300, height/2+170, 200, 50, "Load level", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button saveCostumLvl = new Button(width/2+100, height/2+170, 200, 50, "Save level", color(#253FFF), color(80, 100, 80), 20, color(230));
+  Button newLvl = new Button(width/2-300, height/2-200, 200, 50, "New level", color(#253FFF), color(80, 100, 80), 20, color(230));
 
   EditorPopUp(Bane bane, PApplet program, LevelEditorScreen levelEditorScreen, FileHandler fileHandler) {
     this.fileHandler = fileHandler;
@@ -55,6 +56,7 @@ class EditorPopUp { //<>//
     if (exitButton.Update()) hand = true;
     if (loadCostumLvl.Update()) hand = true;
     if (saveCostumLvl.Update()) hand = true;
+    if (newLvl.Update()) hand = true;
     if (hand)cursor(HAND);
     else cursor(ARROW);
 
@@ -86,6 +88,7 @@ class EditorPopUp { //<>//
     exitButton.Draw();
     loadCostumLvl.Draw();
     saveCostumLvl.Draw();
+    newLvl.Draw();
   }
 
   void costumLvl() {

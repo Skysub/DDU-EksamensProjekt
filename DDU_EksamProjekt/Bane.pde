@@ -199,6 +199,14 @@ class Bane { //<>// //<>// //<>// //<>//
         }
       }
     }
+    if (editorMode) {
+      stroke(255, 50, 50);
+      strokeWeight(2);
+      line(0, 0, bred*40, 0);
+      line(0, 0, 0, lang*40);
+      line(bred*40, 0, bred*40, lang*40);
+      line(0, lang*40, bred*40, lang*40);
+    }
   }
 
   float[] getKamera() {
