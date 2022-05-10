@@ -33,7 +33,7 @@ class Bane { //<>// //<>// //<>// //<>//
     //kamera[2] -= 0.001;
     kamera[0] = 0;
     kamera[1] = 0;
-    
+
     blok.Update();
   }
 
