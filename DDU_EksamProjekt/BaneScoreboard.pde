@@ -58,7 +58,7 @@ class BaneScoreboard {
           break;
         }
       } 
-      
+
       first = false;
     }
     if (opacity > 0) opacity -=2;
