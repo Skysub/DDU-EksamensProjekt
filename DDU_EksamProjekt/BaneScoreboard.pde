@@ -22,7 +22,6 @@ class BaneScoreboard {
       if (mainLogic.db.next()) {
         tableSize = mainLogic.db.getInt("count(*)");
       }
-      print(tableSize);
 
       sbInfo = new String[2][tableSize+1];
       for (int i = 1; i < tableSize+1; i++) {
