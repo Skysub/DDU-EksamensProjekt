@@ -10,7 +10,7 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
+  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, pause = false;
   int shadow = 3;
 
   boolean popup = false;
@@ -45,7 +45,8 @@ class BaneScreen extends GameState {
       done = true;
       popup = true;
     }
-    if (!popup) timer.Update(playing, baneStart, endZone);
+    timer.Update(playing, baneStart, endZone, kb.Shift(9));
+    if (popup && !done) timer.HandlePauseTime(kb.Shift(9));
     if (popup) popUp.Update(done, mainLogic.username, 122 /*Når load bane virker skal 1-tallet erstattes med b[0][0].get(2), så det rigtige banenummer fås*/, timer.getText());
     else {
       if (playing) {
@@ -65,7 +66,7 @@ class BaneScreen extends GameState {
     player.Draw(kb.getToggle(72), bane.getKamera());
     popMatrix();
     if (!kb.getToggle(84)) {
-      timer.Draw();
+      timer.Draw(popup);
     }
     if (!playing && !done) {
       textSize(100);
@@ -88,6 +89,7 @@ class BaneScreen extends GameState {
     done = false;
     popUp.sb.first = true;
     popup = false;
+    pause = false;
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
@@ -104,6 +106,7 @@ class BaneScreen extends GameState {
     baneStart = false;
     if (!playing && kb.Shift(32) && !done) {
       endZone = false;
+      pause = false;
       playing = true;
       baneStart = true;
       player.finalize(); //Spilleren destrueres
