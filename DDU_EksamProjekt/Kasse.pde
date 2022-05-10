@@ -16,7 +16,15 @@ class Kasse {
     bd.type = BodyType.DYNAMIC;
     body = box2d.createBody(bd);
     ps.setAsBox(size/20, size/20);
-    body.createFixture(ps, 1);
+    FixtureDef fd = new FixtureDef();
+    fd.shape = ps;
+
+
+    fd.friction = 0.8; 
+    fd.restitution = 0.1; 
+    fd.density = 1.0; 
+
+    body.createFixture(fd);
   }
 
   void Update() {

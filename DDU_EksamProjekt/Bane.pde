@@ -63,6 +63,14 @@ class Bane { //<>// //<>// //<>// //<>//
             String g = i+","+j;
             int[] temp = {i, j};
             blok.MakeSav(g, GridToWorld(temp), bane[i][j].get(0));
+          } else if (bane[i][j].get(0) == 7) {
+            String g = i+","+j;
+            int[] temp = {i, j};
+            blok.MakeKnap(g, GridToWorld(temp), bane[i][j].get(2));
+          } else if (bane[i][j].get(0) == 8) {
+            String g = i+","+j;
+            int[] temp = {i, j};
+            blok.MakeDoor(g, GridToWorld(temp), bane[i][j].get(2));
           }
         }
       }
@@ -149,7 +157,7 @@ class Bane { //<>// //<>// //<>// //<>//
       for (int i=0; i<bred; i++) {
         for (int j=0; j<lang; j++) {
           if (bane[i][j] != null) {
-            if (bane[i][j].get(0) > 3) {
+            if (bane[i][j].get(0) == 4 && bane[i][j].get(0) == 5 && bane[i][j].get(0) == 6) {
               g = i+","+j;
               pushMatrix();
               translate((gridSize*i), (gridSize*j));
@@ -266,23 +274,27 @@ class Bane { //<>// //<>// //<>// //<>//
         if (i == 0 && j == 0) {
           test[0][0].append(35);
           test[0][0].append(18);
-          test[0][0].append(-1);
+          test[0][0].append(0);
         } else {
-          if (j > 12 && i > 15) test[i][j].append(-1);
-          else if (j > 6 && i > 24) test[i][j].append(-1);
-          else if (j == 5 && i == 7) test[i][j].append(3);
-          else if (j == 11 && i == 8) test[i][j].append(6);
-          else if ((j > 0 && j < 6) && (i > 30 && i < 34)) test[i][j].append(2);
-          else if (j == 17 || i == 34 || i == 0 || j == 0) test[i][j].append(0);
-          else if (((j == 6 || j == 7) && i < 12 && i > 4) || ((i == 10 || i == 11) && j < 7)) test[i][j].append(0);
-          else if (j == 6 && i > 23) test[i][j].append(0);
-          else if (j > 6 && i == 24) test[i][j].append(0);
-          else if (j == 12 && i > 15) test[i][j].append(0);
-          else if (j > 11 && i == 15) test[i][j].append(0);
+          if (j > 12 && i > 15) test[i][j].append(-1); //Empty
+          else if (j > 6 && i > 24) test[i][j].append(-1); //Empty
+          else if (j == 5 && i == 7) test[i][j].append(3); //Start
+          else if (j == 9 && i == 15) test[i][j].append(4); //Kasse
+          else if (j == 16 && i == 8) test[i][j].append(7); //Knap
+          else if ((j > 0 && j < 6) && (i == 28)) test[i][j].append(8); //Døre
+          else if ((j > 0 && j < 6) && (i > 30 && i < 34)) test[i][j].append(2); //Mål
+          else if (j == 17 || i == 34 || i == 0 || j == 0) test[i][j].append(0); //Wall
+          else if (((j == 6 || j == 7) && i < 12 && i > 4) || ((i == 10 || i == 11) && j < 7)) test[i][j].append(0); //Wall
+          else if (j == 6 && i > 23) test[i][j].append(0); //wall
+          else if (j > 6 && i == 24) test[i][j].append(0); //wall
+          else if (j == 12 && i > 15) test[i][j].append(0); //wall
+          else if (j > 11 && i == 15) test[i][j].append(0); //wall
 
-          else test[i][j].append(1);
+          else test[i][j].append(1); //Luft hvor der ikke er sat en blok endnu
 
           test[i][j].append(0); //Rotation of 0
+          
+          if(((j > 0 && j < 6) && (i == 28)) || (j == 16 && i == 8)) test[i][j].append(1);
         }
       }
     }

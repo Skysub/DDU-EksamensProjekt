@@ -10,7 +10,7 @@ class FileHandler { //<>//
     Table bane = new Table();
     bane.addColumn("id");
     bane.addColumn("rotation");
-    bane.addColumn("extra"); //Extra bruges kun til selve banens information
+    bane.addColumn("extra"); //Extra bruges kun til selve banens information, og til knapper/døres pairing id
 
     for (int i = 0; i < b[0][0].get(0); i++) {
       for (int j = 0; j < b[0][0].get(1); j++) {
@@ -22,6 +22,9 @@ class FileHandler { //<>//
         } else {
           newRow.setInt("id", b[i][j].get(0));
           newRow.setInt("rotation", b[i][j].get(1));
+          if (b[i][j].get(0) == 7 || b[i][j].get(0) == 8) {
+            newRow.setInt("extra", b[i][j].get(2));
+          }
         }
       }
     }
@@ -52,6 +55,9 @@ class FileHandler { //<>//
           } else {
             out[i][j].append(table.getInt((i*out[0][0].get(1))+j, "id"));
             out[i][j].append(table.getInt((i*out[0][0].get(1))+j, "rotation"));
+            if (out[i][j].get(0) == 7 || out[i][j].get(0) == 8) {
+              out[i][j].append(table.getInt((i*out[0][0].get(1))+j, "extra"));
+            }
           }
         }
       }

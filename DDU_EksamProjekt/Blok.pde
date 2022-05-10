@@ -6,6 +6,8 @@ class Blok {
 
   HashMap<String, Kasse> kasser;
   HashMap<String, Sav> save;
+  HashMap<String, Knap> knapper;
+  HashMap<String, Door> doors;
   ArrayList<Body> walls = new ArrayList<Body>();
 
   Blok(int g, Box2DProcessing w) {
@@ -13,6 +15,8 @@ class Blok {
     box2d = w;
     kasser = new HashMap<String, Kasse>();
     save = new HashMap<String, Sav>();
+    knapper = new HashMap<String, Knap>();
+    doors = new HashMap<String, Door>();
   }
 
   //tegner blokken, al translation og rotation gøres ikke her men i metoden der kalder denne metode
@@ -56,6 +60,14 @@ class Blok {
       } else DrawB1();
       break;
 
+    case 7: //Knap blok
+      knapper.get(g).Draw(HitboxDebug);
+      break;
+
+    case 8: //Dør blok
+      doors.get(g).Draw(HitboxDebug);
+      break;
+
     default:
       break;
     }
@@ -77,6 +89,10 @@ class Blok {
     case 5: //Sav blok lille
       return 0;
     case 6: //Sav blok stor
+      return 0;
+    case 7: //Knap blok 
+      return 0;
+    case 8: //Dør blok 
       return 0;
 
     default:
@@ -106,12 +122,22 @@ class Blok {
     if (type == 6) save.put(g, new Sav(pos, 12));
   }
 
+  void MakeKnap(String g, Vec2 pos, int id) {
+    knapper.put(g, new Knap(pos, id));
+  }
+  
+  void MakeDoor(String g, Vec2 pos, int id) {
+    doors.put(g, new Door(pos, id));
+  }
+
   void DestroyStuff() {
     for (String x : kasser.keySet()) {
       kasser.get(x).finalize();
     }
 
     save = new HashMap<String, Sav>();
+    knapper = new HashMap<String, Knap>();
+    doors = new HashMap<String, Door>();
 
     //for (Body x : walls) {
     //  box2d.destroyBody(x);
@@ -145,6 +171,14 @@ class Blok {
       break;
 
     case 6:
+      temp = BoxesB1();
+      break;
+
+    case 7:
+      temp = BoxesB1();
+      break;
+
+    case 8:
       temp = BoxesB1();
       break;
 
@@ -212,6 +246,18 @@ class Blok {
     //square(0, 0, gridSize);
   }
 
+  //Goal tile
+  void DrawB2() {
+    //square
+    SetSquareSettings();
+    fill(200, 200, 255);
+    square(0, 0, gridSize);
+    //Text
+    textSize(10);
+    fill(10);
+    text("Mål", 20, 26);
+  }
+
   //Start tile
   void DrawB3() {
     //square
@@ -223,18 +269,6 @@ class Blok {
     textSize(10);
     fill(10);
     text("Start", 20, 26);
-  }
-
-  //Goal tile
-  void DrawB2() {
-    //square
-    SetSquareSettings();
-    fill(200, 200, 255);
-    square(0, 0, gridSize);
-    //Text
-    textSize(10);
-    fill(10);
-    text("Mål", 20, 26);
   }
 
   //Helps standardize the way the square part of a block looks, easier to make quick changes to all blocks
