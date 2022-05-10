@@ -33,6 +33,8 @@ class Bane { //<>// //<>// //<>// //<>//
     //kamera[2] -= 0.001;
     kamera[0] = 0;
     kamera[1] = 0;
+    
+    blok.Update();
   }
 
   int Draw(boolean tileTest, boolean hitboxDebug) {
@@ -72,6 +74,16 @@ class Bane { //<>// //<>// //<>// //<>//
             int[] temp = {i, j};
             blok.MakeDoor(g, GridToWorld(temp), bane[i][j].get(2));
           }
+        }
+      }
+    }
+
+    //Link knapper og døre
+    for (String x : blok.knapper.keySet()) {
+      for (String y : blok.doors.keySet()) {
+        if (blok.doors.get(y).id == blok.knapper.get(x).id) { 
+          blok.doors.get(y).knap = blok.knapper.get(x);
+          blok.knapper.get(x).door = blok.doors.get(y);
         }
       }
     }

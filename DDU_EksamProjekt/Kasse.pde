@@ -20,9 +20,9 @@ class Kasse {
     fd.shape = ps;
 
 
-    fd.friction = 0.8; 
-    fd.restitution = 0.1; 
-    fd.density = 1.0; 
+    fd.friction = 0.9; 
+    fd.restitution = 0.05; 
+    fd.density = 2.0; 
 
     body.createFixture(fd);
   }

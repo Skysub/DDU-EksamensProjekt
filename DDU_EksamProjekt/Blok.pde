@@ -19,6 +19,12 @@ class Blok {
     doors = new HashMap<String, Door>();
   }
 
+  void Update() {
+    for (String x : knapper.keySet()) {
+      knapper.get(x).Update(kasser);
+    }
+  }
+
   //tegner blokken, al translation og rotation gøres ikke her men i metoden der kalder denne metode
   //Vælger hvilken blok draw metode der skal bruges ud fra blok id'et
   void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass) {
@@ -127,7 +133,7 @@ class Blok {
   }
 
   void MakeDoor(String g, Vec2 pos, int id) {
-    doors.put(g, new Door(pos, id));
+    doors.put(g, new Door(pos, id, box2d));
   }
 
   void DestroyStuff() {
