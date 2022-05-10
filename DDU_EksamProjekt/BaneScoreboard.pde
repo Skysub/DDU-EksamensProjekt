@@ -11,6 +11,8 @@ class BaneScoreboard {
   void Update(int lNr, String un, String time, int timeNr) {
     if (first) {
       //Laver en tabel med banen hvis der ikke eksisterer en
+      //sql = "DROP TABLE bane1";
+      //mainLogic.db.execute(sql);
       sql = "CREATE TABLE IF NOT EXISTS [bane" +lNr+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time, nrTime integer)";
       mainLogic.db.execute(sql);
       delay(100);
@@ -36,6 +38,7 @@ class BaneScoreboard {
       
       for(int i = 0; i < timeInfoSorted.length; i++){
         mainLogic.db.query("SELECT username, ftime FROM bane"+lNr+" WHERE nrTime = "+timeInfoSorted[i]+";");
+        //print(timeInfoSorted[i], "||");
         if(mainLogic.db.next()){
           sbInfoSorted[0][i] = mainLogic.db.getString("ftime");
           sbInfoSorted[1][i] = mainLogic.db.getString("username");
