@@ -157,7 +157,7 @@ class Bane { //<>// //<>// //<>// //<>//
       for (int i=0; i<bred; i++) {
         for (int j=0; j<lang; j++) {
           if (bane[i][j] != null) {
-            if (bane[i][j].get(0) == 4 && bane[i][j].get(0) == 5 && bane[i][j].get(0) == 6) {
+            if (bane[i][j].get(0) == 4 || bane[i][j].get(0) == 5 || bane[i][j].get(0) == 6) {
               g = i+","+j;
               pushMatrix();
               translate((gridSize*i), (gridSize*j));
@@ -293,8 +293,8 @@ class Bane { //<>// //<>// //<>// //<>//
           else test[i][j].append(1); //Luft hvor der ikke er sat en blok endnu
 
           test[i][j].append(0); //Rotation of 0
-          
-          if(((j > 0 && j < 6) && (i == 28)) || (j == 16 && i == 8)) test[i][j].append(1);
+
+          if (((j > 0 && j < 6) && (i == 28)) || (j == 16 && i == 8)) test[i][j].append(1);
         }
       }
     }

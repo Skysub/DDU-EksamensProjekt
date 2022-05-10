@@ -10,8 +10,8 @@ class Knap {
   }
 
   void Draw(boolean HitboxDebug) {
-    if (on)fill(100, 230, 150);
-    else (255, 150, 150);
+    if (on) fill(100, 230, 150);
+    else fill(255, 150, 150);
     noStroke();
     square(0, 0, 42);
     //Text

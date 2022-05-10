@@ -125,7 +125,7 @@ class Blok {
   void MakeKnap(String g, Vec2 pos, int id) {
     knapper.put(g, new Knap(pos, id));
   }
-  
+
   void MakeDoor(String g, Vec2 pos, int id) {
     doors.put(g, new Door(pos, id));
   }
