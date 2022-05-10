@@ -292,7 +292,7 @@ class Bane { //<>// //<>// //<>// //<>//
           else if (j > 6 && i > 24) test[i][j].append(-1); //Empty
           else if (j == 5 && i == 7) test[i][j].append(3); //Start
           else if (j == 9 && i == 15) test[i][j].append(4); //Kasse
-          else if (j == 16 && i == 8) test[i][j].append(7); //Knap
+          else if (j == 16 && i > 0 && i < 10) test[i][j].append(7); //Knap
           else if ((j > 0 && j < 6) && (i == 28)) test[i][j].append(8); //Døre
           else if ((j > 0 && j < 6) && (i > 30 && i < 34)) test[i][j].append(2); //Mål
           else if (j == 17 || i == 34 || i == 0 || j == 0) test[i][j].append(0); //Wall
@@ -306,7 +306,7 @@ class Bane { //<>// //<>// //<>// //<>//
 
           test[i][j].append(0); //Rotation of 0
 
-          if (((j > 0 && j < 6) && (i == 28)) || (j == 16 && i == 8)) test[i][j].append(1);
+          if (((j > 0 && j < 6) && (i == 28)) || (j == 16 && i > 0 && i < 10)) test[i][j].append(1);
         }
       }
     }

@@ -20,8 +20,16 @@ class Blok {
   }
 
   void Update() {
+    for (String x : doors.keySet()) {
+      doors.get(x).StartUpdate();
+    }
+
     for (String x : knapper.keySet()) {
       knapper.get(x).Update(kasser);
+    }
+
+    for (String x : doors.keySet()) {
+      doors.get(x).Update();
     }
   }
 

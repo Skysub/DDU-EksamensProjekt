@@ -5,6 +5,7 @@ class Door {
   Box2DProcessing box2d;
   //ArrayList<Knap> knapper = new ArrayList<Knap>();
   boolean on;
+  boolean oldOn;
 
   Door(Vec2 pos, int id, Box2DProcessing box2d) {
     this.pos = pos;
@@ -14,6 +15,12 @@ class Door {
   }
 
   void Update() {
+    body.setActive(!on);
+  }
+
+  void StartUpdate() {
+    oldOn = on;
+    on = false;
   }
 
   void Draw(boolean HitboxDebug) {
@@ -21,7 +28,7 @@ class Door {
     if (HitboxDebug) {
       fill(255);
       square(0, 2, 42);
-      if(on) fill(200, 255, 190);
+      if (on) fill(200, 255, 190);
       else fill(255, 220, 220);
       square(4, 6, 35);
     } else if (!on) {

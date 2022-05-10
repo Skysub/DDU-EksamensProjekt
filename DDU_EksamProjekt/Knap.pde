@@ -12,9 +12,10 @@ class Knap {
 
   void Update(HashMap<String, Kasse> kasser) {
     on = KnapCollision(kasser);
-    for (int i = 0; i < doors.size(); i++) {
-      doors.get(i).body.setActive(!on);
-      doors.get(i).on = on;
+    if (on) {
+      for (int i = 0; i < doors.size(); i++) {
+        doors.get(i).on = on;
+      }
     }
   }
 
