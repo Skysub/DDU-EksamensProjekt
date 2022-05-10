@@ -368,4 +368,93 @@ class Bane { //<>// //<>// //<>// //<>//
   void setKamera(float s) {
     kamera[2] = s;
   }
+
+  void MakeEmpty() {
+    IntList[][] empty = new IntList[1][1];
+    empty[0][0] = new IntList();
+    empty[0][0].append(1);
+    empty[0][0].append(1);
+    empty[0][0].append(-1);
+    LoadBane(empty);
+  }
+
+  void EditCanvas(int ekstra, int rot) {
+    int t;
+    //if (ekstra == 0) t = -1;
+    //else
+    t = ekstra;
+
+    if (rot == 0 || rot == 2) lang += t;
+    else bred += t;
+
+    IntList[][] out = new IntList[bred][lang];
+
+    for (int i = 0; i < bred; i++) {
+      for (int j = 0; j < lang; j++) {
+        out[i][j] = new IntList();
+        if (i == 0 && j == 0) {
+          out[0][0].append(bred);
+          out[0][0].append(lang);
+          out[0][0].append(-1);
+        } else {
+          if (rot == 0) {
+            if (ekstra == 1 && j == 0) {
+              out[i][j].append(-1);
+              out[i][j].append(0);
+            } else {
+              if (ekstra == 1 && j == 1 && i == 0) {              
+                out[i][j].append(0);
+                out[i][j].append(0);
+              } else {
+                out[i][j].append(bane[i][j-ekstra].get(0));
+                out[i][j].append(bane[i][j-ekstra].get(1));
+                if (bane[i][j-ekstra].get(0) == 7 || bane[i][j-ekstra].get(0) == 8) {
+                  out[i][j].append(bane[i][j-ekstra].get(2));
+                }
+              }
+            }
+          } else if (rot == 1) {
+            if (ekstra == 1 && i == bred-1) {
+              out[i][j].append(-1);
+              out[i][j].append(0);
+            } else {
+              out[i][j].append(bane[i][j].get(0));
+              out[i][j].append(bane[i][j].get(1));
+              if (bane[i][j].get(0) == 7 || bane[i][j].get(0) == 8) {
+                out[i][j].append(bane[i][j].get(2));
+              }
+            }
+          } else if (rot == 2) {
+            if (ekstra == 1 && j == lang-1) {
+              out[i][j].append(-1);
+              out[i][j].append(0);
+            } else {
+              out[i][j].append(bane[i][j].get(0));
+              out[i][j].append(bane[i][j].get(1));
+              if (bane[i][j].get(0) == 7 || bane[i][j].get(0) == 8) {
+                out[i][j].append(bane[i][j].get(2));
+              }
+            }
+          } else {
+            if (ekstra == 1 && i == 0) {
+              out[i][j].append(-1);
+              out[i][j].append(0);
+            } else {
+              if (ekstra == 1 && j == 0 && i == 1) {              
+                out[i][j].append(0);
+                out[i][j].append(0);
+              } else {
+                out[i][j].append(bane[i-ekstra][j].get(0));
+                out[i][j].append(bane[i-ekstra][j].get(1));
+                if (bane[i-ekstra][j].get(0) == 7 || bane[i-ekstra][j].get(0) == 8) {
+                  out[i][j].append(bane[i-ekstra][j].get(2));
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    LoadBane(out);
+  }
 }

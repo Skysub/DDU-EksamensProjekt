@@ -292,6 +292,12 @@ class Blok {
 
   //Empty tile
   void DrawEmpty() {
+    //Light grid
+    fill(95, 90, 100);
+    stroke(130);
+    strokeWeight(1);
+    square(0, 0, gridSize);
+
     textAlign(CENTER);
     //Text
     textSize(10);

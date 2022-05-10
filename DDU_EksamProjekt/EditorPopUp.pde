@@ -61,6 +61,7 @@ class EditorPopUp { //<>//
     else cursor(ARROW);
 
     if (exitButton.MouseReleased()) levelEditorScreen.ChangeScreen("MenuScreen");
+    if (newLvl.MouseReleased()) bane.MakeEmpty();
   }
 
   void DrawBody() {

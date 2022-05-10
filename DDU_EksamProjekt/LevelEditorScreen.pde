@@ -26,7 +26,7 @@ class LevelEditorScreen extends GameState {
       popup = !popup;
     }
     if (popup) popUp.Update();
-    
+    //if(frameCount % 180 == 0) bane.EditCanvas(-1, floor(frameCount/180f) % 4); //Til testning af editing af banens størrelse
     //bane.Update();
   }
 
