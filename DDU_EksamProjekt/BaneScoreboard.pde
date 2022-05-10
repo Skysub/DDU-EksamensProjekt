@@ -1,5 +1,5 @@
 class BaneScoreboard {
-  String sql, textTime, textUN;
+  String sql, textTime, textUN, outside10Time, outside10UN;
   boolean first = true;
   int tableSize, currentPosition, opacity;
   String[][] sbInfoSorted;
@@ -10,6 +10,7 @@ class BaneScoreboard {
 
   void Update(int lNr, String un, String time, int timeNr) {
     if (first) {
+      currentPosition = 0;
       opacity = 255;
       //Laver en tabel med banen hvis der ikke eksisterer en
       //sql = "DROP TABLE bane1";
@@ -51,8 +52,13 @@ class BaneScoreboard {
         if (timeInfoSorted[i] == timeNr) {
           currentPosition = i+1;
         }
-      }     
-
+        if (currentPosition >= 10) {
+          outside10UN = sbInfoSorted[0][i]; 
+          outside10Time = sbInfoSorted[1][i];
+          break;
+        }
+      } 
+      
       first = false;
     }
     if (opacity > 0) opacity -=2;
@@ -73,15 +79,31 @@ class BaneScoreboard {
       if (i%2 == 0) rect(width/(2*size)-200, i*30+40, 400, 30);
       fill(0);
       line(width/(2*size)-200, i*30 + 70, width/(2*size)+200, i*30 + 70);
-      text(i + ".", width/(2*size)-190, i*30 + 65);
+      text(i + ".", width/(2*size)-193, i*30 + 65);
       if (i < tableSize+1) {
         text(textUN, width/(2*size)-150, i*30+65);
         text(textTime, width/(2*size)+65, i*30+65);
       }
     }
-    if (currentPosition <= 10) {
+    if (currentPosition < 10) {
       fill(80, 235, 80, opacity);
       rect(width/(2*size)-200, currentPosition*30+10, 400, 30);
+    } else {
+      fill(255);
+      rect(width/(2*size)-200, 11*30+60, 400, 30);
+      fill(0);
+      line(width/(size*2)-160, 11*30+60, width/(size*2)-160, 11*30+90);
+      line(width/(size*2)+55, 11*30+60, width/(size*2)+55, 11*30+90);
+      text(currentPosition + ".", width/(2*size)-193, 11*30 + 85);
+      text(outside10Time, width/(2*size)-150, 11*30+85);
+      text(outside10UN, width/(2*size)+65, 11*30+85);
+      textAlign(CENTER);
+      textSize(35);
+      text("...", width/(2*size), 11*30+55);
+      textSize(20);
+      textAlign(LEFT);
+      fill(80, 235, 80, opacity);
+      rect(width/(2*size)-200, 11*30+60, 400, 30);
     }
     line(width/(size*2)-160, 70, width/(size*2)-160, 370);
     line(width/(size*2)+55, 70, width/(size*2)+55, 370);
