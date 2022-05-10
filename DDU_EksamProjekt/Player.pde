@@ -30,6 +30,7 @@ class Player {
       hook.kasseFixture.getBody().applyForce(retning, sted);
     }
     for (String x : bane.blok.save.keySet()) {
+      bane.blok.save.get(x).RotateSaw();
       if (bane.blok.save.get(x).SavCollision(body.getPosition())) return true;
     }
     return false;
