@@ -5,9 +5,9 @@ class BanePopUp {
   float size = 2.5; //inverse of size
 
   //int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc
-  Button mainMenuButton = new Button(int(width/2-width/(2*size))+82, int(height/2-height/(2*size))+410, 170, 60, "Main menu", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
-  Button baneMenuButton = new Button(int(width/2-width/(2*size))+522, int(height/2-height/(2*size))+410, 170, 60, "Levels", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
-  Button nextLevelButton = new Button(int(width/2-width/(2*size))+302, int(height/2-height/(2*size))+410, 170, 60, "Next level", color(200, 200, 255), color(115, 135, 45), 20, color(0, 0, 0));
+  Button mainMenuButton = new Button(int(width/2-width/(2*size))+82, int(height/2-height/(2*size))+430, 170, 60, "Main menu", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
+  Button baneMenuButton = new Button(int(width/2-width/(2*size))+522, int(height/2-height/(2*size))+430, 170, 60, "Levels", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
+  Button nextLevelButton = new Button(int(width/2-width/(2*size))+302, int(height/2-height/(2*size))+430, 170, 60, "Next level", color(200, 200, 255), color(115, 135, 45), 20, color(0, 0, 0));
   boolean hand;
   int levelNr;
 
@@ -27,7 +27,7 @@ class BanePopUp {
     else cursor(ARROW);
 
     if (mainMenuButton.MouseReleased()) {
-      baneScreen.ChangeScreen("MenuScreen"); 
+      baneScreen.ChangeScreen("MenuScreen");
       baneScreen.popup = false;
       baneScreen.ToggleTab(false);
     }
@@ -65,9 +65,9 @@ class BanePopUp {
       text("Congratulations! Level "+ levelNr +" cleared.", 15, -200/size + 10);
       textSize(22);
       textAlign(CENTER);
-      text("Press '  ' to play the level again.", width/(2*size), 440);
+      text("Press '  ' to play the level again.", width/(2*size), 460);
       fill(255, 50, 50);
-      text("R", width/(2*size) - 92, 440);
+      text("R", width/(2*size) - 92, 460);
       if (un != null) sb.Draw(size);
     } else { //Til hvis menuen blev åbnet manuelt af spilleren, altså hvis spilleren ikke er i mål endnu
       textSize(30);
@@ -80,7 +80,7 @@ class BanePopUp {
       text("TAB", 95, -200/size + 55);
     }
     textAlign(CENTER);
-    if (un == null) text("You are not logged in so your score won't be saved", width/(2*size), 410); 
+    if (un == null) text("You are not logged in so your score won't be saved", width/(2*size), 430); 
     popMatrix();
     drawButtons(done);
   }
