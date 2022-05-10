@@ -1,7 +1,7 @@
 class BaneScoreboard {
   String sql, textTime, textUN;
   boolean first = true;
-  int tableSize;
+  int tableSize, currentPosition, opacity;
   String[][] sbInfoSorted;
   int[] timeInfo, timeInfoSorted;
 
@@ -10,6 +10,7 @@ class BaneScoreboard {
 
   void Update(int lNr, String un, String time, int timeNr) {
     if (first) {
+      opacity = 255;
       //Laver en tabel med banen hvis der ikke eksisterer en
       //sql = "DROP TABLE bane1";
       //mainLogic.db.execute(sql);
@@ -45,8 +46,16 @@ class BaneScoreboard {
           sbInfoSorted[1][i] = mainLogic.db.getString("username");
         }
       }
+
+      for (int i = 0; i < timeInfoSorted.length; i++) {
+        if (timeInfoSorted[i] == timeNr) {
+          currentPosition = i+1;
+        }
+      }     
+
       first = false;
     }
+    if (opacity > 0) opacity -=2;
   }
 
   void Draw(float size) {
@@ -69,6 +78,10 @@ class BaneScoreboard {
         text(textUN, width/(2*size)-150, i*30+65);
         text(textTime, width/(2*size)+65, i*30+65);
       }
+    }
+    if (currentPosition <= 10) {
+      fill(80, 235, 80, opacity);
+      rect(width/(2*size)-200, currentPosition*30+10, 400, 30);
     }
     line(width/(size*2)-160, 70, width/(size*2)-160, 370);
     line(width/(size*2)+55, 70, width/(size*2)+55, 370);
