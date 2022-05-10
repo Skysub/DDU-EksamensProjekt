@@ -2,19 +2,22 @@ class BaneScoreboard {
   String sql, textTime, textUN;
   boolean first = true;
   int tableSize;
-  String[][] sbInfo, sbInfoSorted;
+  String[][] sbInfoSorted;
+  int[] timeInfo, timeInfoSorted;
 
   BaneScoreboard(PApplet program) {
   }
 
-  void Update(int lNr, String un, String time) {
+  void Update(int lNr, String un, String time, int timeNr) {
     if (first) {
       //Laver en tabel med banen hvis der ikke eksisterer en
-      sql = "CREATE TABLE IF NOT EXISTS [bane" +lNr+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time)";
+      //sql = "DROP TABLE bane1";
+      //mainLogic.db.execute(sql);
+      sql = "CREATE TABLE IF NOT EXISTS [bane" +lNr+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time, nrTime integer)";
       mainLogic.db.execute(sql);
       delay(100);
       //Indsætter tiden i tabellen
-      sql = "INSERT INTO bane"+lNr+" VALUES(null,'"+un+"','"+time+"');";
+      sql = "INSERT INTO bane"+lNr+" VALUES(null,'"+un+"','"+time+"', '"+timeNr+"');";
       mainLogic.db.execute(sql);
 
       //Finder antallet af gemte tider
@@ -22,18 +25,25 @@ class BaneScoreboard {
       if (mainLogic.db.next()) {
         tableSize = mainLogic.db.getInt("count(*)");
       }
-      print(tableSize);
 
-      sbInfo = new String[2][tableSize+1];
+      sbInfoSorted = new String[2][tableSize+1];
+      timeInfo = new int[tableSize+1];
       for (int i = 1; i < tableSize+1; i++) {
-        mainLogic.db.query("SELECT username, ftime FROM bane"+lNr+" WHERE ID = "+i+";");
+        mainLogic.db.query("SELECT username, ftime, nrTime FROM bane"+lNr+" WHERE ID = "+i+";");
         if (mainLogic.db.next()) {
-          sbInfo[0][i] = mainLogic.db.getString("ftime");
-          sbInfo[1][i] = mainLogic.db.getString("username");
+          timeInfo[i] = mainLogic.db.getInt("nrTime");
         }
       }
-      //lav sortering
-      sbInfoSorted = sbInfo;
+      timeInfoSorted = sort(timeInfo);
+      
+      for(int i = 0; i < timeInfoSorted.length; i++){
+        mainLogic.db.query("SELECT username, ftime FROM bane"+lNr+" WHERE nrTime = "+timeInfoSorted[i]+";");
+        //print(timeInfoSorted[i], "||");
+        if(mainLogic.db.next()){
+          sbInfoSorted[0][i] = mainLogic.db.getString("ftime");
+          sbInfoSorted[1][i] = mainLogic.db.getString("username");
+        }
+      }
       first = false;
     }
   }

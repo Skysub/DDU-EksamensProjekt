@@ -67,7 +67,10 @@ class Timer {
   }
 
   String[] getText() {
-    String[] out = {min+":"+sec+"."+(time - floor(time/1000f)*1000), recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000)};
+    String decimal = str((time - floor(time/1000f)*1000));
+    if(decimal.length() == 1) decimal = decimal + "00"; 
+    if(decimal.length() == 2) decimal = decimal + "0"; 
+    String[] out = {min+":"+sec+"."+(time - floor(time/1000f)*1000), recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), str(min)+str(sec)+decimal};
     return out;
   }
 

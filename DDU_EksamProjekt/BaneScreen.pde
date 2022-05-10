@@ -11,7 +11,8 @@ class BaneScreen extends GameState {
   Box2DProcessing box2d;
 
   boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, pause = false;
-  int shadow = 3;
+  int shadow = 3, levelNr;
+  IntList[][] b;
 
   boolean popup = false;
   BanePopUp popUp;
@@ -47,7 +48,9 @@ class BaneScreen extends GameState {
     }
     timer.Update(playing, baneStart, endZone, kb.Shift(9));
     if (popup && !done) timer.HandlePauseTime(kb.Shift(9));
-    if (popup) popUp.Update(done, mainLogic.username, 122 /*Når load bane virker skal 1-tallet erstattes med b[0][0].get(2), så det rigtige banenummer fås*/, timer.getText());
+    if(b == null) levelNr = 900; //Midlertidig, til når vi prøver debug-banen
+    else levelNr = b[0][0].get(2) + 1;
+    if (popup) popUp.Update(done, mainLogic.username, levelNr, timer.getText());
     else {
       if (playing) {
         bane.Update();
@@ -98,7 +101,7 @@ class BaneScreen extends GameState {
   }
 
   void LoadBane(IntList[][] a) {
-
+    b = a;
     bane.LoadBane(a);
     reset();
   }
