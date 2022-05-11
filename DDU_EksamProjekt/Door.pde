@@ -50,4 +50,8 @@ class Door {
     ps.setAsBox(40/20, 40/20);
     body.createFixture(ps, 1);
   }
+
+  protected void finalize() {
+    box2d.destroyBody(body);
+  }
 }

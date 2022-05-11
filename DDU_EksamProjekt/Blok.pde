@@ -154,6 +154,10 @@ class Blok {
       kasser.get(x).finalize();
     }
 
+    for (String x : doors.keySet()) {
+      doors.get(x).finalize();
+    }
+
     save = new HashMap<String, Sav>();
     knapper = new HashMap<String, Knap>();
     doors = new HashMap<String, Door>();
