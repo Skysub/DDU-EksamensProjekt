@@ -126,7 +126,7 @@ class LevelEditorScreen extends GameState {
   void pan() {
     if (mousePressed && (kb.getKey(16) || kb.getKey(17)) && !popup) {
       bane.setKamera(new Vec2(bane.kamera[0]+(mouseX-pmouseX), bane.kamera[1]+(mouseY-pmouseY)));
-    } else if(!popup) {
+    } else if (!popup) {
       if (kb.getKey(38)) bane.setKamera(new Vec2(bane.kamera[0], bane.kamera[1] + arrowSpeed));
       if (kb.getKey(39)) bane.setKamera(new Vec2(bane.kamera[0] - arrowSpeed, bane.kamera[1]));
       if (kb.getKey(40)) bane.setKamera(new Vec2(bane.kamera[0], bane.kamera[1] - arrowSpeed));

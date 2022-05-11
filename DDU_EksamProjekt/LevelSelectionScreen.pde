@@ -91,6 +91,7 @@ class LevelSelectionScreen extends GameState {
       if (LoadBaneNr(int(username.Input(0, 10)), true) != 0) {
         timer = millis();
       }
+      username.RemoveText();
     }
   }
 
