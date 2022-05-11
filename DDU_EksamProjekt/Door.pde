@@ -59,8 +59,8 @@ class Door {
     popMatrix();
 
     //Metal middle
-    fill(22, 18, 14);
-    rect(10, 0, 30, 20);
+    fill(240);
+    rect(7, 2, 27, 40);
   }
 
   void MakeBody() {    
