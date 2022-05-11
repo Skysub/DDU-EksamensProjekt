@@ -95,7 +95,7 @@ class Blok { //<>// //<>//
   }
 
   //returnerer typen af hitbox som blokken har, skal genlaves hvis en blok skal have mere end 1 type hitbox i samme blok
-  int GetType(int id) {
+  int GetType(int id, String g) {
     switch (id) {
     case 0: //wall blok
       return 1;
@@ -114,7 +114,8 @@ class Blok { //<>// //<>//
     case 7: //Knap blok 
       return 0;
     case 8: //Dør blok 
-      return 0;
+      if (!doors.get(g).on) return 1;
+      else return 0;
 
     default:
       return -1;
@@ -257,7 +258,7 @@ class Blok { //<>// //<>//
       break;
 
     case 8:
-      temp = BoxesB1();
+      temp = BoxesB0();
       break;
 
     default:

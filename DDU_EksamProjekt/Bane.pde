@@ -148,10 +148,11 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
         //Tjekker om p er inden for y boundet af kassen
         if (gridP[1]*gridSize+hitBoxes[i][0].y < p.y
           && gridP[1]*gridSize+hitBoxes[i][0].y+hitBoxes[i][1].y >= p.y) {
+          String g = gridP[0]+","+gridP[1];
           if (o) { 
             o = false;
-            return blok.GetType(0);
-          } else return blok.GetType(bane[gridP[0]][gridP[1]].get(0));
+            return blok.GetType(0, null);
+          } else return blok.GetType(bane[gridP[0]][gridP[1]].get(0), g);
         }
       }
     }
