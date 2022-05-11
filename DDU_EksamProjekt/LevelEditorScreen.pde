@@ -9,7 +9,7 @@ class LevelEditorScreen extends GameState {
 
   boolean popup = true, hand;
   EditorPopUp popUp;
-  float lastX = -1, lastY = -1, scrollSpeed = -0.1;
+  float scrollSpeed = -0.1, arrowSpeed = 10;
   int wheel = 0; 
 
   LevelEditorScreen(PApplet program, Keyboard kb, FileHandler fileHandler) {
@@ -124,11 +124,14 @@ class LevelEditorScreen extends GameState {
   }
 
   void pan() {
-    if (mousePressed && !popup) {
-      bane.setKamera(new Vec2(bane.kamera[0]+(mouseX-lastX), bane.kamera[1]+(mouseY-lastY)));
+    if (mousePressed && (kb.getKey(16) || kb.getKey(17)) && !popup) {
+      bane.setKamera(new Vec2(bane.kamera[0]+(mouseX-pmouseX), bane.kamera[1]+(mouseY-pmouseY)));
+    } else if(!popup) {
+      if (kb.getKey(38)) bane.setKamera(new Vec2(bane.kamera[0], bane.kamera[1] + arrowSpeed));
+      if (kb.getKey(39)) bane.setKamera(new Vec2(bane.kamera[0] - arrowSpeed, bane.kamera[1]));
+      if (kb.getKey(40)) bane.setKamera(new Vec2(bane.kamera[0], bane.kamera[1] - arrowSpeed));
+      if (kb.getKey(37)) bane.setKamera(new Vec2(bane.kamera[0] + arrowSpeed, bane.kamera[1]));
     }
-    lastX = mouseX;
-    lastY = mouseY;
   }
 
   void scroll() {

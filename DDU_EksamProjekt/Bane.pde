@@ -57,14 +57,17 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
   }
 
   void LavBaneIVerden() {
+
     int[] t = {0, 0};
-    blok.MakeWall(GridToWorld(t));
+    String gExtra = 0+","+0;
+    blok.MakeWall(GridToWorld(t), gExtra);
     for (int i=0; i<bred; i++) {
       for (int j=0; j<lang; j++) {
         if (bane[i][j] != null) {
           if (bane[i][j].get(0) == 0) {
             int[] temp = {i, j};
-            blok.MakeWall(GridToWorld(temp));
+            String g = i+","+j;
+            blok.MakeWall(GridToWorld(temp), g);
           } else if (bane[i][j].get(0) == 4) {
             String g = i+","+j;
             int[] temp = {i, j};
@@ -389,6 +392,30 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     LoadBane(empty);
   }
 
+  void MakeNew() {
+    int emptySize = 15;
+    IntList[][] out = new IntList[emptySize][emptySize];
+    for (int i = 0; i < emptySize; i++) {
+      for (int j = 0; j < emptySize; j++) {
+        out[i][j] = new IntList();
+        if (i == 0 && j == 0) {
+          out[0][0].append(emptySize);
+          out[0][0].append(emptySize);
+          out[0][0].append(-1);
+        } else {
+          out[i][j].append(-1);
+          out[i][j].append(0);
+        }
+      }
+    }
+    LoadBane(out);
+  }
+
+  void RemoveStuff(int i, int j) {
+    String g = i+","+j;
+    blok.DestroyStuff(g, bane[i][j].get(0));
+  }
+
   void EditCanvas(int ekstra, int rot) {
     int t;
     //if (ekstra == 0) t = -1;
@@ -418,9 +445,10 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
             if (ekstra == 1 && j == 0) {
               out[i][j].append(-1);
               out[i][j].append(0);
-            } else {
+            } //else if (j == 0) RemoveStuff(i, j); 
+            else {
               if (ekstra == 1 && j == 1 && i == 0) {              
-                out[i][j].append(0);
+                out[i][j].append(-1);
                 out[i][j].append(0);
               } else {
                 out[i][j].append(bane[i][j-ekstra].get(0));
@@ -458,7 +486,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
               out[i][j].append(0);
             } else {
               if (ekstra == 1 && j == 0 && i == 1) {              
-                out[i][j].append(0);
+                out[i][j].append(-1);
                 out[i][j].append(0);
               } else {
                 out[i][j].append(bane[i-ekstra][j].get(0));

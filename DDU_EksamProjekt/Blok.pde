@@ -1,14 +1,15 @@
-class Blok {
+class Blok { //<>//
   Box2DProcessing box2d;
 
   int blokkeIalt = 7;
   int gridSize;
+  int ting = 0;
 
   HashMap<String, Kasse> kasser;
   HashMap<String, Sav> save;
   HashMap<String, Knap> knapper;
   HashMap<String, Door> doors;
-  ArrayList<Body> walls = new ArrayList<Body>();
+  ArrayList<Body> walls;
 
   Blok(int g, Box2DProcessing w) {
     gridSize = g;
@@ -17,6 +18,7 @@ class Blok {
     save = new HashMap<String, Sav>();
     knapper = new HashMap<String, Knap>();
     doors = new HashMap<String, Door>();
+    walls = new ArrayList<Body>();
   }
 
   void Update() {
@@ -119,7 +121,7 @@ class Blok {
     }
   }
 
-  void MakeWall(Vec2 pos) {
+  void MakeWall(Vec2 pos, String g) {
     BodyDef bd = new BodyDef();
     PolygonShape ps = new PolygonShape();
     pos.addLocal(new Vec2(gridSize/20, -gridSize/20));
@@ -157,14 +159,67 @@ class Blok {
     for (String x : doors.keySet()) {
       doors.get(x).finalize();
     }
+    
+    for (Body x : walls) {
+      if (box2d.world.getBodyCount() < 1) {
+        x.setActive(false);
+      } else {
+        box2d.destroyBody(x);
+      }
+    }
 
+    //Skal bruges hvis koden ovenover stopper med at virke
+    /*ting = 0;
+    for (Body x : walls) {
+      ting++;
+      if (box2d.world.getBodyCount() < 1) {
+        //println(box2d.world.getBodyCount());
+        println(ting);
+      } else {
+        box2d.destroyBody(x); //<>//
+        println(box2d.world.getBodyCount());
+        box2d.destroyBody(x);
+        println(box2d.world.getBodyCount());
+      }
+    }
+    println(millis());
+    println();*/
+
+    walls = new ArrayList<Body>();
     save = new HashMap<String, Sav>();
     knapper = new HashMap<String, Knap>();
     doors = new HashMap<String, Door>();
+    kasser = new HashMap<String, Kasse>();
+  }
 
-    //for (Body x : walls) {
-    //  box2d.destroyBody(x);
-    //}
+  void DestroyStuff(String g, int id) {
+    switch (id) {
+    case 0: //Wall blok
+      break;
+
+    case 4: //Kasse
+      kasser.get(g).finalize();
+      break;
+
+    case 5: //Saw
+      save.remove(g);
+      break;
+
+    case 6: //Saw
+      save.remove(g);
+      break;
+
+    case 7: //Knap blok
+      knapper.remove(g);
+      break;
+
+    case 8: //Dør blok
+      doors.get(g).finalize();
+      break;
+
+    default:
+      break;
+    }
   }
 
   //returnerer alle hitboxes fra blokken med relativt shift i forhold til blokken bilen er i
