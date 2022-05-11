@@ -23,7 +23,7 @@ class Door {
     on = false;
   }
 
-  void Draw(boolean HitboxDebug) {
+  void Draw(boolean HitboxDebug, boolean coolGFX) {
     noStroke();
     if (HitboxDebug) {
       fill(255);
@@ -32,12 +32,35 @@ class Door {
       else fill(255, 220, 220);
       square(4, 6, 35);
     } else if (!on) {
-      fill(255, 220, 190);
-      square(0, 2, 42);
+      if (coolGFX) { 
+        DrawCool();
+      } else {
+        fill(255, 220, 190);
+        square(0, 2, 42);
+      }
     } else {
       fill(255);
       square(0, 2, 42);
     }
+  }
+
+  void DrawCool() {
+    //Body
+    fill(22, 18, 14);
+    square(0, 2, 41);
+
+    //Stripes
+    pushMatrix();
+    translate(1, 2);
+    fill(223, 209, 32);
+    noStroke();
+    quad(0, 20, 20, 0, 39, 0, 0, 40);
+    triangle(20, 40, 39, 21, 39, 40);
+    popMatrix();
+
+    //Metal middle
+    fill(22, 18, 14);
+    rect(10, 0, 30, 20);
   }
 
   void MakeBody() {    

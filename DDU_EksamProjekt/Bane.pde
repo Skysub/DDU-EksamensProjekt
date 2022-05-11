@@ -45,13 +45,13 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     blok.Update();
   }
 
-  int Draw(boolean tileTest, boolean hitboxDebug) {
+  int Draw(boolean tileTest, boolean hitboxDebug, boolean coolGFX) {
     rectMode(CORNER);
     pushMatrix();
     if (!tileTest) translate(kamera[0], kamera[1]);
     scale(kamera[2]);
     //Kald funktioner her der tegner ting
-    if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
+    if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug, coolGFX);
     popMatrix();
     return 0;
   }
@@ -159,7 +159,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     return -1;
   }
 
-  void DrawBane(boolean tileTest, boolean hitboxDebug) {
+  void DrawBane(boolean tileTest, boolean hitboxDebug, boolean coolGFX) {
     String g;
     if (!tileTest) { //Banen tegnes
       for (int i=0; i<bred; i++) {
@@ -170,9 +170,9 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
             //flytter hen til hvor vi skal tegne på griddet
             translate((gridSize*i), (gridSize*j));
 
-            if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug, g, kamera, false, editorMode);
+            if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug, g, kamera, false, editorMode, coolGFX);
             //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
-            else blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, false, editorMode);
+            else blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, false, editorMode, coolGFX);
             popMatrix();
           }
         }
@@ -186,7 +186,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
               if (i != 0 && j != 0) {
                 pushMatrix();
                 translate((gridSize*i), (gridSize*j));
-                blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true, editorMode);
+                blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true, editorMode, coolGFX);
                 popMatrix();
               }
             }
@@ -205,7 +205,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
           translate(2*i, 2*j);
 
           //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
-          blok.DrawBlok(tileSetTest[i][j].get(0), hitboxDebug, g, kamera, false, editorMode);
+          blok.DrawBlok(tileSetTest[i][j].get(0), hitboxDebug, g, kamera, false, editorMode, coolGFX);
           popMatrix();
         }
       }

@@ -57,7 +57,7 @@ class LevelEditorScreen extends GameState {
     background(95, 90, 100);
     pushMatrix();
     translate(0, 80);
-    bane.Draw(false, kb.getToggle(72));
+    bane.Draw(false, kb.getToggle(72), kb.getToggle(67));
     DrawCanvasButtons();
     popMatrix();
 

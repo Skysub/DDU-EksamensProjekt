@@ -41,7 +41,7 @@ class Blok { //<>// //<>//
 
   //tegner blokken, al translation og rotation gøres ikke her men i metoden der kalder denne metode
   //Vælger hvilken blok draw metode der skal bruges ud fra blok id'et
-  void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass, boolean editorMode) {
+  void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass, boolean editorMode, boolean coolGFX) {
     switch (id) {
     case 0:
       DrawB0(); //Wall blok
@@ -85,7 +85,7 @@ class Blok { //<>// //<>//
       break;
 
     case 8: //Dør blok
-      doors.get(g).Draw(HitboxDebug);
+      doors.get(g).Draw(HitboxDebug, coolGFX);
       break;
 
     default:
