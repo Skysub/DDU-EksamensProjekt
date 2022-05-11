@@ -63,7 +63,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     blok.MakeWall(GridToWorld(t), gExtra);
     for (int i=0; i<bred; i++) {
       for (int j=0; j<lang; j++) {
-        if (bane[i][j] != null) {
+        if (bane[i][j] != null && !(i == 0 && j == 0)) {
           if (bane[i][j].get(0) == 0) {
             int[] temp = {i, j};
             String g = i+","+j;
@@ -182,10 +182,12 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
           if (bane[i][j] != null) {
             if (bane[i][j].get(0) == 4 || bane[i][j].get(0) == 5 || bane[i][j].get(0) == 6) {
               g = i+","+j;
-              pushMatrix();
-              translate((gridSize*i), (gridSize*j));
-              blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true, editorMode);
-              popMatrix();
+              if (i != 0 && j != 0) {
+                pushMatrix();
+                translate((gridSize*i), (gridSize*j));
+                blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true, editorMode);
+                popMatrix();
+              }
             }
           }
         }

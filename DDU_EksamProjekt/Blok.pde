@@ -1,4 +1,4 @@
-class Blok { //<>//
+class Blok { //<>// //<>//
   Box2DProcessing box2d;
 
   int blokkeIalt = 7;
@@ -159,7 +159,7 @@ class Blok { //<>//
     for (String x : doors.keySet()) {
       doors.get(x).finalize();
     }
-    
+
     for (Body x : walls) {
       if (box2d.world.getBodyCount() < 1) {
         x.setActive(false);
@@ -170,20 +170,20 @@ class Blok { //<>//
 
     //Skal bruges hvis koden ovenover stopper med at virke
     /*ting = 0;
-    for (Body x : walls) {
-      ting++;
-      if (box2d.world.getBodyCount() < 1) {
-        //println(box2d.world.getBodyCount());
-        println(ting);
-      } else {
-        box2d.destroyBody(x); //<>//
-        println(box2d.world.getBodyCount());
-        box2d.destroyBody(x);
-        println(box2d.world.getBodyCount());
-      }
-    }
-    println(millis());
-    println();*/
+     for (Body x : walls) {
+     ting++;
+     if (box2d.world.getBodyCount() < 1) {
+     //println(box2d.world.getBodyCount());
+     println(ting);
+     } else {
+     box2d.destroyBody(x);
+     println(box2d.world.getBodyCount());
+     box2d.destroyBody(x);
+     println(box2d.world.getBodyCount());
+     }
+     }
+     println(millis());
+     println();*/
 
     walls = new ArrayList<Body>();
     save = new HashMap<String, Sav>();

@@ -52,6 +52,10 @@ class Door {
   }
 
   protected void finalize() {
-    box2d.destroyBody(body);
+    if (box2d.world.getBodyCount() < 1) {
+      body.setActive(false);
+    } else {
+      box2d.destroyBody(body);
+    }
   }
 }
