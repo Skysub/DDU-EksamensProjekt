@@ -33,13 +33,13 @@ class Kasse {
   void Draw(float[] kamera, boolean hitboxDebug) {
     Vec2 pos = box2d.getBodyPixelCoord(body); //Får positionen af kassen på skærmen i pixels
     float a = body.getAngle();
-    translate(kamera[0], kamera[1]);
+    translate(kamera[0], kamera[1]+80);
     scale(kamera[2]);
 
     //Kassen tegnes
     stroke(1);
     pushMatrix();
-    translate(pos.x, pos.y+80);
+    translate(pos.x, pos.y);
     rotate(-a);
 
     if (hitboxDebug) {
@@ -67,6 +67,10 @@ class Kasse {
   }
 
   protected void finalize() {
-    box2d.destroyBody(body);
+    if (box2d.world.getBodyCount() < 1) {
+      body.setActive(false);
+    } else {
+      box2d.destroyBody(body);
+    }
   }
 }

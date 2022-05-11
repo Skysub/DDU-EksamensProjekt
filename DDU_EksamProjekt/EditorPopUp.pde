@@ -35,7 +35,7 @@ class EditorPopUp { //<>// //<>//
     if (millis() < timer+3000) {
       text("Could not load level", width/2-200, height/2+250);
     }
-    if (millis() < timer+3000) {
+    if (millis() < timerTre+3000) {
       text("Could not save level", width/2+200, height/2+250);
     }
 
@@ -59,9 +59,9 @@ class EditorPopUp { //<>// //<>//
     if (loadCostumLvl.Update()) hand = true;
     if (saveCostumLvl.Update()) hand = true;
     if (newLvl.Update()) hand = true;
-    
+
     if (exitButton.MouseReleased()) levelEditorScreen.ChangeScreen("MenuScreen");
-    if (newLvl.MouseReleased()) bane.MakeEmpty();
+    if (newLvl.MouseReleased()) bane.MakeNew();
   }
 
   void DrawBody() {
@@ -103,6 +103,7 @@ class EditorPopUp { //<>// //<>//
       if (LoadBaneNr(int(username.Input(0, 10)), true) != 0) {
         timer = millis();
       }
+      username.RemoveText();
     }
 
     number.Input(0, 10);
@@ -113,6 +114,7 @@ class EditorPopUp { //<>// //<>//
       } else {
         timerTre = millis();
       }
+      number.RemoveText();
     }
   }
 

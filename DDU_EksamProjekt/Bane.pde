@@ -45,26 +45,29 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     blok.Update();
   }
 
-  int Draw(boolean tileTest, boolean hitboxDebug) {
+  int Draw(boolean tileTest, boolean hitboxDebug, boolean coolGFX) {
     rectMode(CORNER);
     pushMatrix();
     if (!tileTest) translate(kamera[0], kamera[1]);
     scale(kamera[2]);
     //Kald funktioner her der tegner ting
-    if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug);
+    if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug, coolGFX);
     popMatrix();
     return 0;
   }
 
   void LavBaneIVerden() {
+
     int[] t = {0, 0};
-    blok.MakeWall(GridToWorld(t));
+    String gExtra = 0+","+0;
+    blok.MakeWall(GridToWorld(t), gExtra);
     for (int i=0; i<bred; i++) {
       for (int j=0; j<lang; j++) {
-        if (bane[i][j] != null) {
+        if (bane[i][j] != null && !(i == 0 && j == 0)) {
           if (bane[i][j].get(0) == 0) {
             int[] temp = {i, j};
-            blok.MakeWall(GridToWorld(temp));
+            String g = i+","+j;
+            blok.MakeWall(GridToWorld(temp), g);
           } else if (bane[i][j].get(0) == 4) {
             String g = i+","+j;
             int[] temp = {i, j};
@@ -145,17 +148,18 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
         //Tjekker om p er inden for y boundet af kassen
         if (gridP[1]*gridSize+hitBoxes[i][0].y < p.y
           && gridP[1]*gridSize+hitBoxes[i][0].y+hitBoxes[i][1].y >= p.y) {
+          String g = gridP[0]+","+gridP[1];
           if (o) { 
             o = false;
-            return blok.GetType(0);
-          } else return blok.GetType(bane[gridP[0]][gridP[1]].get(0));
+            return blok.GetType(0, null);
+          } else return blok.GetType(bane[gridP[0]][gridP[1]].get(0), g);
         }
       }
     }
     return -1;
   }
 
-  void DrawBane(boolean tileTest, boolean hitboxDebug) {
+  void DrawBane(boolean tileTest, boolean hitboxDebug, boolean coolGFX) {
     String g;
     if (!tileTest) { //Banen tegnes
       for (int i=0; i<bred; i++) {
@@ -166,9 +170,9 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
             //flytter hen til hvor vi skal tegne på griddet
             translate((gridSize*i), (gridSize*j));
 
-            if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug, g, kamera, false, editorMode);
+            if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug, g, kamera, false, editorMode, coolGFX);
             //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
-            else blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, false, editorMode);
+            else blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, false, editorMode, coolGFX);
             popMatrix();
           }
         }
@@ -179,10 +183,12 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
           if (bane[i][j] != null) {
             if (bane[i][j].get(0) == 4 || bane[i][j].get(0) == 5 || bane[i][j].get(0) == 6) {
               g = i+","+j;
-              pushMatrix();
-              translate((gridSize*i), (gridSize*j));
-              blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true, editorMode);
-              popMatrix();
+              if (i != 0 && j != 0) {
+                pushMatrix();
+                translate((gridSize*i), (gridSize*j));
+                blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, true, editorMode, coolGFX);
+                popMatrix();
+              }
             }
           }
         }
@@ -199,7 +205,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
           translate(2*i, 2*j);
 
           //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
-          blok.DrawBlok(tileSetTest[i][j].get(0), hitboxDebug, g, kamera, false, editorMode);
+          blok.DrawBlok(tileSetTest[i][j].get(0), hitboxDebug, g, kamera, false, editorMode, coolGFX);
           popMatrix();
         }
       }
@@ -389,6 +395,30 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     LoadBane(empty);
   }
 
+  void MakeNew() {
+    int emptySize = 15;
+    IntList[][] out = new IntList[emptySize][emptySize];
+    for (int i = 0; i < emptySize; i++) {
+      for (int j = 0; j < emptySize; j++) {
+        out[i][j] = new IntList();
+        if (i == 0 && j == 0) {
+          out[0][0].append(emptySize);
+          out[0][0].append(emptySize);
+          out[0][0].append(-1);
+        } else {
+          out[i][j].append(-1);
+          out[i][j].append(0);
+        }
+      }
+    }
+    LoadBane(out);
+  }
+
+  void RemoveStuff(int i, int j) {
+    String g = i+","+j;
+    blok.DestroyStuff(g, bane[i][j].get(0));
+  }
+
   void EditCanvas(int ekstra, int rot) {
     int t;
     //if (ekstra == 0) t = -1;
@@ -418,9 +448,10 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
             if (ekstra == 1 && j == 0) {
               out[i][j].append(-1);
               out[i][j].append(0);
-            } else {
+            } //else if (j == 0) RemoveStuff(i, j); 
+            else {
               if (ekstra == 1 && j == 1 && i == 0) {              
-                out[i][j].append(0);
+                out[i][j].append(-1);
                 out[i][j].append(0);
               } else {
                 out[i][j].append(bane[i][j-ekstra].get(0));
@@ -458,7 +489,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
               out[i][j].append(0);
             } else {
               if (ekstra == 1 && j == 0 && i == 1) {              
-                out[i][j].append(0);
+                out[i][j].append(-1);
                 out[i][j].append(0);
               } else {
                 out[i][j].append(bane[i-ekstra][j].get(0));
