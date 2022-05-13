@@ -12,6 +12,8 @@ class LevelEditorScreen extends GameState { //<>//
   Knap knap;
   Door door;
 
+  EditorButton[] barButtons = new EditorButton[10];
+
   boolean popup = true, hand;
   EditorPopUp popUp;
   float scrollSpeed = -0.1, arrowSpeed = 10;
@@ -32,6 +34,7 @@ class LevelEditorScreen extends GameState { //<>//
     popUp = new EditorPopUp(bane, program, this, fileHandler);
 
     SetupBlokBar();
+    MakeTopBarKnapper();
 
     topPlus = new BaneButton((bane.bred*40)/2+20, -30, 30, 30, "+", color(255), color(0), 20, color(0), new Vec2(-15, -15));
     topMinus = new BaneButton((bane.bred*40)/2-20, -30, 30, 30, "-", color(255), color(0), 20, color(0), new Vec2(-15, -15));
@@ -57,7 +60,10 @@ class LevelEditorScreen extends GameState { //<>//
 
     UpdateCanvasButtons();
     if (kb.Shift(82)) bane.ResetKamera();
+
+    UpdateTopBarKnapper();
   }
+
   void mouseWheel(MouseEvent event) {
     float e = event.getCount();
     println(e);
@@ -71,7 +77,7 @@ class LevelEditorScreen extends GameState { //<>//
     popMatrix();
 
     DrawTopBar();
-    TegnBlokBar(kb.getToggle(72), bane.getKamera(), !kb.getToggle(67));
+    DrawBlokBar(kb.getToggle(72), bane.getKamera(), !kb.getToggle(67));
 
     if (popup)popUp.Draw();
   }
@@ -106,8 +112,6 @@ class LevelEditorScreen extends GameState { //<>//
     if (bottomMinus.Update(bane.getKamera())) hand = true;
     if (leftPlus.Update(bane.getKamera())) hand = true;
     if (leftMinus.Update(bane.getKamera())) hand = true;
-    if (hand)cursor(HAND);
-    else cursor(ARROW);
 
     if (topPlus.MouseReleased()) bane.EditCanvas(1, 0);
     if (topMinus.MouseReleased()) bane.EditCanvas(-1, 0);
@@ -165,23 +169,24 @@ class LevelEditorScreen extends GameState { //<>//
     bane.LoadBane(a);
   }
 
-  void TegnBlokBar(Boolean HitboxDebug, float[] kamera, boolean coolGFX) {
+  void DrawBlokBar(Boolean HitboxDebug, float[] kamera, boolean coolGFX) {
+    DrawTopBarKnapper();
 
     pushMatrix();
     translate(100, 15);
     scale(1.2);
-    for (int i = -1; i < 4; i++) {
+    for (int i = -1; i < 4; i++) { //<>//
       String g = i+"";
       bane.blok.DrawBlok(i, HitboxDebug, g, kamera, true, true, coolGFX);
       translate(spacing, 0);
     }
-    pushMatrix(); //<>//
+    pushMatrix();
     translate(-spacing*3+19, 0);
     text("Empty", 0, 25);
     popMatrix();
     pushMatrix();
-    scale(0.8);
-    translate(0, -10);
+    scale(0.7);
+    translate(0, 0);
     kasse.Draw(nulKamera, HitboxDebug);
     popMatrix();
 
@@ -238,5 +243,25 @@ class LevelEditorScreen extends GameState { //<>//
     fill(0, 0, 255);
     square(0, 0, 8);
     popMatrix();
+  }
+
+  void MakeTopBarKnapper() {
+    for (int i = 0; i < 10; i++) {
+      barButtons[i] = new EditorButton(int(i*spacing*1.2+94), 8, 62, 73, "", color(210), color(0), 10, color(0), i, i);
+    }
+  }
+
+  void UpdateTopBarKnapper() {
+    for (EditorButton x : barButtons) {
+      if (x.Update()) hand = true;
+    }
+    if (hand)cursor(HAND);
+    else cursor(ARROW);
+  }
+
+  void DrawTopBarKnapper() {
+    for (EditorButton x : barButtons) {
+      x.Draw(storeRight, storeLeft);
+    }
   }
 }
