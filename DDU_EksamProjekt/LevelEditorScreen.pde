@@ -86,7 +86,7 @@ class LevelEditorScreen extends GameState { //<>//
     rectMode(CORNER);
     noStroke();
     fill(230);
-    rect(0, 0, width, 85);
+    rect(0, 0, width, 88);
   }
 
   void DrawCanvasButtons() {
@@ -234,12 +234,12 @@ class LevelEditorScreen extends GameState { //<>//
     pushMatrix();
     scale(1.2);
     pushMatrix();
-    translate(storeLeft*spacing+93, 57);
+    translate(storeLeft*spacing+93, 62);
     fill(255, 0, 0);
     square(0, 0, 8);
     popMatrix();
 
-    translate(storeRight*spacing+105, 57);
+    translate(storeRight*spacing+105, 62);
     fill(0, 0, 255);
     square(0, 0, 8);
     popMatrix();
@@ -247,7 +247,7 @@ class LevelEditorScreen extends GameState { //<>//
 
   void MakeTopBarKnapper() {
     for (int i = 0; i < 10; i++) {
-      barButtons[i] = new EditorButton(int(i*spacing*1.2+94), 8, 62, 73, "", color(210), color(0), 10, color(0), i, i);
+      barButtons[i] = new EditorButton(int(i*spacing*1.2+94), 8, 62, 63, "", color(210), color(0), 10, color(0), i, i);
     }
   }
 
@@ -257,6 +257,11 @@ class LevelEditorScreen extends GameState { //<>//
     }
     if (hand)cursor(HAND);
     else cursor(ARROW);
+
+    for (EditorButton x : barButtons) {
+      if (x.isClicked()) storeLeft = x.id;
+      if (x.rightIsClicked()) storeRight = x.id;
+    }
   }
 
   void DrawTopBarKnapper() {
