@@ -11,6 +11,7 @@ class LevelEditorScreen extends GameState {
   EditorPopUp popUp;
   float scrollSpeed = -0.1, arrowSpeed = 10;
   int wheel = 0; 
+  int storeLeft = 0, storeRight = 0;
 
   LevelEditorScreen(PApplet program, Keyboard kb, FileHandler fileHandler) {
     super(program, kb);
@@ -57,11 +58,12 @@ class LevelEditorScreen extends GameState {
     background(95, 90, 100);
     pushMatrix();
     translate(0, 80);
-    bane.Draw(false, kb.getToggle(72), kb.getToggle(67));
+    bane.Draw(false, kb.getToggle(72), !kb.getToggle(67));
     DrawCanvasButtons();
     popMatrix();
 
     DrawTopBar();
+    TegnBlokBar(kb.getToggle(72), bane.getKamera(), !kb.getToggle(67));
 
     if (popup)popUp.Draw();
   }
@@ -153,5 +155,20 @@ class LevelEditorScreen extends GameState {
 
   void LoadBane(IntList[][] a) {
     bane.LoadBane(a);
+  }
+
+  void TegnBlokBar(Boolean HitboxDebug, float[] kamera, boolean coolGFX) {
+    pushMatrix();
+    translate(100, 15);
+    scale(1.2);
+    for (int i = 0; i < 4; i++) {
+      bane.blok.DrawBlok(i, HitboxDebug, "0", kamera, true, true, coolGFX);
+      translate(60, 0);
+    }
+    //bane.blok.DrawBlok(1, HitboxDebug, "2", kamera, true, true, coolGFX);
+    popMatrix();
+  }
+
+  void SetupBlokBar() {
   }
 }
