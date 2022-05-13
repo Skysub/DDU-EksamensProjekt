@@ -44,52 +44,56 @@ class Blok { //<>// //<>//
   void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass, boolean editorMode, boolean coolGFX) {
     switch (id) {
     case 0:
-      DrawB0(); //Wall blok
+      DrawB0( coolGFX); //Wall blok
       break;
 
     case 1:
-      DrawB1(editorMode); //Luft blok
+      DrawB1(editorMode, coolGFX); //Luft blok
       break;
 
     case 2: //Mål blok
-      DrawB2();
+      DrawB2( coolGFX);
       break;
 
     case 3: //Start blok
-      DrawB3();
+      if (editorMode && !coolGFX)DrawB3();
+      else DrawB1(editorMode, coolGFX);
       break;
 
     case 4: //Kasse
-      if (specialPass) {
+      if (specialPass && ((editorMode && coolGFX) || !editorMode)) {
         pushMatrix();
         resetMatrix();
         kasser.get(g).Draw(kamera, HitboxDebug);
         popMatrix();
-      } else DrawB1(editorMode);
+      } else if (editorMode) DrawB4(editorMode);
+      else DrawB1(editorMode, coolGFX);
       break;
 
     case 5: //Saw
-      if (specialPass) {
-        save.get(g).Draw(HitboxDebug);
-      } else DrawB1(editorMode);
+      if (specialPass && ((editorMode && coolGFX) || !editorMode)) {
+        save.get(g).Draw(HitboxDebug, coolGFX);
+      } else if (editorMode && !coolGFX) DrawB5(editorMode);
+      else DrawB1(editorMode, coolGFX);
       break;
 
     case 6: //Saw
-      if (specialPass) {
-        save.get(g).Draw(HitboxDebug);
-      } else DrawB1(editorMode);
+      if (specialPass && ((editorMode && coolGFX) || !editorMode)) {
+        save.get(g).Draw(HitboxDebug, coolGFX);
+      } else if (editorMode && !coolGFX) DrawB6(editorMode);
+      else DrawB1(editorMode, coolGFX);
       break;
 
     case 7: //Knap blok
-      knapper.get(g).Draw(HitboxDebug);
+      knapper.get(g).Draw(HitboxDebug, coolGFX);
       break;
 
     case 8: //Dør blok
-      doors.get(g).Draw(HitboxDebug, coolGFX);
+      doors.get(g).Draw(HitboxDebug, coolGFX, editorMode);
       break;
 
     default:
-      if (editorMode) DrawEmpty();
+      if (editorMode && !coolGFX) DrawEmpty();
       break;
     }
   }
@@ -298,7 +302,7 @@ class Blok { //<>// //<>//
   }
 
   //Wall tile
-  void DrawB0() {
+  void DrawB0(boolean coolGFX) {
     //square
     SetSquareSettings();
     strokeWeight(2);
@@ -307,14 +311,14 @@ class Blok { //<>// //<>//
     //Text
     textSize(10);
     fill(10);
-    text("Wall", 20, 26);
+    if(!coolGFX) text("Wall", 20, 26);
   }
 
   //Background tile
-  void DrawB1(boolean editorMode) {
+  void DrawB1(boolean editorMode, boolean coolGFX) {
     //square
     SetSquareSettings();
-    if (!editorMode) {
+    if (!editorMode || coolGFX) {
       //No grid
       noStroke();
       fill(255);
@@ -326,15 +330,16 @@ class Blok { //<>// //<>//
     }
   }
   //Goal tile
-  void DrawB2() {
+  void DrawB2(boolean coolGFX) {
     //square
     SetSquareSettings();
     fill(200, 200, 255);
+    if (coolGFX) noStroke();
     square(0, 0, gridSize);
     //Text
     textSize(10);
     fill(10);
-    text("Goal", 20, 26);
+    if (!coolGFX)text("Goal", 20, 26);
   }
 
   //Start tile
@@ -348,6 +353,45 @@ class Blok { //<>// //<>//
     textSize(10);
     fill(10);
     text("Start", 20, 26);
+  }
+
+  //Kasse tile
+  void DrawB4(boolean editorMode) {
+    //square
+    SetSquareSettings();
+    fill(139, 145, 158);
+    noStroke();
+    square(0, 0, gridSize+2);
+    //Text
+    textSize(10);
+    fill(10);
+    text("Box", 20, 26);
+  }
+
+  //Lille sav tile
+  void DrawB5(boolean editorMode) {
+    //square
+    SetSquareSettings();
+    fill(220, 64, 255);
+    noStroke();
+    square(0, 0, gridSize+2);
+    //Text
+    textSize(10);
+    fill(10);
+    text("1x1 saw", 20, 26);
+  }
+
+  //Stor sav tile
+  void DrawB6(boolean editorMode) {
+    //square
+    SetSquareSettings();
+    fill(255, 64, 245);
+    noStroke();
+    square(0, 0, gridSize+2);
+    //Text
+    textSize(10);
+    fill(10);
+    text("3x3 Saw", 20, 26);
   }
 
   //Empty tile

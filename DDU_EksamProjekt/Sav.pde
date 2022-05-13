@@ -12,7 +12,7 @@ class Sav {
     RotateSaw();
   }
 
-  void Draw(boolean HitboxDebug) {
+  void Draw(boolean HitboxDebug, boolean coolGFX) {
     DrawSaw(HitboxDebug);
   }
 

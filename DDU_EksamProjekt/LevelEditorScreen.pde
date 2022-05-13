@@ -18,7 +18,7 @@ class LevelEditorScreen extends GameState { //<>//
   EditorPopUp popUp;
   float scrollSpeed = -0.1, arrowSpeed = 10;
   int wheel = 0, spacing = 60;
-  int storeLeft = 0, storeRight = 1;
+  int storeLeft = 1, storeRight = 2;
   float[] nulKamera = {0, 0, 1, 1920, 1080};
   boolean pressedPrev = false;
 
@@ -74,12 +74,12 @@ class LevelEditorScreen extends GameState { //<>//
     background(95, 90, 100);
     pushMatrix();
     translate(0, 80);
-    bane.Draw(false, kb.getToggle(72), !kb.getToggle(67));
+    bane.Draw(false, kb.getToggle(72), kb.getToggle(67));
     DrawCanvasButtons();
     popMatrix();
 
     DrawTopBar();
-    DrawBlokBar(kb.getToggle(72), bane.getKamera(), !kb.getToggle(67));
+    DrawBlokBar(kb.getToggle(72), bane.getKamera(), kb.getToggle(67));
 
     if (popup)popUp.Draw();
   }
@@ -196,7 +196,7 @@ class LevelEditorScreen extends GameState { //<>//
 
     translate(spacing+20, 20);
 
-    lSav.Draw(HitboxDebug);
+    lSav.Draw(HitboxDebug, coolGFX);
     fill(0);    
     textSize(8);
     text("Saw", -2, 3);
@@ -205,16 +205,16 @@ class LevelEditorScreen extends GameState { //<>//
 
     pushMatrix();
     scale(0.5);
-    sSav.Draw(HitboxDebug);
+    sSav.Draw(HitboxDebug, coolGFX);
     popMatrix();
     fill(0);
     textSize(10);
     text("Saw", -1, 3);
     translate(spacing-20, -20);
 
-    knap.Draw(HitboxDebug);
+    knap.Draw(HitboxDebug, coolGFX);
     translate(spacing, -2);
-    door.Draw(HitboxDebug, coolGFX);
+    door.Draw(HitboxDebug, coolGFX, true);
     fill(0);
     text("Gate", 20, 26);
 
@@ -275,7 +275,7 @@ class LevelEditorScreen extends GameState { //<>//
   }
 
   void EditLevelBlok(float[] kamera) {
-    if (mousePressed && mouseY > 88 && !(kb.getKey(16) || kb.getKey(17))) {
+    if (mousePressed && !popup && mouseY > 88 && !(kb.getKey(16) || kb.getKey(17))) {
       int[] pos = new int[2];
       int y = mouseY - 80;
       int x = mouseX;
@@ -297,5 +297,9 @@ class LevelEditorScreen extends GameState { //<>//
       if (mouseButton == LEFT) bane.EditBlok(storeLeft-1, 0, 1, pos);
       else bane.EditBlok(storeRight-1, 0, 1, pos);
     }
+  }
+
+  void OnEnter() {
+    kb.setToggle(67, false);
   }
 }
