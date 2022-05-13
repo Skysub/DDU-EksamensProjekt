@@ -18,12 +18,12 @@ class LoginScreen extends GameState {
     password = new TextField(program, "", new PVector(width/2-250, 620), new PVector(500, 50), false);
   }
 
-
   void Update() {    
     if (removeText) {
       RemoveText();
       removeText = false;
     }
+   
     if (password.Input(minLengthPW, 0) == null && !password.isActive()) username.ChangeFocus(true);
 
     username.Input(minLengthUN, maxLengthUN);
