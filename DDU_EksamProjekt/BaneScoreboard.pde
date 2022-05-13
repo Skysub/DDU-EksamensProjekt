@@ -52,7 +52,7 @@ class BaneScoreboard {
         if (timeInfoSorted[i] == timeNr) {
           currentPosition = i+1;
         }
-        if (currentPosition >= 10) {
+        if (currentPosition+2 >= 10) {
           outside10UN = sbInfoSorted[0][i]; 
           outside10Time = sbInfoSorted[1][i];
           break;
@@ -85,7 +85,7 @@ class BaneScoreboard {
         text(textTime, width/(2*size)+65, i*30+65);
       }
     }
-    if (currentPosition < 10) {
+    if (currentPosition-2 < 10) {
       fill(80, 235, 80, opacity);
       rect(width/(2*size)-200, currentPosition*30+10, 400, 30);
     } else {
@@ -94,7 +94,7 @@ class BaneScoreboard {
       fill(0);
       line(width/(size*2)-160, 11*30+60, width/(size*2)-160, 11*30+90);
       line(width/(size*2)+55, 11*30+60, width/(size*2)+55, 11*30+90);
-      text(currentPosition + ".", width/(2*size)-193, 11*30 + 85);
+      text(currentPosition-1 + ".", width/(2*size)-193, 11*30 + 85);
       text(outside10Time, width/(2*size)-150, 11*30+85);
       text(outside10UN, width/(2*size)+65, 11*30+85);
       textAlign(CENTER);
