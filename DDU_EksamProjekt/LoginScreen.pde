@@ -1,5 +1,5 @@
 class LoginScreen extends GameState {
-  boolean toggleLogin = true, triedUN, triedPW, triedPWS, passwordSecure;
+  boolean toggleLogin = true, triedUN, triedPW, triedPWS, passwordSecure, removeText = true;
   String Toggle = "Log in", toggle = "log in", enteredUsername, enteredPassword, hashedPassword, hpw, currentUsername, sql;
   int status, minLengthUN = 3, maxLengthUN = 16, minLengthPW = 6;
 
@@ -13,13 +13,19 @@ class LoginScreen extends GameState {
     logInButton = new Button(width/2-150, 290, 100, 50, "Log in", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
     signUpButton = new Button(width/2+50, 290, 100, 50, "Sign up", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
     exitButton = new Button(width/2+310, 150, 80, 80, "Back", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
-    enterButton = new Button(width/2-100, 760, 200, 40, "", color(180), color(80, 100, 80), 20, color(0, 0, 0));
+    enterButton = new Button(width/2-100, 767, 200, 30, "", color(180), color(80, 100, 80), 20, color(0, 0, 0));
     username = new TextField(program, "", new PVector(width/2-250, 440), new PVector(500, 50), false);
     password = new TextField(program, "", new PVector(width/2-250, 620), new PVector(500, 50), false);
   }
 
+  void Update() {    
+    if (removeText) {
+      RemoveText();
+      removeText = false;
+    }
+   
+    if (password.Input(minLengthPW, 0) == null && !password.isActive()) username.ChangeFocus(true);
 
-  void Update() {      
     username.Input(minLengthUN, maxLengthUN);
     password.Input(minLengthPW, 0);
 
@@ -28,16 +34,23 @@ class LoginScreen extends GameState {
       Toggle = "Log in";
       toggle = "log in";
       logInButton.currentColor = color(80, 100, 80);
-      if (signUpButton.isClicked() && toggleLogin) toggleLogin = false;
+      if (signUpButton.isClicked() && toggleLogin) {
+        toggleLogin = false;
+        status = 0;
+      }
       signUpButton.Update();
     } else {
       Toggle = "Sign up";
       toggle = "sign up";
       signUpButton.currentColor = color(80, 100, 80);
-      if (logInButton.isClicked() && !toggleLogin) toggleLogin = true;  
+      if (logInButton.isClicked() && !toggleLogin) {
+        toggleLogin = true;
+        status = 0;
+        passwordSecure = true;
+      }
       textSize(14);
       fill(100, 100, 100);
-      text("Ved at oprette en bruger giver du sammentykke til opbevaring af dine rekordtider samt brugernavn. \nDisse er synlige af andre spillere", 960, 900);
+      text("By creating a user you give consent to storage of your highscores and you username. \nThese are visible for other players.", 960, 900);
       logInButton.Update();
     }
 
@@ -48,6 +61,7 @@ class LoginScreen extends GameState {
 
     if (exitButton.isClicked()) {
       RemoveText();
+      removeText = true;
       mainLogic.gameStateManager.SkiftGameState("MenuScreen");
     }
 
@@ -60,7 +74,7 @@ class LoginScreen extends GameState {
       enteredPassword = password.Input(minLengthPW, 0);
 
       if (toggleLogin) passwordSecure = true;
-      if (!toggleLogin && enteredPassword != null && !enteredPassword.equals(enteredPassword.toLowerCase()) && !enteredPassword.equals(enteredPassword.toUpperCase())) passwordSecure = true;                                         
+      if (!toggleLogin && enteredPassword != null && !enteredPassword.equals(enteredPassword.toLowerCase()) && !enteredPassword.equals(enteredPassword.toUpperCase()) && HasNumber(enteredPassword)) passwordSecure = true;                                         
       else if (!toggleLogin) passwordSecure = false;
 
       if (!username.tooShort && !username.tooLong && !password.tooShort && passwordSecure) { 
@@ -70,10 +84,9 @@ class LoginScreen extends GameState {
 
       if (status == 4) {
         RemoveText();
-        status = 0;
+        removeText = true;
         toggleLogin = true;
         mainLogic.username = currentUsername;
-
         mainLogic.gameStateManager.SkiftGameState("MenuScreen");
       }
     }
@@ -87,7 +100,7 @@ class LoginScreen extends GameState {
 
     if (!username.tooShort && !username.tooLong) triedUN = false;
     if (!password.tooShort) triedPW = false;
-    if (password.Input(minLengthPW, 0) != null && password.Input(minLengthPW, 0).equals(password.Input(minLengthPW, 0).toLowerCase()) && password.Input(minLengthPW, 0).equals(password.Input(minLengthPW, 0).toUpperCase())) triedPWS = false;
+    if(password.Input(minLengthPW, 0) != null && IsSecure(password.Input(minLengthPW, 0)) && HasNumber(password.Input(minLengthPW, 0))) triedPWS = false;
   }
 
   void Draw() {
@@ -122,7 +135,7 @@ class LoginScreen extends GameState {
     if (username.tooLong && triedUN) text("Your username must be less than " + maxLengthUN + " characters", width/2, 500);
     if (username.tooShort && triedUN) text("Your username has to be at least " + minLengthUN + " characters", width/2, 500);
     if (password.tooShort && triedPW) text("Your password has to be at least " + minLengthPW + " characters", width/2, 680);
-    if (!passwordSecure && triedPWS) text("Password must have an uppercase letter, a lowercase letter and a number", width/2, 750);
+    if (!passwordSecure && triedPWS && !toggleLogin) text("Password must have an uppercase letter, a lowercase letter and a number", width/2, 720);
 
     if (status == 1 && !toggleLogin) text("Username is taken", width/2, 750);
     if (status == 2 && toggleLogin) text("No user with this name exists", width/2, 750);
@@ -168,6 +181,30 @@ class LoginScreen extends GameState {
     return 3; //Forkert password eller brugernavn
   }
 
+  boolean HasNumber(String pw) {
+    char[] ch = pw.toCharArray();
+    for (char c : ch) {
+      if (Character.isDigit(c)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  boolean IsSecure(String pw){
+    char[] ch = pw.toCharArray();
+    String pwNoNumbers = "";
+    for (char c : ch){
+      if(!Character.isDigit(c)){
+        pwNoNumbers = pwNoNumbers + c;
+      }
+    }
+    if(!pwNoNumbers.equals(pwNoNumbers.toLowerCase()) && !pwNoNumbers.equals(pwNoNumbers.toUpperCase())){
+      return true;
+    }
+    else return false;
+  }
+
   void RemoveText() {
     username.RemoveText();
     password.RemoveText();
@@ -176,5 +213,6 @@ class LoginScreen extends GameState {
     triedPWS = false;
     enteredUsername = null;
     enteredPassword = null;
+    status = 0;
   }
 }
