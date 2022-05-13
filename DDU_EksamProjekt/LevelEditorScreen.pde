@@ -106,23 +106,25 @@ class LevelEditorScreen extends GameState { //<>//
   }
 
   void UpdateCanvasButtons() {
-    if (topPlus.Update(bane.getKamera())) hand = true;
-    if (topMinus.Update(bane.getKamera())) hand = true;
-    if (rightPlus.Update(bane.getKamera())) hand = true;
-    if (rightMinus.Update(bane.getKamera())) hand = true;
-    if (bottomPlus.Update(bane.getKamera())) hand = true;
-    if (bottomMinus.Update(bane.getKamera())) hand = true;
-    if (leftPlus.Update(bane.getKamera())) hand = true;
-    if (leftMinus.Update(bane.getKamera())) hand = true;
+    if (mouseY > 88) {
+      if (topPlus.Update(bane.getKamera())) hand = true;
+      if (topMinus.Update(bane.getKamera())) hand = true;
+      if (rightPlus.Update(bane.getKamera())) hand = true;
+      if (rightMinus.Update(bane.getKamera())) hand = true;
+      if (bottomPlus.Update(bane.getKamera())) hand = true;
+      if (bottomMinus.Update(bane.getKamera())) hand = true;
+      if (leftPlus.Update(bane.getKamera())) hand = true;
+      if (leftMinus.Update(bane.getKamera())) hand = true;
 
-    if (topPlus.MouseReleased()) bane.EditCanvas(1, 0);
-    if (topMinus.MouseReleased()) bane.EditCanvas(-1, 0);
-    if (rightPlus.MouseReleased()) bane.EditCanvas(1, 3);
-    if (rightMinus.MouseReleased()) bane.EditCanvas(-1, 3);
-    if (bottomPlus.MouseReleased()) bane.EditCanvas(1, 2);
-    if (bottomMinus.MouseReleased()) bane.EditCanvas(-1, 2);
-    if (leftPlus.MouseReleased()) bane.EditCanvas(1, 1);
-    if (leftMinus.MouseReleased()) bane.EditCanvas(-1, 1);
+      if (topPlus.MouseReleased()) bane.EditCanvas(1, 0);
+      if (topMinus.MouseReleased()) bane.EditCanvas(-1, 0);
+      if (rightPlus.MouseReleased()) bane.EditCanvas(1, 3);
+      if (rightMinus.MouseReleased()) bane.EditCanvas(-1, 3);
+      if (bottomPlus.MouseReleased()) bane.EditCanvas(1, 2);
+      if (bottomMinus.MouseReleased()) bane.EditCanvas(-1, 2);
+      if (leftPlus.MouseReleased()) bane.EditCanvas(1, 1);
+      if (leftMinus.MouseReleased()) bane.EditCanvas(-1, 1);
+    }
 
     topPlus.x = (bane.bred*40)/2+20-15;
     topMinus.x = (bane.bred*40)/2-20-15;
@@ -140,7 +142,7 @@ class LevelEditorScreen extends GameState { //<>//
   }
 
   void pan() {
-    if (mousePressed && (kb.getKey(16) || kb.getKey(17)) && !popup) {
+    if (mousePressed && (kb.getKey(16) || kb.getKey(17)) && !popup && mouseY > 88) {
       bane.setKamera(new Vec2(bane.kamera[0]+(mouseX-pmouseX), bane.kamera[1]+(mouseY-pmouseY)));
     } else if (!popup) {
       if (kb.getKey(38)) bane.setKamera(new Vec2(bane.kamera[0], bane.kamera[1] + arrowSpeed));
@@ -173,9 +175,9 @@ class LevelEditorScreen extends GameState { //<>//
 
   void DrawBlokBar(Boolean HitboxDebug, float[] kamera, boolean coolGFX) {
     DrawTopBarKnapper();
-
+ //<>//
     pushMatrix();
-    translate(100, 15); //<>//
+    translate(100, 15);
     scale(1.2);
     for (int i = -1; i < 4; i++) {
       String g = i+"";
@@ -273,7 +275,7 @@ class LevelEditorScreen extends GameState { //<>//
   }
 
   void EditLevelBlok(float[] kamera) {
-    if (mousePressed && mouseY > 88) {
+    if (mousePressed && mouseY > 88 && !(kb.getKey(16) || kb.getKey(17))) {
       int[] pos = new int[2];
       int y = mouseY - 80;
       int x = mouseX;
@@ -288,7 +290,7 @@ class LevelEditorScreen extends GameState { //<>//
         }
       } 
       catch(Exception e) {
-        println("Tried to place block out of bounds T: "+millis());
+        //println("Tried to place block out of bounds T: "+millis());
         return;
       }
 
