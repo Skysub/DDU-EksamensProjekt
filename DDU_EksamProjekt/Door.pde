@@ -37,10 +37,14 @@ class Door {
       } else {
         fill(255, 220, 190);
         square(0, 2, 42);
+        fill(0);
+        text("Gate", 20, 26);
       }
     } else {
       fill(255);
       square(0, 2, 42);
+      fill(0);
+      text("Gate", 20, 26);
     }
   }
 

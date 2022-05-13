@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
   Vec2 startPos = new Vec2(0, 0);

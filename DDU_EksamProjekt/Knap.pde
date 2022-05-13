@@ -27,7 +27,7 @@ class Knap {
     //Text
     textSize(10);
     fill(10);
-    text("Knap", 20, 26);
+    text("Button", 20, 26);
   }
 
   boolean KnapCollision(HashMap<String, Kasse> kasser) {

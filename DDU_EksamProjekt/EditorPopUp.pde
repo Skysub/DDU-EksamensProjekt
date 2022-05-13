@@ -1,4 +1,4 @@
-class EditorPopUp { //<>// //<>//
+class EditorPopUp { //<>// //<>// //<>//
 
   FileHandler fileHandler;
   Bane bane;
