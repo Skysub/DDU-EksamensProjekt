@@ -48,7 +48,7 @@ class EditorButton extends Button {
 
     noStroke();
     rectMode(CORNER);
-    if(this.id == id || this.idt == idt) rect(x, y-4, widthB, heightB+4, 2);
+    if(this.id == id || this.idt == idt) rect(x, y-3, widthB, heightB+3, 2);
     else rect(x, y, widthB, heightB, 2);
 
     fill(textColor);

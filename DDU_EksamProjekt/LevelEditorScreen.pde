@@ -247,7 +247,7 @@ class LevelEditorScreen extends GameState { //<>//
 
   void MakeTopBarKnapper() {
     for (int i = 0; i < 10; i++) {
-      barButtons[i] = new EditorButton(int(i*spacing*1.2+94), 8, 62, 63, "", color(210), color(0), 10, color(0), i, i);
+      barButtons[i] = new EditorButton(int(i*spacing*1.2+94), 8, 62, 63, "", color(218), color(0), 10, color(0), i, i);
     }
   }
 
