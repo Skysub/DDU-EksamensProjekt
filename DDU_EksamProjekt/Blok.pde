@@ -1,4 +1,4 @@
-class Blok { //<>// //<>// //<>//
+class Blok { //<>// //<>//
   Box2DProcessing box2d;
 
   int blokkeIalt = 7;

@@ -1,4 +1,4 @@
-class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
   //grids bredde og højde i pixels
   int gridSize = 40;
   Vec2 startPos = new Vec2(0, 0);
@@ -417,6 +417,18 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   void RemoveStuff(int i, int j) {
     String g = i+","+j;
     blok.DestroyStuff(g, bane[i][j].get(0));
+  }
+
+  void EditBlok(int id, int rot, int extra, int[] pos) {
+    if (pos[0] == 0 && pos[1] == 0) return;
+
+    bane[int(pos[0])][int(pos[1])] = new IntList();
+    bane[int(pos[0])][int(pos[1])].append(id);
+    bane[int(pos[0])][int(pos[1])].append(rot);
+    if (id == 7 || id == 8) {
+      bane[int(pos[0])][int(pos[1])].append(extra);
+    }
+    LoadBane(bane);
   }
 
   void EditCanvas(int ekstra, int rot) {

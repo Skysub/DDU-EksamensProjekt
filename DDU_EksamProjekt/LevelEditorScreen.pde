@@ -20,6 +20,7 @@ class LevelEditorScreen extends GameState { //<>//
   int wheel = 0, spacing = 60;
   int storeLeft = 0, storeRight = 1;
   float[] nulKamera = {0, 0, 1, 1920, 1080};
+  boolean pressedPrev = false;
 
   LevelEditorScreen(PApplet program, Keyboard kb, FileHandler fileHandler) {
     super(program, kb);
@@ -62,6 +63,7 @@ class LevelEditorScreen extends GameState { //<>//
     if (kb.Shift(82)) bane.ResetKamera();
 
     UpdateTopBarKnapper();
+    EditLevelBlok(bane.getKamera());
   }
 
   void mouseWheel(MouseEvent event) {
@@ -173,9 +175,9 @@ class LevelEditorScreen extends GameState { //<>//
     DrawTopBarKnapper();
 
     pushMatrix();
-    translate(100, 15);
+    translate(100, 15); //<>//
     scale(1.2);
-    for (int i = -1; i < 4; i++) { //<>//
+    for (int i = -1; i < 4; i++) {
       String g = i+"";
       bane.blok.DrawBlok(i, HitboxDebug, g, kamera, true, true, coolGFX);
       translate(spacing, 0);
@@ -267,6 +269,31 @@ class LevelEditorScreen extends GameState { //<>//
   void DrawTopBarKnapper() {
     for (EditorButton x : barButtons) {
       x.Draw(storeRight, storeLeft);
+    }
+  }
+
+  void EditLevelBlok(float[] kamera) {
+    if (mousePressed && mouseY > 88) {
+      int[] pos = new int[2];
+      int y = mouseY - 80;
+      int x = mouseX;
+      x -= kamera[0];
+      y -= kamera[1];
+      pos[0]=floor(x/(40*kamera[2]));
+      pos[1] =floor(y/(40*kamera[2]));
+
+      try {
+        if ((mouseButton == LEFT && bane.bane[pos[0]][pos[1]].get(0) == storeLeft-1) || (mouseButton == RIGHT && bane.bane[pos[0]][pos[1]].get(0) == storeRight-1)) {
+          return;
+        }
+      } 
+      catch(Exception e) {
+        println("Tried to place block out of bounds T: "+millis());
+        return;
+      }
+
+      if (mouseButton == LEFT) bane.EditBlok(storeLeft-1, 0, 1, pos);
+      else bane.EditBlok(storeRight-1, 0, 1, pos);
     }
   }
 }
