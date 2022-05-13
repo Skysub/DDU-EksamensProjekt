@@ -18,8 +18,9 @@ class LevelEditorScreen extends GameState { //<>//
   EditorPopUp popUp;
   float scrollSpeed = -0.1, arrowSpeed = 10;
   int wheel = 0, spacing = 60;
-  int storeLeft = 0, storeRight = 1;
+  int storeLeft = 1, storeRight = 2;
   float[] nulKamera = {0, 0, 1, 1920, 1080};
+  boolean pressedPrev = false;
 
   LevelEditorScreen(PApplet program, Keyboard kb, FileHandler fileHandler) {
     super(program, kb);
@@ -62,6 +63,7 @@ class LevelEditorScreen extends GameState { //<>//
     if (kb.Shift(82)) bane.ResetKamera();
 
     UpdateTopBarKnapper();
+    EditLevelBlok(bane.getKamera());
   }
 
   void mouseWheel(MouseEvent event) {
@@ -72,12 +74,12 @@ class LevelEditorScreen extends GameState { //<>//
     background(95, 90, 100);
     pushMatrix();
     translate(0, 80);
-    bane.Draw(false, kb.getToggle(72), !kb.getToggle(67));
+    bane.Draw(false, kb.getToggle(72), kb.getToggle(67));
     DrawCanvasButtons();
     popMatrix();
 
     DrawTopBar();
-    DrawBlokBar(kb.getToggle(72), bane.getKamera(), !kb.getToggle(67));
+    DrawBlokBar(kb.getToggle(72), bane.getKamera(), kb.getToggle(67));
 
     if (popup)popUp.Draw();
   }
@@ -104,23 +106,25 @@ class LevelEditorScreen extends GameState { //<>//
   }
 
   void UpdateCanvasButtons() {
-    if (topPlus.Update(bane.getKamera())) hand = true;
-    if (topMinus.Update(bane.getKamera())) hand = true;
-    if (rightPlus.Update(bane.getKamera())) hand = true;
-    if (rightMinus.Update(bane.getKamera())) hand = true;
-    if (bottomPlus.Update(bane.getKamera())) hand = true;
-    if (bottomMinus.Update(bane.getKamera())) hand = true;
-    if (leftPlus.Update(bane.getKamera())) hand = true;
-    if (leftMinus.Update(bane.getKamera())) hand = true;
+    if (mouseY > 88) {
+      if (topPlus.Update(bane.getKamera())) hand = true;
+      if (topMinus.Update(bane.getKamera())) hand = true;
+      if (rightPlus.Update(bane.getKamera())) hand = true;
+      if (rightMinus.Update(bane.getKamera())) hand = true;
+      if (bottomPlus.Update(bane.getKamera())) hand = true;
+      if (bottomMinus.Update(bane.getKamera())) hand = true;
+      if (leftPlus.Update(bane.getKamera())) hand = true;
+      if (leftMinus.Update(bane.getKamera())) hand = true;
 
-    if (topPlus.MouseReleased()) bane.EditCanvas(1, 0);
-    if (topMinus.MouseReleased()) bane.EditCanvas(-1, 0);
-    if (rightPlus.MouseReleased()) bane.EditCanvas(1, 3);
-    if (rightMinus.MouseReleased()) bane.EditCanvas(-1, 3);
-    if (bottomPlus.MouseReleased()) bane.EditCanvas(1, 2);
-    if (bottomMinus.MouseReleased()) bane.EditCanvas(-1, 2);
-    if (leftPlus.MouseReleased()) bane.EditCanvas(1, 1);
-    if (leftMinus.MouseReleased()) bane.EditCanvas(-1, 1);
+      if (topPlus.MouseReleased()) bane.EditCanvas(1, 0);
+      if (topMinus.MouseReleased()) bane.EditCanvas(-1, 0);
+      if (rightPlus.MouseReleased()) bane.EditCanvas(1, 3);
+      if (rightMinus.MouseReleased()) bane.EditCanvas(-1, 3);
+      if (bottomPlus.MouseReleased()) bane.EditCanvas(1, 2);
+      if (bottomMinus.MouseReleased()) bane.EditCanvas(-1, 2);
+      if (leftPlus.MouseReleased()) bane.EditCanvas(1, 1);
+      if (leftMinus.MouseReleased()) bane.EditCanvas(-1, 1);
+    }
 
     topPlus.x = (bane.bred*40)/2+20-15;
     topMinus.x = (bane.bred*40)/2-20-15;
@@ -138,7 +142,7 @@ class LevelEditorScreen extends GameState { //<>//
   }
 
   void pan() {
-    if (mousePressed && (kb.getKey(16) || kb.getKey(17)) && !popup) {
+    if (mousePressed && (kb.getKey(16) || kb.getKey(17)) && !popup && mouseY > 88) {
       bane.setKamera(new Vec2(bane.kamera[0]+(mouseX-pmouseX), bane.kamera[1]+(mouseY-pmouseY)));
     } else if (!popup) {
       if (kb.getKey(38)) bane.setKamera(new Vec2(bane.kamera[0], bane.kamera[1] + arrowSpeed));
@@ -171,11 +175,11 @@ class LevelEditorScreen extends GameState { //<>//
 
   void DrawBlokBar(Boolean HitboxDebug, float[] kamera, boolean coolGFX) {
     DrawTopBarKnapper();
-
+ //<>//
     pushMatrix();
     translate(100, 15);
     scale(1.2);
-    for (int i = -1; i < 4; i++) { //<>//
+    for (int i = -1; i < 4; i++) {
       String g = i+"";
       bane.blok.DrawBlok(i, HitboxDebug, g, kamera, true, true, coolGFX);
       translate(spacing, 0);
@@ -192,7 +196,7 @@ class LevelEditorScreen extends GameState { //<>//
 
     translate(spacing+20, 20);
 
-    lSav.Draw(HitboxDebug);
+    lSav.Draw(HitboxDebug, coolGFX);
     fill(0);    
     textSize(8);
     text("Saw", -2, 3);
@@ -201,16 +205,16 @@ class LevelEditorScreen extends GameState { //<>//
 
     pushMatrix();
     scale(0.5);
-    sSav.Draw(HitboxDebug);
+    sSav.Draw(HitboxDebug, coolGFX);
     popMatrix();
     fill(0);
     textSize(10);
     text("Saw", -1, 3);
     translate(spacing-20, -20);
 
-    knap.Draw(HitboxDebug);
+    knap.Draw(HitboxDebug, coolGFX);
     translate(spacing, -2);
-    door.Draw(HitboxDebug, coolGFX);
+    door.Draw(HitboxDebug, coolGFX, true);
     fill(0);
     text("Gate", 20, 26);
 
@@ -268,5 +272,34 @@ class LevelEditorScreen extends GameState { //<>//
     for (EditorButton x : barButtons) {
       x.Draw(storeRight, storeLeft);
     }
+  }
+
+  void EditLevelBlok(float[] kamera) {
+    if (mousePressed && !popup && mouseY > 88 && !(kb.getKey(16) || kb.getKey(17))) {
+      int[] pos = new int[2];
+      int y = mouseY - 80;
+      int x = mouseX;
+      x -= kamera[0];
+      y -= kamera[1];
+      pos[0]=floor(x/(40*kamera[2]));
+      pos[1] =floor(y/(40*kamera[2]));
+
+      try {
+        if ((mouseButton == LEFT && bane.bane[pos[0]][pos[1]].get(0) == storeLeft-1) || (mouseButton == RIGHT && bane.bane[pos[0]][pos[1]].get(0) == storeRight-1)) {
+          return;
+        }
+      } 
+      catch(Exception e) {
+        //println("Tried to place block out of bounds T: "+millis());
+        return;
+      }
+
+      if (mouseButton == LEFT) bane.EditBlok(storeLeft-1, 0, 1, pos);
+      else bane.EditBlok(storeRight-1, 0, 1, pos);
+    }
+  }
+
+  void OnEnter() {
+    kb.setToggle(67, false);
   }
 }

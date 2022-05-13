@@ -27,12 +27,11 @@ public static class GameStateManager
   }
 
   public void SkiftGameState(String name) {
-    if (currentGameState != null)
-
-      currentGameState.Reset();
+    if (currentGameState != null) currentGameState.Reset();
     if (gameStates.containsKey(name))
     {
       currentGameState = gameStates.get(name);
+      currentGameState.OnEnter();
     } else {
       println("'"+name+"' er ikke en gyldig gameState");
     }

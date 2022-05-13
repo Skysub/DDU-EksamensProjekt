@@ -17,4 +17,7 @@ public class GameState
     cursor(ARROW);
     mainLogic.gameStateManager.SkiftGameState(name);
   }
+
+  void OnEnter() {
+  }
 }

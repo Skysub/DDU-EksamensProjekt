@@ -65,7 +65,7 @@ class BaneScreen extends GameState {
     background(95, 90, 100);
     pushMatrix();
     translate(0, 80);
-    bane.Draw(kb.getToggle(84), kb.getToggle(72), !kb.getToggle(67));
+    bane.Draw(kb.getToggle(84), kb.getToggle(72), kb.getToggle(67));
     player.Draw(kb.getToggle(72), bane.getKamera());
     popMatrix();
     if (!kb.getToggle(84)) {
@@ -136,5 +136,9 @@ class BaneScreen extends GameState {
     bane.ReloadBane();
     //Yderligere kode, måske spil en sound effekt. En eksplosion måske???
     //Vær kreativ
+  }
+
+  void OnEnter() {
+    kb.setToggle(67, true);
   }
 }

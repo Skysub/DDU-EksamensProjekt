@@ -19,7 +19,7 @@ class Knap {
     }
   }
 
-  void Draw(boolean HitboxDebug) {
+  void Draw(boolean HitboxDebug, boolean coolGFX) {
     if ((on && !invert) || (!on && invert)) fill(100, 230, 150);
     else fill(255, 150, 150);
     noStroke();

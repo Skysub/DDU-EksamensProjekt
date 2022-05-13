@@ -23,7 +23,7 @@ class Door {
     on = false;
   }
 
-  void Draw(boolean HitboxDebug, boolean coolGFX) {
+  void Draw(boolean HitboxDebug, boolean coolGFX, boolean editorMode) {
     noStroke();
     if (HitboxDebug) {
       fill(255);
@@ -44,7 +44,7 @@ class Door {
       fill(255);
       square(0, 2, 42);
       fill(0);
-      text("Gate", 20, 26);
+      if (editorMode && !coolGFX) text("Gate", 20, 26);
     }
   }
 
