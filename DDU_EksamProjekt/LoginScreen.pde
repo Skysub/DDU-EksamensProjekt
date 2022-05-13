@@ -1,5 +1,5 @@
 class LoginScreen extends GameState {
-  boolean toggleLogin = true, triedUN, triedPW, triedPWS, passwordSecure;
+  boolean toggleLogin = true, triedUN, triedPW, triedPWS, passwordSecure, removeText = true;
   String Toggle = "Log in", toggle = "log in", enteredUsername, enteredPassword, hashedPassword, hpw, currentUsername, sql;
   int status, minLengthUN = 3, maxLengthUN = 16, minLengthPW = 6;
 
@@ -19,7 +19,13 @@ class LoginScreen extends GameState {
   }
 
 
-  void Update() {      
+  void Update() {    
+    if(removeText){
+      RemoveText();
+      removeText = false;
+    }
+    if(password.Input(minLengthPW, 0) == null && !password.isActive()) username.ChangeFocus(true);
+    
     username.Input(minLengthUN, maxLengthUN);
     password.Input(minLengthPW, 0);
 
@@ -48,6 +54,7 @@ class LoginScreen extends GameState {
 
     if (exitButton.isClicked()) {
       RemoveText();
+      removeText = true;
       mainLogic.gameStateManager.SkiftGameState("MenuScreen");
     }
 
@@ -70,6 +77,7 @@ class LoginScreen extends GameState {
 
       if (status == 4) {
         RemoveText();
+        removeText = true;
         status = 0;
         toggleLogin = true;
         mainLogic.username = currentUsername;
