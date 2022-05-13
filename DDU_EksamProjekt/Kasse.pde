@@ -7,7 +7,7 @@ class Kasse {
   boolean hooked = false;
 
   Kasse(Vec2 pos, Box2DProcessing box2d) {
-    this.box2d = box2d;
+    this.box2d = box2d; //<>//
 
     BodyDef bd = new BodyDef();
     ps = new PolygonShape();
@@ -31,7 +31,7 @@ class Kasse {
   }
 
   void Draw(float[] kamera, boolean hitboxDebug) {
-    Vec2 pos = box2d.getBodyPixelCoord(body); //Får positionen af kassen på skærmen i pixels
+    Vec2 pos = box2d.getBodyPixelCoord(body); //Får positionen af kassen på skærmen i pixels //<>//
     float a = body.getAngle();
     translate(kamera[0], kamera[1]+80);
     scale(kamera[2]);
@@ -57,8 +57,9 @@ class Kasse {
       strokeWeight(2);
       fill(220);
       square(-size/2, -size/2, size);
+      textSize(15);
       fill(0);
-      text("Kasse", 0, 0);
+      text("Box", 0, 0);
     }
     popMatrix();
 

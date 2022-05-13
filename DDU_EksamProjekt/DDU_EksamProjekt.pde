@@ -14,7 +14,7 @@ MainLogic mainLogic;
 
 void setup() {
   mainLogic = new MainLogic(this);
-  frameRate(30);
+  frameRate(60);
   size(1920, 1080);
 }
 

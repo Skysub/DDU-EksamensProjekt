@@ -1,4 +1,4 @@
-class LevelEditorScreen extends GameState {
+class LevelEditorScreen extends GameState { //<>//
 
   Bane bane;
   Keyboard kb;
@@ -6,12 +6,18 @@ class LevelEditorScreen extends GameState {
   Box2DProcessing box2d;
 
   BaneButton topPlus, topMinus, rightPlus, rightMinus, bottomPlus, bottomMinus, leftPlus, leftMinus;
+  Kasse kasse;
+  Sav lSav;
+  Sav sSav;
+  Knap knap;
+  Door door;
 
   boolean popup = true, hand;
   EditorPopUp popUp;
   float scrollSpeed = -0.1, arrowSpeed = 10;
-  int wheel = 0; 
+  int wheel = 0, spacing = 60;
   int storeLeft = 0, storeRight = 0;
+  float[] nulKamera = {0, 0, 1, 1920, 1080};
 
   LevelEditorScreen(PApplet program, Keyboard kb, FileHandler fileHandler) {
     super(program, kb);
@@ -24,6 +30,8 @@ class LevelEditorScreen extends GameState {
     bane = new Bane(box2d, fileHandler, true);
     this.kb = kb;
     popUp = new EditorPopUp(bane, program, this, fileHandler);
+
+    SetupBlokBar();
 
     topPlus = new BaneButton((bane.bred*40)/2+20, -30, 30, 30, "+", color(255), color(0), 20, color(0), new Vec2(-15, -15));
     topMinus = new BaneButton((bane.bred*40)/2-20, -30, 30, 30, "-", color(255), color(0), 20, color(0), new Vec2(-15, -15));
@@ -161,14 +169,55 @@ class LevelEditorScreen extends GameState {
     pushMatrix();
     translate(100, 15);
     scale(1.2);
-    for (int i = 0; i < 4; i++) {
-      bane.blok.DrawBlok(i, HitboxDebug, "0", kamera, true, true, coolGFX);
-      translate(60, 0);
+    for (int i = -1; i < 4; i++) {
+      String g = i+"";
+      bane.blok.DrawBlok(i, HitboxDebug, g, kamera, true, true, coolGFX);
+      translate(spacing, 0);
     }
-    //bane.blok.DrawBlok(1, HitboxDebug, "2", kamera, true, true, coolGFX);
+    pushMatrix();
+    translate(-spacing*3+19, 0); //<>//
+    text("Empty", 0, 25);
+    popMatrix();
+    pushMatrix();
+    scale(0.8);
+    kasse.Draw(nulKamera, HitboxDebug);
+    popMatrix();
+
+    translate(spacing+30, 20);
+
+    lSav.Draw(HitboxDebug);
+    fill(0);    
+    textSize(8);
+    text("Saw", -2, 3);
+
+    translate(spacing+10, 0);
+
+    pushMatrix();
+    scale(0.6);
+    sSav.Draw(HitboxDebug);
+    popMatrix();
+    fill(0);
+    textSize(10);
+    text("Saw", -1, 3);
+    translate(spacing-10, -20);
+
+    knap.Draw(HitboxDebug);
+    translate(spacing, -2);
+    door.Draw(HitboxDebug, coolGFX);
+    fill(0);
+    text("Gate", 20, 26);
+
     popMatrix();
   }
 
   void SetupBlokBar() {
+    Vec2 pos = new Vec2(100/10, 15/10);
+
+    kasse = new Kasse(pos.sub(new Vec2(106, -61)), box2d);
+
+    lSav = new Sav(pos, 4, 0.05);
+    sSav = new Sav(pos, 12, 0.025);
+    knap = new Knap(pos, -2);
+    door = new Door(pos, -2, box2d);
   }
 }

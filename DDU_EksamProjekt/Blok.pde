@@ -334,7 +334,7 @@ class Blok { //<>// //<>//
     //Text
     textSize(10);
     fill(10);
-    text("Mål", 20, 26);
+    text("Goal", 20, 26);
   }
 
   //Start tile
