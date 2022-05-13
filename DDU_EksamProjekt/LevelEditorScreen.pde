@@ -16,7 +16,7 @@ class LevelEditorScreen extends GameState { //<>//
   EditorPopUp popUp;
   float scrollSpeed = -0.1, arrowSpeed = 10;
   int wheel = 0, spacing = 60;
-  int storeLeft = 0, storeRight = 0;
+  int storeLeft = 0, storeRight = 1;
   float[] nulKamera = {0, 0, 1, 1920, 1080};
 
   LevelEditorScreen(PApplet program, Keyboard kb, FileHandler fileHandler) {
@@ -80,7 +80,7 @@ class LevelEditorScreen extends GameState { //<>//
     rectMode(CORNER);
     noStroke();
     fill(230);
-    rect(0, 0, width, 80);
+    rect(0, 0, width, 85);
   }
 
   void DrawCanvasButtons() {
@@ -166,6 +166,7 @@ class LevelEditorScreen extends GameState { //<>//
   }
 
   void TegnBlokBar(Boolean HitboxDebug, float[] kamera, boolean coolGFX) {
+
     pushMatrix();
     translate(100, 15);
     scale(1.2);
@@ -174,32 +175,33 @@ class LevelEditorScreen extends GameState { //<>//
       bane.blok.DrawBlok(i, HitboxDebug, g, kamera, true, true, coolGFX);
       translate(spacing, 0);
     }
-    pushMatrix();
-    translate(-spacing*3+19, 0); //<>//
+    pushMatrix(); //<>//
+    translate(-spacing*3+19, 0);
     text("Empty", 0, 25);
     popMatrix();
     pushMatrix();
     scale(0.8);
+    translate(0, -10);
     kasse.Draw(nulKamera, HitboxDebug);
     popMatrix();
 
-    translate(spacing+30, 20);
+    translate(spacing+20, 20);
 
     lSav.Draw(HitboxDebug);
     fill(0);    
     textSize(8);
     text("Saw", -2, 3);
 
-    translate(spacing+10, 0);
+    translate(spacing, 0);
 
     pushMatrix();
-    scale(0.6);
+    scale(0.5);
     sSav.Draw(HitboxDebug);
     popMatrix();
     fill(0);
     textSize(10);
     text("Saw", -1, 3);
-    translate(spacing-10, -20);
+    translate(spacing-20, -20);
 
     knap.Draw(HitboxDebug);
     translate(spacing, -2);
@@ -208,6 +210,8 @@ class LevelEditorScreen extends GameState { //<>//
     text("Gate", 20, 26);
 
     popMatrix();
+
+    DrawValg();
   }
 
   void SetupBlokBar() {
@@ -219,5 +223,20 @@ class LevelEditorScreen extends GameState { //<>//
     sSav = new Sav(pos, 12, 0.025);
     knap = new Knap(pos, -2);
     door = new Door(pos, -2, box2d);
+  }
+
+  void DrawValg() {
+    pushMatrix();
+    scale(1.2);
+    pushMatrix();
+    translate(storeLeft*spacing+93, 57);
+    fill(255, 0, 0);
+    square(0, 0, 8);
+    popMatrix();
+
+    translate(storeRight*spacing+105, 57);
+    fill(0, 0, 255);
+    square(0, 0, 8);
+    popMatrix();
   }
 }
