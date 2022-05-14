@@ -9,7 +9,7 @@ class Hook { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   float distanceSit = 3, theta = 0, thetaR = 0, thetaT = 0, kasseSearchLength = 5;
 
   //størrelsen af hooken visuelt, hvor hurtigt man drejer med hooken, hookens hastighed i luften, kraften hooken trækker spilleren med, hvor tæt på spilleren skal være for at hooken bliver reset
-  float size = 10, aimSpeed = 0.04, hookSpeed = 35, hookStrength = 15, hookKasseStrength = 1.5, doneLength = 6;
+  float size = 10, aimSpeed = 0.06, hookSpeed = 35, hookStrength = 15, hookKasseStrength = 1.5, doneLength = 6;
 
   boolean afsted = false, hit = false, kasse = false; //Afsted er når hooken er skudt afsted, hit er når hooken sidder i en væg
 
@@ -209,7 +209,7 @@ class Hook { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
   void HandleControls(boolean left, boolean right, boolean shift) { //Controls, drejer på graplling hooken
     float mod = 1;
-    if (shift) mod = 0.5;
+    if (shift) mod = 0.3;
     if (left) thetaR+= aimSpeed * mod;
     if (right) thetaR-= aimSpeed * mod;
     //Clamping

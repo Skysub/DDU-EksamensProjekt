@@ -32,7 +32,7 @@ class MainLogic {
     //Der skal ikke skrives mere her, brug KeyBoard klassen til controls
 
     //Uncomment nedenunder for at bestemme en keycode, husk at comment igen bagefter
-    println(x);
+    //println(x);
   }
 
   void InitializeScreens(PApplet program) {

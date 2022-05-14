@@ -64,7 +64,7 @@ class Door {
 
     //Metal middle
     fill(240);
-    rect(7, 2, 27, 40);
+    //rect(7, 2, 27, 40);
   }
 
   void MakeBody() {    
