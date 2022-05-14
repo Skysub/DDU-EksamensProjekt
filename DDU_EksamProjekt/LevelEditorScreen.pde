@@ -1,4 +1,4 @@
-class LevelEditorScreen extends GameState { //<>//
+class LevelEditorScreen extends GameState { //<>// //<>//
 
   Bane bane;
   Keyboard kb;
@@ -175,7 +175,7 @@ class LevelEditorScreen extends GameState { //<>//
 
   void DrawBlokBar(Boolean HitboxDebug, float[] kamera, boolean coolGFX) {
     DrawTopBarKnapper();
- //<>//
+
     pushMatrix();
     translate(100, 15);
     scale(1.2);
@@ -194,9 +194,10 @@ class LevelEditorScreen extends GameState { //<>//
     kasse.Draw(nulKamera, HitboxDebug);
     popMatrix();
 
-    translate(spacing+20, 20);
+    translate(spacing, 0);
 
     lSav.Draw(HitboxDebug, coolGFX);
+    translate(20, 20);
     fill(0);    
     textSize(8);
     text("Saw", -2, 3);
@@ -205,6 +206,7 @@ class LevelEditorScreen extends GameState { //<>//
 
     pushMatrix();
     scale(0.5);
+    translate(-20, -20);
     sSav.Draw(HitboxDebug, coolGFX);
     popMatrix();
     fill(0);
