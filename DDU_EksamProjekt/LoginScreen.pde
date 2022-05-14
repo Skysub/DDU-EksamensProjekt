@@ -23,8 +23,14 @@ class LoginScreen extends GameState {
       RemoveText();
       removeText = false;
     }
-
-    if (password.Input(minLengthPW, 0) == null && !password.isActive()) username.ChangeFocus(true);
+    
+    if (kb.Shift(9) && password.isActive()) {
+      username.ChangeFocus(true);
+      password.ChangeFocus(false);
+    } else if (kb.Shift(9)) {
+      username.ChangeFocus(false);
+      password.ChangeFocus(true);
+    }
 
     username.Input(minLengthUN, maxLengthUN);
     password.Input(minLengthPW, 0);
@@ -89,13 +95,6 @@ class LoginScreen extends GameState {
         mainLogic.username = currentUsername;
         mainLogic.gameStateManager.SkiftGameState("MenuScreen");
       }
-    }
-
-    if (username.isActive() && kb.Shift(ENTER)) {
-      username.ChangeFocus(false);
-      password.ChangeFocus(true);
-      triedPW = false;
-      triedPWS = false;
     }
 
     if (!username.tooShort && !username.tooLong) triedUN = false;
