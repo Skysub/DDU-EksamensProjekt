@@ -124,7 +124,7 @@ class BaneScoreboard {
 
     for (int i = 0; i < timeInfoSorted.length; i++) {
       if(sbInfoSorted[1][i] == null) print("h");
-      print("i");
+      //print("i");
       //print("|"+ sbInfoSorted[1][i]+"="+un);
       if (sbInfoSorted[1][i] == un && timeInfoSorted[i] > recordValue) {
         print("yay");
