@@ -52,6 +52,21 @@ class BaneScreen extends GameState {   //<>//
     timer.Update(playing, baneStart, endZone);
     levelNr = bane.bane[0][0].get(2) + 1;
 
+    if (popup) {
+      popUp.Update(done, mainLogic.username, levelNr, timer.getText());    
+      //levelNr = bane.bane[0][0].get(2) + 1;
+      if (bane.bane[0][0].get(2) + 1 != levelNr) {
+        reset();
+      }
+    } else {
+      if (playing) {
+        bane.Update();
+        if (player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76))) PlayerDied();
+        box2d.step();
+      }
+      handleStart();
+    }
+
     if (getRecord) {
       if (done) {
         times = timer.getText();
@@ -61,18 +76,6 @@ class BaneScreen extends GameState {   //<>//
       record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
       if (record == null) record = "";
       getRecord = false;
-    }
-
-    levelNr = bane.bane[0][0].get(2) + 1;
-
-    if (popup) popUp.Update(done, mainLogic.username, levelNr, timer.getText());
-    else {
-      if (playing) {
-        bane.Update();
-        if (player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76))) PlayerDied();
-        box2d.step();
-      }
-      handleStart();
     }
     fill(0);
     textSize(30);
@@ -157,5 +160,7 @@ class BaneScreen extends GameState {   //<>//
 
   void OnEnter() {
     kb.setToggle(67, true);
+    reset();
+    bane.ReloadBane();
   }
 }

@@ -37,7 +37,7 @@ class BanePopUp {
       baneScreen.ToggleTab(false);
     }
     if (nextLevelButton.isClicked()) {
-      baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom()); //<>//
+      baneScreen.lSelScreen.LoadBaneNr(levelNr, baneScreen.lSelScreen.getCustom()); //<>//
       nextLevelButton.clicked = false;
     }
     
