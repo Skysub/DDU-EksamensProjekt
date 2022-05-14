@@ -1,7 +1,7 @@
 class BaneScoreboard {
-  String sql, baneName, textTime, textUN, outside10Time, outside10UN, possibleRecord;
+  String sql, baneName, textTime, textUN, outside10Time, outside10UN;
   boolean first = true;
-  int tableSize, currentPosition, opacity, recordValue;
+  int tableSize, currentPosition, opacity;
   String[][] sbInfoSorted;
   int[] timeInfo, timeInfoSorted;
 
@@ -96,7 +96,6 @@ class BaneScoreboard {
       tableSize = mainLogic.db.getInt("count(*)");
     }
 
-
     sbInfoSorted = new String[2][tableSize+1];
     timeInfo = new int[tableSize+1];
     for (int i = 1; i < tableSize+1; i++) {
@@ -117,17 +116,14 @@ class BaneScoreboard {
     }
   }
 
-  String getRecord(String[] times, String un, int lNr, boolean customLevel) {
-
+  String getRecord(String possibleRecord, int recordValue, String un, int lNr, boolean customLevel) {
     if (!customLevel) baneName = "bane" + lNr;
     else baneName = "cbane" + lNr;
     
-    possibleRecord = times[0];
-    recordValue = int(times[2]);
-    
     SortTimes();
-
+    
     for (int i = 0; i < timeInfoSorted.length; i++) {
+      //print("|"+ sbInfoSorted[1][i]+"="+un);
       if (sbInfoSorted[1][i] == un && timeInfoSorted[i] > recordValue) {
         print("yay");
         return possibleRecord;
@@ -136,6 +132,6 @@ class BaneScoreboard {
         return sbInfoSorted[0][i];
       }
     }
-    return possibleRecord;
+    return "no record with this user";
   }
 }

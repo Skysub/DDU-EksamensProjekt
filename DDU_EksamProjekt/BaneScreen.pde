@@ -11,8 +11,10 @@ class BaneScreen extends GameState {
   Box2DProcessing box2d;
 
   boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
-  int shadow = 3, levelNr;
+  int shadow = 3, levelNr, recordValue;
   IntList[][] b;
+  String possibleRecord, record;
+  String[] times;
 
   boolean popup = false;
   BanePopUp popUp;
@@ -58,6 +60,18 @@ class BaneScreen extends GameState {
       }
       handleStart();
     }
+
+    if (done) {
+      times = timer.getText();
+      possibleRecord = times[0];
+      recordValue = int(times[2]);
+    }
+    record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
+    if(record == null) record = "";
+
+    fill(0);
+    textSize(30);
+    text("Real record: " + record, 200, 200);
   }
 
   void Draw() {
