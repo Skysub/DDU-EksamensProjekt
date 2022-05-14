@@ -2,6 +2,7 @@ class MenuScreen extends GameState {
   Button loginScreenButton = new Button(width/2-150, 300, 300, 100, "Log in", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button LevelSelectionScreenButton = new Button(width/2-150, 500, 300, 100, "Levels", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button EditorScreenButton = new Button(width/2-150, 650, 300, 100, "Level Editor", color(#253FFF), color(80, 100, 80), 20, color(230));
+  Button ControlsScreenButton = new Button(width/2-150, 800, 300, 100, "Controls", color(#253FFF), color(80, 100, 80), 20, color(230));
   boolean loggedIn = false, hand = false;
 
   MenuScreen(PApplet program, Keyboard kb) {
@@ -13,12 +14,14 @@ class MenuScreen extends GameState {
     if (loginScreenButton.Update()) hand = true;
     if (LevelSelectionScreenButton.Update()) hand = true;
     if (EditorScreenButton.Update()) hand = true;
+    if (ControlsScreenButton.Update()) hand = true;
     if (hand)cursor(HAND);
     else cursor(ARROW);
 
     if (loginScreenButton.isClicked()) ChangeScreen("LogInScreen");
     if (LevelSelectionScreenButton.isClicked()) ChangeScreen("LevelSelectionScreen");
     if (EditorScreenButton.isClicked()) ChangeScreen("LevelEditorScreen");
+    if (ControlsScreenButton.isClicked()) ChangeScreen("ControlsScreen");
     if (mainLogic.username != null) loggedIn = true;
   }
 
@@ -26,6 +29,7 @@ class MenuScreen extends GameState {
     loginScreenButton.Draw();
     LevelSelectionScreenButton.Draw();
     EditorScreenButton.Draw();
+    ControlsScreenButton.Draw();
 
     textAlign(CENTER, CENTER);
     textSize(50);

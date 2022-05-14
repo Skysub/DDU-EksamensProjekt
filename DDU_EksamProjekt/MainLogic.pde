@@ -47,5 +47,6 @@ class MainLogic {
     gameStateManager.AddGameState("LogInScreen", new LoginScreen(program, kb));
     gameStateManager.AddGameState("LevelSelectionScreen", lss);
     gameStateManager.AddGameState("LevelEditorScreen", les);
+    gameStateManager.AddGameState("ControlsScreen", new ControlsScreen(program, kb));
   }
 }
