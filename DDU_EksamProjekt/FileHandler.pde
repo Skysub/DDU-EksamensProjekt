@@ -112,9 +112,9 @@ class FileHandler { //<>// //<>// //<>//
       if (!tempFile.exists()) {
         tempFile.createNewFile();
         delay(100);
-        //db = new SQLite(program, sketchPath()+"\\data\\hookdb.SQLite"); 
-        mainLogic.db.connect(); //Opretter de forskellige tables i sqlite filen
-        mainLogic.db.execute("CREATE TABLE [PW] (username text NOT NULL PRIMARY KEY UNIQUE,password text)");
+        SQLite db = new SQLite(program, sketchPath()+"\\data\\hookdb.SQLite"); 
+        db.connect(); //Opretter de forskellige tables i sqlite filen
+        db.execute("CREATE TABLE [PW] (username text NOT NULL PRIMARY KEY UNIQUE,password text)");
       }
     }
     catch(Exception e) {
