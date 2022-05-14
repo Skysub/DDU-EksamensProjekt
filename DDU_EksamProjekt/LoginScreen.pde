@@ -23,7 +23,7 @@ class LoginScreen extends GameState {
       RemoveText();
       removeText = false;
     }
-   
+
     if (password.Input(minLengthPW, 0) == null && !password.isActive()) username.ChangeFocus(true);
 
     username.Input(minLengthUN, maxLengthUN);
@@ -100,7 +100,7 @@ class LoginScreen extends GameState {
 
     if (!username.tooShort && !username.tooLong) triedUN = false;
     if (!password.tooShort) triedPW = false;
-    if(password.Input(minLengthPW, 0) != null && IsSecure(password.Input(minLengthPW, 0)) && HasNumber(password.Input(minLengthPW, 0))) triedPWS = false;
+    if (password.Input(minLengthPW, 0) != null && IsSecure(password.Input(minLengthPW, 0)) && HasNumber(password.Input(minLengthPW, 0))) triedPWS = false;
   }
 
   void Draw() {
@@ -138,8 +138,7 @@ class LoginScreen extends GameState {
     if (!passwordSecure && triedPWS && !toggleLogin) text("Password must have an uppercase letter, a lowercase letter and a number", width/2, 720);
 
     if (status == 1 && !toggleLogin) text("Username is taken", width/2, 750);
-    if (status == 2 && toggleLogin) text("No user with this name exists", width/2, 750);
-    if (status == 3 && toggleLogin) text("Wrong password", width/2, 750);
+    if (status == 2 && toggleLogin || status == 3 && toggleLogin) text("Wrong username or password", width/2, 750);
   }
 
   String Hash(String pw) {
@@ -166,8 +165,12 @@ class LoginScreen extends GameState {
       if (!mainLogic.db.next()) {
         sql = "INSERT INTO PW VALUES('"+un+"','"+pw+"');";
         mainLogic.db.execute(sql);
-        currentUsername = un;
-        return 4;//Bruger opretet og logget ind
+        delay(100);
+        mainLogic.db.query( "SELECT username FROM PW WHERE username='"+un+"' AND password='"+pw+"';" );
+        if (mainLogic.db.next()) {
+          currentUsername = un;
+          return 4;//Bruger opretet og logget ind
+        }
       } else return 1; //Brugernavnet findes allerede
     } else {
       if (mainLogic.db.next()) {
@@ -190,19 +193,18 @@ class LoginScreen extends GameState {
     }
     return false;
   }
-  
-  boolean IsSecure(String pw){
+
+  boolean IsSecure(String pw) {
     char[] ch = pw.toCharArray();
     String pwNoNumbers = "";
-    for (char c : ch){
-      if(!Character.isDigit(c)){
+    for (char c : ch) {
+      if (!Character.isDigit(c)) {
         pwNoNumbers = pwNoNumbers + c;
       }
     }
-    if(!pwNoNumbers.equals(pwNoNumbers.toLowerCase()) && !pwNoNumbers.equals(pwNoNumbers.toUpperCase())){
+    if (!pwNoNumbers.equals(pwNoNumbers.toLowerCase()) && !pwNoNumbers.equals(pwNoNumbers.toUpperCase())) {
       return true;
-    }
-    else return false;
+    } else return false;
   }
 
   void RemoveText() {
