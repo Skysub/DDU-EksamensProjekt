@@ -61,7 +61,7 @@ class BaneScreen extends GameState {   //<>//
     } else {
       if (playing) {
         bane.Update();
-        if (player.Update(kb.getKey(37) || kb.getKey(65), kb.getKey(39) || kb.getKey(68), kb.Shift(32), kb.getToggle(72), kb.getToggle(76))) PlayerDied();
+        if (player.Update(kb.getKey(37) || kb.getKey(65), kb.getKey(39) || kb.getKey(68), kb.Shift(32), kb.getToggle(72), kb.getToggle(76), kb.getKey(16))) PlayerDied();
         box2d.step();
       }
       handleStart();
@@ -117,7 +117,7 @@ class BaneScreen extends GameState {   //<>//
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
-    player.Update(kb.getKey(37) || kb.getKey(65), kb.getKey(39) || kb.getKey(68), kb.Shift(32), kb.getToggle(72), kb.getToggle(76));
+    player.Update(kb.getKey(37) || kb.getKey(65), kb.getKey(39) || kb.getKey(68), kb.Shift(32), kb.getToggle(72), kb.getToggle(76), kb.getKey(16));
   }
 
   void LoadBane(IntList[][] a) {

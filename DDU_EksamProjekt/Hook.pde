@@ -31,7 +31,7 @@ class Hook { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
     rcCallbackKasse = new RcCallbackKasse(this);
   }
 
-  Vec2 Update(boolean left, boolean right, Vec2 playerPos, float rotation, boolean space, boolean hitboxDebug, float[] kamera) {
+  Vec2 Update(boolean left, boolean right, Vec2 playerPos, float rotation, boolean space, boolean hitboxDebug, float[] kamera, boolean shift) {
     float thetaTrue = theta + rotation; //Tager hensyn til hookens og spillerens rotation
 
     //Sted er hvor hooken er, pSted er hvor hooken sidder fast på playeren (1 over spillerens centrum i worldspace)
@@ -55,7 +55,7 @@ class Hook { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       }
     }
 
-    HandleControls(left, right);
+    HandleControls(left, right, shift);
 
     //Hooken ændrer stadig retning selvom den regentlige retning er "låst" når den er afsted.
     //Så hooken ikke drejer når den er skudt
@@ -207,9 +207,11 @@ class Hook { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
     return false;
   }
 
-  void HandleControls(boolean left, boolean right) { //Controls, drejer på graplling hooken
-    if (left) thetaR+= aimSpeed;
-    if (right) thetaR-= aimSpeed;
+  void HandleControls(boolean left, boolean right, boolean shift) { //Controls, drejer på graplling hooken
+    float mod = 1;
+    if (shift) mod = 0.5;
+    if (left) thetaR+= aimSpeed * mod;
+    if (right) thetaR-= aimSpeed * mod;
     //Clamping
     if (thetaR < -PI*0.15) thetaR = -PI*0.15;
     if (thetaR > 1.15*PI) thetaR = 1.15*PI;
