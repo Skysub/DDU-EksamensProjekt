@@ -1,6 +1,6 @@
 class BaneScoreboard { //<>//
   String sql, baneName, textTime, textUN, outside10Time, outside10UN;
-  boolean first = true;
+  boolean first = true, newRecord;
   int tableSize, currentPosition, opacity;
   String[][] sbInfoSorted;
   int[] timeInfo, timeInfoSorted;
@@ -112,7 +112,6 @@ class BaneScoreboard { //<>//
 
     for (int i = 0; i < timeInfoSorted.length; i++) {
       mainLogic.db.query("SELECT username, ftime FROM "+baneName+" WHERE nrTime = "+timeInfoSorted[i]+";");
-      //print(timeInfoSorted[i], "||");
       if (mainLogic.db.next()) {
         sbInfoSorted[0][i] = mainLogic.db.getString("ftime");
         sbInfoSorted[1][i] = mainLogic.db.getString("username");
@@ -123,19 +122,17 @@ class BaneScoreboard { //<>//
   String getRecord(String possibleRecord, int recordValue, String un, int lNr, boolean customLevel) {
     CreateTable(lNr, customLevel);
     SortTimes();
-
-    for (int i = 0; i < timeInfoSorted.length; i++) {
-      if (sbInfoSorted[1][i] == null) print("h");
-      //print("i");
-      //print("|"+ sbInfoSorted[1][i]+"="+un);
-      if (sbInfoSorted[1][i] == un && timeInfoSorted[i] > recordValue) {
-        print("yay");
+    for (int i = 1; i < timeInfoSorted.length; i++) { 
+      
+      if (un.equals(sbInfoSorted[1][i]) && timeInfoSorted[i] > recordValue && timeInfoSorted[i] != 0) {
+        newRecord = true;
         return possibleRecord;
-      } else if (sbInfoSorted[1][i] == un) {
-        print("nay");
+      } else if (un.equals(sbInfoSorted[1][i]) && timeInfoSorted[i] != 0) {
+        newRecord = false;
         return sbInfoSorted[0][i];
       }
     }
-    return "no record with this user";
+    newRecord = false;
+    return "No record";
   }
 }
