@@ -14,8 +14,8 @@ class TextField {
     PFont p = createFont("Verdana", 20);
     ControlFont font = new ControlFont(p);
     cp5.setFont(font);
-    if (kunInt) textfield = cp5.addTextfield("StringTextField").setPosition(pos.x, pos.y).setSize(int(size.x), int(size.y)).setAutoClear(false).setText(s).setCaptionLabel("").keepFocus(false).setInputFilter(ControlP5.INTEGER).setColor(0).setColorBackground(color(200)).setColorForeground(0).setColorActive(color(80, 235, 80));
-    else textfield = cp5.addTextfield("StringTextField").setPosition(pos.x, pos.y).setSize(int(size.x), int(size.y)).setAutoClear(false).setText(s).setCaptionLabel("").keepFocus(false).setColor(0).setColorBackground(color(200)).setColorForeground(0).setColorActive(color(80, 235, 80));
+    if (kunInt) textfield = cp5.addTextfield("StringTextField").setPosition(pos.x, pos.y).setSize(int(size.x), int(size.y)).setAutoClear(false).setText(s).setCaptionLabel("").keepFocus(false).setInputFilter(ControlP5.INTEGER).setColor(0).setColorBackground(color(200)).setColorForeground(0).setColorActive(color(#253FFF));
+    else textfield = cp5.addTextfield("StringTextField").setPosition(pos.x, pos.y).setSize(int(size.x), int(size.y)).setAutoClear(false).setText(s).setCaptionLabel("").keepFocus(false).setColor(0).setColorBackground(color(180)).setColorForeground(0).setColorActive(color(#253FFF));
   }
 
   void Update() {
@@ -24,6 +24,7 @@ class TextField {
   }
 
   void Draw() {
+    strokeWeight(10);
     cp5.draw();
   }  
 

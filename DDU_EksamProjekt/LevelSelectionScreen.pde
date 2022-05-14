@@ -1,5 +1,5 @@
 class LevelSelectionScreen extends GameState {
-  Button exitButton = new Button(width/2-60, 400, 120, 60, "Main menu", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
+  Button exitButton = new Button(width-285, 35, 250, 80, "Main menu", color(200), color(80, 100, 80), 35, color(0, 0, 0), color(255, 105, 105));
   Button loadCostumLvl = new Button(150, height-190, 200, 50, "Load level", color(#253FFF), color(80, 100, 80), 20, color(230));
   boolean hand, lastCustom = true;
   BaneScreen baneScreen;
@@ -25,9 +25,9 @@ class LevelSelectionScreen extends GameState {
 
   void Draw() {
     fill(20);
-    textSize(40);
+    textSize(120);
     textAlign(CENTER);
-    text("Level selection", 400, 200);
+    text("Level selection", width/2, 160);
     exitButton.Draw();
     loadCostumLvl.Draw();
     for (Button x : levelButtons) {
@@ -35,7 +35,7 @@ class LevelSelectionScreen extends GameState {
     }
     textAlign(LEFT);
     textSize(25);
-    fill(255);
+    fill(0);
     text("Enter costum level id", 130, height-300);
 
     if (millis() < timer+3000) {
@@ -76,7 +76,7 @@ class LevelSelectionScreen extends GameState {
 
   void MakeLevelButtons() {
     for (int i = 1; i < totalLevels+1; i++) {
-      levelButtons.add(new Button(width-300, (i*((height-200)/(totalLevels+1))), 220, 65, "Level "+i, color(#253FFF), color(80, 100, 80), 20, color(230)));
+      levelButtons.add(new Button(width-300, (i*((height-200)/(totalLevels+1))), 220, 65, "Level "+i, color(#253FFF), color(80, 100, 80), 35, color(230)));
     }
   }
 

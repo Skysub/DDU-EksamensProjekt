@@ -10,10 +10,10 @@ class LoginScreen extends GameState {
   LoginScreen(PApplet program, Keyboard kb) {
     super(program, kb);
     this.kb = kb;
-    logInButton = new Button(width/2-150, 290, 100, 50, "Log in", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
-    signUpButton = new Button(width/2+50, 290, 100, 50, "Sign up", color(80, 235, 80), color(80, 100, 80), 20, color(0, 0, 0));
-    exitButton = new Button(width/2+310, 150, 80, 80, "Back", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
-    enterButton = new Button(width/2-100, 767, 200, 30, "", color(180), color(80, 100, 80), 20, color(0, 0, 0));
+    logInButton = new Button(width/2-150, 270, 100, 50, "Log in", color(#253FFF), color(50, 50, 50), 20, color(255));
+    signUpButton = new Button(width/2+50, 270, 100, 50, "Sign up", color(#253FFF), color(50, 50, 50), 20, color(255));
+    exitButton = new Button(width/2+310, 150, 80, 80, "Back", color(180), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
+    enterButton = new Button(width/2-100, 767, 200, 30, "", color(200), color(80, 100, 80), 20, color(0, 0, 0));
     username = new TextField(program, "", new PVector(width/2-250, 440), new PVector(500, 50), false);
     password = new TextField(program, "", new PVector(width/2-250, 620), new PVector(500, 50), false);
   }
@@ -104,11 +104,10 @@ class LoginScreen extends GameState {
 
   void Draw() {
     rectMode(CENTER);
-
+    strokeWeight(3);
+    stroke(0);
     fill(200);
-    rect(width/2, height/2, 820, 820);
-    fill(180);
-    rect(width/2, height/2, 800, 800);
+    rect(width/2, height/2, 820, 820, 10);
 
     logInButton.Draw();
     signUpButton.Draw();
@@ -118,7 +117,7 @@ class LoginScreen extends GameState {
     fill(0);
     textSize(50);
     textAlign(CENTER, CENTER);
-    text(Toggle, width/2, 200);
+    text(Toggle, width/2, 180);
 
     textSize(35);
     text("Username", width/2, 410);
@@ -126,7 +125,7 @@ class LoginScreen extends GameState {
 
     fill(50);
     textSize(20);
-    text("Change between log in and sign up:", width/2, 270);
+    text("Change between log in and sign up:", width/2, 245);
     text("ENTER to " + toggle, width/2, 780);
 
     textSize(20);
