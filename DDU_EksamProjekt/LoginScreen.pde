@@ -138,8 +138,7 @@ class LoginScreen extends GameState {
     if (!passwordSecure && triedPWS && !toggleLogin) text("Password must have an uppercase letter, a lowercase letter and a number", width/2, 720);
 
     if (status == 1 && !toggleLogin) text("Username is taken", width/2, 750);
-    if (status == 2 && toggleLogin) text("No user with this name exists", width/2, 750);
-    if (status == 3 && toggleLogin) text("Wrong password", width/2, 750);
+    if (status == 2 && toggleLogin || status == 3 && toggleLogin) text("Wrong username or password", width/2, 750);
   }
 
   String Hash(String pw) {
@@ -166,8 +165,12 @@ class LoginScreen extends GameState {
       if (!mainLogic.db.next()) {
         sql = "INSERT INTO PW VALUES('"+un+"','"+pw+"');";
         mainLogic.db.execute(sql);
-        currentUsername = un;
-        return 4;//Bruger opretet og logget ind
+        delay(100);
+        mainLogic.db.query( "SELECT username FROM PW WHERE username='"+un+"' AND password='"+pw+"';" );
+        if (mainLogic.db.next()) {
+          currentUsername = un;
+          return 4;//Bruger opretet og logget ind
+        }
       } else return 1; //Brugernavnet findes allerede
     } else {
       if (mainLogic.db.next()) {
