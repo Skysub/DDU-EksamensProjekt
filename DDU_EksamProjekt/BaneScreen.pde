@@ -48,13 +48,12 @@ class BaneScreen extends GameState {
     }
     timer.Update(playing, baneStart, endZone, kb.Shift(9));
     if (popup && !done) timer.HandlePauseTime(kb.Shift(9));
-    if (b == null) levelNr = 900; //Midlertidig, til når vi prøver debug-banen
-    else levelNr = b[0][0].get(2) + 1;
+    levelNr = b[0][0].get(2) + 1;
     if (popup) popUp.Update(done, mainLogic.username, levelNr, timer.getText());
     else {
       if (playing) {
         bane.Update();
-        if (player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76)))PlayerDied();
+        if (player.Update(kb.getKey(37), kb.getKey(39), kb.Shift(32), kb.getToggle(72), kb.getToggle(76))) PlayerDied();
         box2d.step();
       }
       handleStart();

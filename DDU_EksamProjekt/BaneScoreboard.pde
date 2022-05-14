@@ -77,7 +77,7 @@ class BaneScoreboard {
     for (int i = 1; i < 11; i++) {
       if (i < tableSize+1) {
         textTime = sbInfoSorted[0][i];
-        textUN = sbInfoSorted[1][i];
+        textUN = sbInfoSorted[1][i]; //<>//
       }
       fill(230);
       if (i%2 == 0) rect(width/(2*size)-200, i*30+40, 400, 30);
