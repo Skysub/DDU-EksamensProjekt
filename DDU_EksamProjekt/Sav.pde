@@ -3,7 +3,7 @@ class Sav {
   Vec2 pos;
 
   Sav(Vec2 pos, float size, float sawSpeed) {
-    this.pos = pos;
+    this.pos = pos.add(new Vec2(2, -2));
     this.size = size;
     this.sawSpeed = sawSpeed;
   }
@@ -17,6 +17,8 @@ class Sav {
   }
 
   void DrawSaw(boolean HitboxDebug) {
+    pushMatrix();
+    translate(20, 20);
     //rotate((frameCount)/10f);
     noStroke();
     if (!HitboxDebug) {
@@ -31,6 +33,7 @@ class Sav {
       fill(100, 100, 255);
       circle(0, 0, size*10);
     }
+    popMatrix();
   }
 
   boolean SavCollision(Vec2 player) {

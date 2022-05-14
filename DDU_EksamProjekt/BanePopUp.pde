@@ -38,12 +38,10 @@ class BanePopUp {
     }
     if (nextLevelButton.isClicked()) {
       baneScreen.lSelScreen.LoadBaneNr(baneScreen.bane.bane[0][0].get(2)+1, baneScreen.lSelScreen.getCustom()); //<>//
-      //levelNr++;
       nextLevelButton.clicked = false;
     }
     
     if (un != null && done) {
-      //println(levelNr);
       sb.Update(levelNr, un, time[0], int(time[2]), baneScreen.lSelScreen.getCustom());
     }   
     return 0;

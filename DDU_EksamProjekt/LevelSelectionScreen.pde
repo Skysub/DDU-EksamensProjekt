@@ -4,7 +4,7 @@ class LevelSelectionScreen extends GameState {
   boolean hand, lastCustom = true;
   BaneScreen baneScreen;
   FileHandler fileHandler;
-  int timer = -3000, totalLevels = 2;
+  int timer = -3000, totalLevels = 3;
 
   ArrayList<Button> levelButtons = new ArrayList<Button>();
   TextField username;
