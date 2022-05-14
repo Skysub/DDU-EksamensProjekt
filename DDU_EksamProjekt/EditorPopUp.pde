@@ -13,7 +13,7 @@ class EditorPopUp { //<>// //<>// //<>//
   TextField number;
   Button loadCostumLvl = new Button(width/2-300, height/2+170, 200, 50, "Load level", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button saveCostumLvl = new Button(width/2+100, height/2+170, 200, 50, "Save level", color(#253FFF), color(80, 100, 80), 20, color(230));
-  Button newLvl = new Button(width/2-300, height/2-180, 200, 50, "New level", color(#253FFF), color(80, 100, 80), 20, color(230));
+  Button newLvl = new Button(width/2-100, height/2-180, 200, 80, "New level", color(#253FFF), color(80, 100, 80), 35, color(230));
 
   EditorPopUp(Bane bane, PApplet program, LevelEditorScreen levelEditorScreen, FileHandler fileHandler) {
     this.fileHandler = fileHandler;

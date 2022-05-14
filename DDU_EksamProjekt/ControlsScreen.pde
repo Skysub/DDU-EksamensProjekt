@@ -1,5 +1,5 @@
 class ControlsScreen extends GameState {
-  Button exitButton = new Button(width/2-80, 150, 120, 60, "Main menu", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
+  Button exitButton = new Button(width-285, 35, 250, 80, "Main menu", color(180), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
   boolean hand;
 
   ControlsScreen(PApplet program, Keyboard kb) {
@@ -16,7 +16,11 @@ class ControlsScreen extends GameState {
   }
 
   void Draw() {
-    background(235);
+    background(180);
+
+    fill(200);
+    rect(width/2+120, 0, width/2-120, height);
+
     exitButton.Draw();
     fill(0);
     textSize(50);
@@ -24,6 +28,8 @@ class ControlsScreen extends GameState {
     text("Controls for playing:", 1130, 200);
     text("Controls for level editor:", 70, 200);
 
+
+    fill(0);
     textSize(30);
     text("Use left/right arrow or A/D to aim the grapplehook", 1130, 300);
     text("Hold 'shift' to aim slower", 1130, 360);
