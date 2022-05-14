@@ -1,4 +1,4 @@
-class BaneScoreboard {
+class BaneScoreboard { //<>//
   String sql, baneName, textTime, textUN, outside10Time, outside10UN;
   boolean first = true;
   int tableSize, currentPosition, opacity;
@@ -13,15 +13,10 @@ class BaneScoreboard {
       currentPosition = 0;
       opacity = 255;
 
-      if (!customLevel) baneName = "bane" + lNr;
-      else baneName = "cbane" + lNr;
-
       //Laver en tabel med banen hvis der ikke eksisterer en
       //sql = "DROP TABLE bane1";
       //mainLogic.db.execute(sql);
-      sql = "CREATE TABLE IF NOT EXISTS ["+baneName+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time, nrTime integer)";
-      mainLogic.db.execute(sql);
-      delay(100);
+      CreateTable(lNr, customLevel);
       //Indsætter tiden i tabellen
       sql = "INSERT INTO "+baneName+" VALUES(null,'"+un+"','"+time+"', '"+timeNr+"');";
       mainLogic.db.execute(sql);
@@ -53,7 +48,7 @@ class BaneScoreboard {
     for (int i = 1; i < 11; i++) {
       if (i < tableSize+1) {
         textTime = sbInfoSorted[0][i];
-        textUN = sbInfoSorted[1][i]; //<>//
+        textUN = sbInfoSorted[1][i];
       }
       fill(230);
       if (i%2 == 0) rect(width/(2*size)-200, i*30+40, 400, 30);
@@ -89,6 +84,15 @@ class BaneScoreboard {
     line(width/(size*2)+55, 70, width/(size*2)+55, 370);
   }
 
+  void CreateTable(int lNr, boolean customLevel) {
+    if (!customLevel) baneName = "bane" + lNr;
+    else baneName = "cbane" + lNr;
+
+    sql = "CREATE TABLE IF NOT EXISTS ["+baneName+"] (ID integer PRIMARY KEY AUTOINCREMENT, username text, ftime time, nrTime integer)";
+    mainLogic.db.execute(sql);
+    delay(100);
+  }
+
   void SortTimes() {
     //Finder antallet af gemte tider
     mainLogic.db.query("SELECT count(*) FROM "+baneName+";");
@@ -117,13 +121,11 @@ class BaneScoreboard {
   }
 
   String getRecord(String possibleRecord, int recordValue, String un, int lNr, boolean customLevel) {
-    if (!customLevel) baneName = "bane" + lNr;
-    else baneName = "cbane" + lNr;
-    
+    CreateTable(lNr, customLevel);
     SortTimes();
 
     for (int i = 0; i < timeInfoSorted.length; i++) {
-      if(sbInfoSorted[1][i] == null) print("h");
+      if (sbInfoSorted[1][i] == null) print("h");
       //print("i");
       //print("|"+ sbInfoSorted[1][i]+"="+un);
       if (sbInfoSorted[1][i] == un && timeInfoSorted[i] > recordValue) {
