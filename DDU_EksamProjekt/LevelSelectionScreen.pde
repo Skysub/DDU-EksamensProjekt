@@ -1,5 +1,5 @@
 class LevelSelectionScreen extends GameState {
-  Button exitButton = new Button(width/2-60, 585, 120, 60, "Main menu", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
+  Button exitButton = new Button(width/2-60, 400, 120, 60, "Main menu", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
   Button loadCostumLvl = new Button(150, height-190, 200, 50, "Load level", color(#253FFF), color(80, 100, 80), 20, color(230));
   boolean hand, lastCustom = true;
   BaneScreen baneScreen;

@@ -16,9 +16,9 @@ class Player {
     makeBody(startPos);
   }
 
-  boolean Update(boolean left, boolean right, boolean space, boolean hitboxDebug, boolean cameraLock) {
+  boolean Update(boolean left, boolean right, boolean space, boolean hitboxDebug, boolean cameraLock, boolean shift) {
     if (cameraLock) SetView(); //Sørger for at kameraet er låst til spilleren
-    Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug, bane.getKamera());
+    Vec2 retning = hook.Update(left, right, body.getPosition(), body.getAngle(), space, hitboxDebug, bane.getKamera(), shift);
     if (retning.y > 0) retning = new Vec2(retning.x, retning.y * extraForceUp);
 
     //En kraftvektor, og punktet hvor hooken sidder på spilleren

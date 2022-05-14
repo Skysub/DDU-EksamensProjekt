@@ -1,4 +1,4 @@
-class Blok { //<>// //<>//
+class Blok { //<>//
   Box2DProcessing box2d;
 
   int blokkeIalt = 7;
@@ -44,7 +44,7 @@ class Blok { //<>// //<>//
   void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass, boolean editorMode, boolean coolGFX) {
     switch (id) {
     case 0:
-      DrawB0( coolGFX); //Wall blok
+      DrawB0(coolGFX, editorMode); //Wall blok
       break;
 
     case 1:
@@ -52,7 +52,7 @@ class Blok { //<>// //<>//
       break;
 
     case 2: //Mål blok
-      DrawB2( coolGFX);
+      DrawB2( coolGFX, editorMode);
       break;
 
     case 3: //Start blok
@@ -302,7 +302,7 @@ class Blok { //<>// //<>//
   }
 
   //Wall tile
-  void DrawB0(boolean coolGFX) {
+  void DrawB0(boolean coolGFX, boolean editorMode) {
     //square
     SetSquareSettings();
     strokeWeight(2);
@@ -311,7 +311,7 @@ class Blok { //<>// //<>//
     //Text
     textSize(10);
     fill(10);
-    if(!coolGFX) text("Wall", 20, 26);
+    if (!coolGFX && editorMode) text("Wall", 20, 26);
   }
 
   //Background tile
@@ -330,16 +330,16 @@ class Blok { //<>// //<>//
     }
   }
   //Goal tile
-  void DrawB2(boolean coolGFX) {
+  void DrawB2(boolean coolGFX, boolean editorMode) {
     //square
     SetSquareSettings();
     fill(200, 200, 255);
-    if (coolGFX) noStroke();
+    if (coolGFX || !editorMode) noStroke();
     square(0, 0, gridSize);
     //Text
     textSize(10);
     fill(10);
-    if (!coolGFX)text("Goal", 20, 26);
+    if (!coolGFX && editorMode)text("Goal", 20, 26);
   }
 
   //Start tile

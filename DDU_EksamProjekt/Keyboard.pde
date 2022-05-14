@@ -15,6 +15,7 @@ class Keyboard {
   }
 
   public void setKey(int x, boolean y) {
+    if (x == 84 || x == 72) return;
     keys[x].setState(y);
     if (Shift(x)) toggle(x);
   }

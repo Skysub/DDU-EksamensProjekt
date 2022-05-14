@@ -32,7 +32,7 @@ class Door {
       else fill(255, 220, 220);
       square(4, 6, 35);
     } else if (!on) {
-      if (coolGFX) { 
+      if (coolGFX || !editorMode) { 
         DrawCool();
       } else {
         fill(255, 220, 190);
@@ -62,9 +62,9 @@ class Door {
     triangle(20, 40, 39, 21, 39, 40);
     popMatrix();
 
-    //Metal middle
-    fill(240);
-    rect(7, 2, 27, 40);
+    //Metal middle, som vi fjernede
+    //fill(240);
+    //rect(7, 2, 27, 40);
   }
 
   void MakeBody() {    
