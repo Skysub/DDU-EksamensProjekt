@@ -65,4 +65,8 @@ class Timer {
   boolean getNewRecord() {
     return record >= time;
   }
+  
+  void ResetRecord(){
+    record = 0;
+  }
 }

@@ -10,7 +10,7 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
+  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, getRecord = true;
   int shadow = 3, levelNr, recordValue;
   IntList[][] b;
   String possibleRecord, record;
@@ -61,14 +61,16 @@ class BaneScreen extends GameState {
       handleStart();
     }
 
-    if (done) {
-      times = timer.getText();
-      possibleRecord = times[0];
-      recordValue = int(times[2]);
+    if (getRecord) {
+      if (done) {
+        times = timer.getText();
+        possibleRecord = times[0];
+        recordValue = int(times[2]);
+      }
+      record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
+      if (record == null) record = "";
+      getRecord = false;
     }
-    record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
-    if(record == null) record = "";
-
     fill(0);
     textSize(30);
     text("Real record: " + record, 200, 200);
@@ -105,6 +107,7 @@ class BaneScreen extends GameState {
     done = false;
     popUp.sb.first = true;
     popup = false;
+    getRecord = true;
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
@@ -114,6 +117,7 @@ class BaneScreen extends GameState {
   void LoadBane(IntList[][] a) {
     b = a;
     bane.LoadBane(a);
+    if(mainLogic.username == null) timer.ResetRecord();
     reset();
   }
 

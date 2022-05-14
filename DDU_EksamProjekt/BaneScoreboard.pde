@@ -121,8 +121,9 @@ class BaneScoreboard {
     else baneName = "cbane" + lNr;
     
     SortTimes();
-    
+
     for (int i = 0; i < timeInfoSorted.length; i++) {
+      print(sbInfoSorted[1][i], "|");
       //print("|"+ sbInfoSorted[1][i]+"="+un);
       if (sbInfoSorted[1][i] == un && timeInfoSorted[i] > recordValue) {
         print("yay");
