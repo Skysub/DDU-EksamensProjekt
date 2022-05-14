@@ -56,7 +56,7 @@ class Kasse {
     } else {
       strokeWeight(2);
       fill(220);
-      square(-size/2, -size/2, size);
+      square(-size/2, -size/2, size);  
       textSize(15);
       fill(0);
       text("Box", 0, 0);
