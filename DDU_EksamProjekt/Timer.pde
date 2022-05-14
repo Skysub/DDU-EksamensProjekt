@@ -10,7 +10,7 @@ class Timer {
     HandleTimer(playing, baneStart, endZone);
   }
 
-  void Draw(boolean popup) {
+  void Draw(String loggedInrecord) {
     fill(180);
     rect(0, 0, width, 80);
     rectMode(CORNER);
@@ -26,9 +26,9 @@ class Timer {
     //samme som overstående men blot for rekord tiden
     recordMin = floor(record/60000f);
     recordSec = floor(record/1000f)-floor(record/60000f)*60;
-    text("Record: "+recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), 420, 30);
-
-
+    if(mainLogic.username == null)text("Record: "+recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), 420, 30);
+    else text("Record: " + loggedInrecord, 420, 30);
+   
     stroke(0);
     strokeWeight(2);
     line(410, 0, 410, 80);

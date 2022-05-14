@@ -61,7 +61,7 @@ class BanePopUp {
       fill(25);
       textAlign(CENTER);
       text("Time: "+time[0]+"         Record: "+time[1], width/(2*size), -200/size + 87);
-      if (newRecord)text("New Record!", width/(2*size), -200/size + 130);
+      //if (newRecord)text("New Record!", width/(2*size), -200/size + 130);
       textAlign(LEFT, TOP);
       if(baneScreen.lSelScreen.getCustom()) text("Congratulations! Custom level "+ levelNr +" cleared.", 15, -200/size + 10);
       else text("Congratulations! Level "+ levelNr +" cleared.", 15, -200/size + 10);

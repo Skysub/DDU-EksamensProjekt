@@ -24,12 +24,12 @@ class LoginScreen extends GameState {
       removeText = false;
     }
     
-    if (kb.Shift(9) && password.isActive()) {
-      username.ChangeFocus(true);
-      password.ChangeFocus(false);
-    } else if (kb.Shift(9)) {
+    if (kb.Shift(9) && username.isActive()) {
       username.ChangeFocus(false);
       password.ChangeFocus(true);
+    } else if (kb.Shift(9)) {
+      username.ChangeFocus(true);
+      password.ChangeFocus(false);
     }
 
     username.Input(minLengthUN, maxLengthUN);
