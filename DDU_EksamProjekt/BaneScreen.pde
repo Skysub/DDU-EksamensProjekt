@@ -52,6 +52,19 @@ class BaneScreen extends GameState {   //<>//
     timer.Update(playing, baneStart, endZone);
     levelNr = bane.bane[0][0].get(2) + 1;
 
+    if (getRecord) {
+      if (done) {
+        times = timer.getText();
+        possibleRecord = times[0];
+        recordValue = int(times[2]);
+      }
+      record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
+      if (record == null) record = "";
+      getRecord = false;
+    }
+
+    levelNr = bane.bane[0][0].get(2) + 1;
+
     if (popup) popUp.Update(done, mainLogic.username, levelNr, timer.getText());
     else {
       if (playing) {
@@ -60,18 +73,6 @@ class BaneScreen extends GameState {   //<>//
         box2d.step();
       }
       handleStart();
-    }
-
-    if (getRecord) {
-      if (done) {
-        times = timer.getText();
-        possibleRecord = times[0];
-        recordValue = int(times[2]);
-      }
-      levelNr = bane.bane[0][0].get(2) + 1;
-      record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
-      if (record == null) record = "";
-      getRecord = false;
     }
     fill(0);
     textSize(30);
