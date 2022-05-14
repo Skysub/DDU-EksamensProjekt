@@ -69,4 +69,8 @@ class Timer {
   void ResetRecord(){
     record = 0;
   }
+  
+  void ResetTimer(){
+    time = 0;
+  }
 }
