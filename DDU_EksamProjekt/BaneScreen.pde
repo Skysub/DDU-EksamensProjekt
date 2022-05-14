@@ -1,4 +1,4 @@
-class BaneScreen extends GameState {  
+class BaneScreen extends GameState {   //<>//
   //Det er her vi er når der bliver spillet en bane
 
   Bane bane;
@@ -50,8 +50,8 @@ class BaneScreen extends GameState {
     }
 
     timer.Update(playing, baneStart, endZone);
-    levelNr = b[0][0].get(2) + 1;
-    
+    levelNr = bane.bane[0][0].get(2) + 1;
+
     if (popup) popUp.Update(done, mainLogic.username, levelNr, timer.getText());
     else {
       if (playing) {
@@ -68,6 +68,7 @@ class BaneScreen extends GameState {
         possibleRecord = times[0];
         recordValue = int(times[2]);
       }
+      levelNr = bane.bane[0][0].get(2) + 1;
       record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
       if (record == null) record = "";
       getRecord = false;
@@ -118,7 +119,7 @@ class BaneScreen extends GameState {
   void LoadBane(IntList[][] a) {
     b = a;
     bane.LoadBane(a);
-    if(mainLogic.username == null) timer.ResetRecord();
+    if (mainLogic.username == null) timer.ResetRecord();
     reset();
   }
 
