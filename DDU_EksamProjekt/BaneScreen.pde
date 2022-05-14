@@ -52,6 +52,17 @@ class BaneScreen extends GameState {   //<>//
     timer.Update(playing, baneStart, endZone);
     levelNr = bane.bane[0][0].get(2) + 1;
 
+    if (getRecord) {
+      times = timer.getText();
+      possibleRecord = times[0];
+      recordValue = int(times[2]);
+
+      if (mainLogic.username != null)record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
+      if (record == null) record = "";
+      getRecord = false;
+    }
+
+
     if (popup) {
       popUp.Update(done, mainLogic.username, levelNr, timer.getText());    
       //levelNr = bane.bane[0][0].get(2) + 1;
@@ -66,20 +77,6 @@ class BaneScreen extends GameState {   //<>//
       }
       handleStart();
     }
-
-    if (getRecord) {
-      if (done) {
-        times = timer.getText();
-        possibleRecord = times[0];
-        recordValue = int(times[2]);
-      }
-      record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
-      if (record == null) record = "";
-      getRecord = false;
-    }
-    fill(0);
-    textSize(30);
-    text("Real record: " + record, 200, 200);
   }
 
   void Draw() {
@@ -90,7 +87,7 @@ class BaneScreen extends GameState {   //<>//
     player.Draw(kb.getToggle(72), bane.getKamera());
     popMatrix();
     if (!kb.getToggle(84)) {
-      timer.Draw(popup);
+      timer.Draw(record);
     }
     if (!playing && !done) {
       textSize(100);
@@ -104,8 +101,9 @@ class BaneScreen extends GameState {   //<>//
       text("Press SPACE to start", width/2, height/2);
     }
 
-    if (popup) popUp.Draw(done, timer.getText(), timer.getNewRecord(), mainLogic.username);
-  }
+    if (popup && mainLogic.username == null) popUp.Draw(done, timer.getText(), timer.getNewRecord(), mainLogic.username);
+    if (popup && mainLogic.username != null) popUp.Draw(done, timer.getText(), popUp.sb.newRecord, mainLogic.username);
+    }
 
   void reset() {
     endZone = false;
@@ -119,6 +117,7 @@ class BaneScreen extends GameState {   //<>//
     player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
     player.Update(kb.getKey(37) || kb.getKey(65), kb.getKey(39) || kb.getKey(68), kb.Shift(32), kb.getToggle(72), kb.getToggle(76), kb.getKey(16));
   }
+
 
   void LoadBane(IntList[][] a) {
     b = a;
