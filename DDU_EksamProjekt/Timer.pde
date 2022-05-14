@@ -1,14 +1,13 @@
 class Timer {
 
-  int record = 0, time = 0, baneTimeStart = 0, pauseTimeStart = 0, pauseTime = 0;
+  int record = 0, time = 0, baneTimeStart = 0;
   int recordMin, recordSec, min, sec;
-  String pauseTimeDisplay;
 
   Timer() {
   }
 
-  void Update(boolean playing, boolean baneStart, boolean endZone, boolean pause) {
-    HandleTimer(playing, baneStart, endZone, pause);
+  void Update(boolean playing, boolean baneStart, boolean endZone) {
+    HandleTimer(playing, baneStart, endZone);
   }
 
   void Draw(boolean popup) {
@@ -22,8 +21,7 @@ class Timer {
     //konverterer tiden til læsbar format for racetime
     min = floor(time/60000f);
     sec = floor(time/1000f)-floor(time/60000f)*60;
-    if (!popup) text("Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000), 10, 30);
-    else text(pauseTimeDisplay, 10, 30);
+    text("Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000), 10, 30);
 
     //samme som overstående men blot for rekord tiden
     recordMin = floor(record/60000f);
@@ -37,7 +35,7 @@ class Timer {
     line(900, 0, 900, 80);
   }
 
-  void HandleTimer(boolean playing, boolean baneStart, boolean endZone, boolean pause) {
+  void HandleTimer(boolean playing, boolean baneStart, boolean endZone) {
     if (baneStart) {
       playing = true;
       time = 0;
@@ -46,24 +44,14 @@ class Timer {
     }
     //måler tiden fra starten af race
     if (playing) {
-      time = millis() - baneTimeStart - pauseTime;
+      time = millis() - baneTimeStart;
     }
-    if (pause) pauseTimeDisplay = "Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000);
-    else pauseTimeDisplay = "Time: "+min+":"+sec+"."+(time - floor(time/1000f)*1000);
 
     //logic for når bane er ovre
     if (endZone) {
       playing = false;
       if (time < record || (record == 0 && time != 0)) record = time;
     }
-  }
-
-  void HandlePauseTime(boolean pauseStop) {
-    if (pauseStop) {
-      pauseTimeStart = millis() - pauseTime;
-      pauseTime = 0;
-    }
-    pauseTime = millis() - pauseTimeStart;
   }
 
   String[] getText() {

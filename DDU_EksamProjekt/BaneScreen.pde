@@ -10,7 +10,7 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, pause = false;
+  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false;
   int shadow = 3, levelNr;
   IntList[][] b;
 
@@ -46,8 +46,7 @@ class BaneScreen extends GameState {
       done = true;
       popup = true;
     }
-    timer.Update(playing, baneStart, endZone, kb.Shift(9));
-    if (popup && !done) timer.HandlePauseTime(kb.Shift(9));
+    timer.Update(playing, baneStart, endZone);
     if (b == null) levelNr = 900; //Midlertidig, til når vi prøver debug-banen
     else levelNr = b[0][0].get(2) + 1;
     if (popup) popUp.Update(done, mainLogic.username, levelNr, timer.getText());
@@ -92,8 +91,6 @@ class BaneScreen extends GameState {
     done = false;
     popUp.sb.first = true;
     popup = false;
-    pause = false;
-    timer.pauseTime = 0;
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
@@ -110,7 +107,6 @@ class BaneScreen extends GameState {
     baneStart = false;
     if (!playing && kb.Shift(32) && !done) {
       endZone = false;
-      pause = false;
       playing = true;
       baneStart = true;
       player.finalize(); //Spilleren destrueres
