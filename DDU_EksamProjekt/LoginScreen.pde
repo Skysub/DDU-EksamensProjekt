@@ -23,7 +23,7 @@ class LoginScreen extends GameState {
       RemoveText();
       removeText = false;
     }
-   
+
     if (password.Input(minLengthPW, 0) == null && !password.isActive()) username.ChangeFocus(true);
 
     username.Input(minLengthUN, maxLengthUN);
@@ -100,7 +100,7 @@ class LoginScreen extends GameState {
 
     if (!username.tooShort && !username.tooLong) triedUN = false;
     if (!password.tooShort) triedPW = false;
-    if(password.Input(minLengthPW, 0) != null && IsSecure(password.Input(minLengthPW, 0)) && HasNumber(password.Input(minLengthPW, 0))) triedPWS = false;
+    if (password.Input(minLengthPW, 0) != null && IsSecure(password.Input(minLengthPW, 0)) && HasNumber(password.Input(minLengthPW, 0))) triedPWS = false;
   }
 
   void Draw() {
@@ -190,19 +190,18 @@ class LoginScreen extends GameState {
     }
     return false;
   }
-  
-  boolean IsSecure(String pw){
+
+  boolean IsSecure(String pw) {
     char[] ch = pw.toCharArray();
     String pwNoNumbers = "";
-    for (char c : ch){
-      if(!Character.isDigit(c)){
+    for (char c : ch) {
+      if (!Character.isDigit(c)) {
         pwNoNumbers = pwNoNumbers + c;
       }
     }
-    if(!pwNoNumbers.equals(pwNoNumbers.toLowerCase()) && !pwNoNumbers.equals(pwNoNumbers.toUpperCase())){
+    if (!pwNoNumbers.equals(pwNoNumbers.toLowerCase()) && !pwNoNumbers.equals(pwNoNumbers.toUpperCase())) {
       return true;
-    }
-    else return false;
+    } else return false;
   }
 
   void RemoveText() {
