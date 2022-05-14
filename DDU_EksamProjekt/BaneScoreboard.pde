@@ -12,10 +12,10 @@ class BaneScoreboard {
     if (first) {
       currentPosition = 0;
       opacity = 255;
-      
-      if(!customLevel) baneName = "bane" + lNr;
+
+      if (!customLevel) baneName = "bane" + lNr;
       else baneName = "cbane" + lNr;
-      
+
       //Laver en tabel med banen hvis der ikke eksisterer en
       //sql = "DROP TABLE bane1";
       //mainLogic.db.execute(sql);
@@ -26,31 +26,7 @@ class BaneScoreboard {
       sql = "INSERT INTO "+baneName+" VALUES(null,'"+un+"','"+time+"', '"+timeNr+"');";
       mainLogic.db.execute(sql);
 
-      //Finder antallet af gemte tider
-      mainLogic.db.query("SELECT count(*) FROM "+baneName+";");
-      if (mainLogic.db.next()) {
-        tableSize = mainLogic.db.getInt("count(*)");
-      }
-
-
-      sbInfoSorted = new String[2][tableSize+1];
-      timeInfo = new int[tableSize+1];
-      for (int i = 1; i < tableSize+1; i++) {
-        mainLogic.db.query("SELECT username, ftime, nrTime FROM "+baneName+" WHERE ID = "+i+";");
-        if (mainLogic.db.next()) {
-          timeInfo[i] = mainLogic.db.getInt("nrTime");
-        }
-      }
-      timeInfoSorted = sort(timeInfo);
-
-      for (int i = 0; i < timeInfoSorted.length; i++) {
-        mainLogic.db.query("SELECT username, ftime FROM "+baneName+" WHERE nrTime = "+timeInfoSorted[i]+";");
-        //print(timeInfoSorted[i], "||");
-        if (mainLogic.db.next()) {
-          sbInfoSorted[0][i] = mainLogic.db.getString("ftime");
-          sbInfoSorted[1][i] = mainLogic.db.getString("username");
-        }
-      }
+      SortTimes();
 
       for (int i = 0; i < timeInfoSorted.length; i++) {
         if (timeInfoSorted[i] == timeNr) {
@@ -111,5 +87,38 @@ class BaneScoreboard {
     }
     line(width/(size*2)-160, 70, width/(size*2)-160, 370);
     line(width/(size*2)+55, 70, width/(size*2)+55, 370);
+  }
+
+  void SortTimes() {
+    //Finder antallet af gemte tider
+    mainLogic.db.query("SELECT count(*) FROM "+baneName+";");
+    if (mainLogic.db.next()) {
+      tableSize = mainLogic.db.getInt("count(*)");
+    }
+
+
+    sbInfoSorted = new String[2][tableSize+1];
+    timeInfo = new int[tableSize+1];
+    for (int i = 1; i < tableSize+1; i++) {
+      mainLogic.db.query("SELECT username, ftime, nrTime FROM "+baneName+" WHERE ID = "+i+";");
+      if (mainLogic.db.next()) {
+        timeInfo[i] = mainLogic.db.getInt("nrTime");
+      }
+    }
+    timeInfoSorted = sort(timeInfo);
+
+    for (int i = 0; i < timeInfoSorted.length; i++) {
+      mainLogic.db.query("SELECT username, ftime FROM "+baneName+" WHERE nrTime = "+timeInfoSorted[i]+";");
+      //print(timeInfoSorted[i], "||");
+      if (mainLogic.db.next()) {
+        sbInfoSorted[0][i] = mainLogic.db.getString("ftime");
+        sbInfoSorted[1][i] = mainLogic.db.getString("username");
+      }
+    }
+  }
+
+  void getRecord() {
+    
+    
   }
 }
