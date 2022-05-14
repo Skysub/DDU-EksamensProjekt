@@ -122,7 +122,8 @@ class BaneScreen extends GameState {   //<>//
   void LoadBane(IntList[][] a) {
     b = a;
     bane.LoadBane(a);
-    if (mainLogic.username == null) timer.ResetRecord();
+    timer.ResetRecord();
+    timer.ResetTimer();
     reset();
   }
 
