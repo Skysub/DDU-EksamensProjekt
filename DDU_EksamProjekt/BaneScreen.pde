@@ -10,9 +10,11 @@ class BaneScreen extends GameState {
 
   Box2DProcessing box2d;
 
-  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, pause = false;
-  int shadow = 3, levelNr;
+  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, getRecord = true;
+  int shadow = 3, levelNr, recordValue;
   IntList[][] b;
+  String possibleRecord, record;
+  String[] times;
 
   boolean popup = false;
   BanePopUp popUp;
@@ -46,8 +48,7 @@ class BaneScreen extends GameState {
       done = true;
       popup = true;
     }
-    timer.Update(playing, baneStart, endZone, kb.Shift(9));
-    if (popup && !done) timer.HandlePauseTime(kb.Shift(9));
+    timer.Update(playing, baneStart, endZone);
     if (b == null) levelNr = 900; //Midlertidig, til når vi prøver debug-banen
     else levelNr = b[0][0].get(2) + 1;
     if (popup) popUp.Update(done, mainLogic.username, levelNr, timer.getText());
@@ -59,6 +60,20 @@ class BaneScreen extends GameState {
       }
       handleStart();
     }
+
+    if (getRecord) {
+      if (done) {
+        times = timer.getText();
+        possibleRecord = times[0];
+        recordValue = int(times[2]);
+      }
+      record = popUp.sb.getRecord(possibleRecord, recordValue, mainLogic.username, levelNr, lSelScreen.getCustom());
+      if (record == null) record = "";
+      getRecord = false;
+    }
+    fill(0);
+    textSize(30);
+    text("Real record: " + record, 200, 200);
   }
 
   void Draw() {
@@ -92,8 +107,7 @@ class BaneScreen extends GameState {
     done = false;
     popUp.sb.first = true;
     popup = false;
-    pause = false;
-    timer.pauseTime = 0;
+    getRecord = true;
 
     player.finalize(); //Spilleren destrueres
     player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
@@ -103,6 +117,7 @@ class BaneScreen extends GameState {
   void LoadBane(IntList[][] a) {
     b = a;
     bane.LoadBane(a);
+    if(mainLogic.username == null) timer.ResetRecord();
     reset();
   }
 
@@ -110,7 +125,6 @@ class BaneScreen extends GameState {
     baneStart = false;
     if (!playing && kb.Shift(32) && !done) {
       endZone = false;
-      pause = false;
       playing = true;
       baneStart = true;
       player.finalize(); //Spilleren destrueres
