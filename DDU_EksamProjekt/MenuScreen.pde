@@ -1,6 +1,6 @@
 class MenuScreen extends GameState {
   Button loginScreenButton = new Button(width/2-150, 300, 300, 100, "Log in", color(#253FFF), color(80, 100, 80), 20, color(230));
-  Button LevelSelectionScreenButton = new Button(width/2-150, 500, 300, 100, "LevelSelectionScreen", color(#253FFF), color(80, 100, 80), 20, color(230));
+  Button LevelSelectionScreenButton = new Button(width/2-150, 500, 300, 100, "Levels", color(#253FFF), color(80, 100, 80), 20, color(230));
   Button EditorScreenButton = new Button(width/2-150, 650, 300, 100, "Level Editor", color(#253FFF), color(80, 100, 80), 20, color(230));
   boolean loggedIn = false, hand = false;
 

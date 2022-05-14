@@ -63,7 +63,8 @@ class BanePopUp {
       text("Time: "+time[0]+"         Record: "+time[1], width/(2*size), -200/size + 87);
       if (newRecord)text("New Record!", width/(2*size), -200/size + 130);
       textAlign(LEFT, TOP);
-      text("Congratulations! Level "+ levelNr +" cleared.", 15, -200/size + 10);
+      if(baneScreen.lSelScreen.getCustom()) text("Congratulations! Custom level "+ levelNr +" cleared.", 15, -200/size + 10);
+      else text("Congratulations! Level "+ levelNr +" cleared.", 15, -200/size + 10);
       textSize(22);
       textAlign(CENTER);
       text("Press '  ' to play the level again.", width/(2*size), 460);
