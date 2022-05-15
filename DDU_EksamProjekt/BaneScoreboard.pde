@@ -140,6 +140,6 @@ class BaneScoreboard { //<>//
       }
     }
     newRecord = false;
-    return "No record";
+    return possibleRecord;
   }
 }

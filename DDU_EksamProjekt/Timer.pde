@@ -2,6 +2,7 @@ class Timer {
 
   int record = 0, time = 0, baneTimeStart = 0;
   int recordMin, recordSec, min, sec;
+  String lir;
 
   Timer() {
   }
@@ -11,6 +12,7 @@ class Timer {
   }
 
   void Draw(String loggedInrecord) {
+    lir= loggedInrecord;
     fill(180);
     rect(0, 0, width, 80);
     rectMode(CORNER);
@@ -27,7 +29,7 @@ class Timer {
     recordMin = floor(record/60000f);
     recordSec = floor(record/1000f)-floor(record/60000f)*60;
     if(mainLogic.username == null)text("Record: "+recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), 420, 30);
-    else text("Record: " + loggedInrecord, 420, 30);
+    else text("Record: " + lir, 420, 30);
     
     textSize(30);
     text("'TAB' for menu", 980, 35);

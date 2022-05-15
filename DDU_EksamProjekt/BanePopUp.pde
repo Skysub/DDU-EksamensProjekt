@@ -29,17 +29,23 @@ class BanePopUp { //<>//
 
     //Hvis en af knapperne trykkes så skift skærm
     if (mainMenuButton.MouseReleased()) {
+      baneScreen.resetRecord = true;
+      baneScreen.timer.ResetRecord();
       baneScreen.ChangeScreen("MenuScreen");
       baneScreen.popup = false;
       baneScreen.ToggleTab(false);
     }
     if (baneMenuButton.MouseReleased()) {
+      baneScreen.resetRecord = true;
+      baneScreen.timer.ResetRecord();
       baneScreen.ChangeScreen("LevelSelectionScreen"); 
       baneScreen.popup = false;
       baneScreen.ToggleTab(false);
     }
     //Load den næste bane hvis knappen trykkes
     if (nextLevelButton.isClicked()) {
+      baneScreen.resetRecord = true;
+      baneScreen.timer.ResetRecord();
       baneScreen.lSelScreen.LoadBaneNr(levelNr, baneScreen.lSelScreen.getCustom());
       nextLevelButton.clicked = false;
     }
@@ -68,7 +74,7 @@ class BanePopUp { //<>//
       text("Time: "+time[0]+"         Record: "+time[1], width/(2*size), -200/size + 87);
       //if (newRecord)text("New Record!", width/(2*size), -200/size + 130);
       textAlign(LEFT, TOP);
-      if (baneScreen.lSelScreen.getCustom()) text("Congratulations! Custom level "+ levelNr +" cleared.", 15, -200/size + 10);
+      if (baneScreen.lSelScreen.getCustom()) text("Congratulations! Custom level "+ int(levelNr-1) +" cleared.", 15, -200/size + 10);
       else text("Congratulations! Level "+ levelNr +" cleared.", 15, -200/size + 10);
       textSize(22);
       textAlign(CENTER);
