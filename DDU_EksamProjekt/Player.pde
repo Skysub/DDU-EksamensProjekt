@@ -44,6 +44,7 @@ class Player {
     bane.setKamera(new Vec2(-(playerPos.x)*10, (playerPos.y)*10));
   }
 
+  //Tjekker om spilleren er nået ind i målzonen
   boolean InGoalZone(boolean hitboxDebug) {
     Vec2 playerPos = body.getPosition();
     Vec2 pSted = new Vec2((playerPos.x+width/20)*10, (playerPos.y-height/20)*10);
@@ -120,6 +121,7 @@ class Player {
     body.createFixture(fd);
   }
 
+  //Destruerer eller disabler objektet i physics verdenen
   protected void finalize() {  
     if (box2d.world.getBodyCount() < 1) {
       body.setActive(false);

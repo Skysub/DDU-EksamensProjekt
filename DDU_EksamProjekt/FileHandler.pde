@@ -6,12 +6,14 @@ class FileHandler { //<>// //<>// //<>//
     //listFilesForFolder(folder);
   }
 
+  //Laver en .csv fil med al banens information
   int MakeLevelFile(IntList[][] b) {
-    Table bane = new Table();
+    Table bane = new Table(); //Processings table() klasse bruges
     bane.addColumn("id");
     bane.addColumn("rotation");
     bane.addColumn("extra"); //Extra bruges kun til selve banens information, og til knapper/døres pairing id
 
+    //Laver først en tabel med banens information
     for (int i = 0; i < b[0][0].get(0); i++) {
       for (int j = 0; j < b[0][0].get(1); j++) {
         TableRow newRow = bane.addRow();
@@ -29,9 +31,11 @@ class FileHandler { //<>// //<>// //<>//
       }
     }
 
+    //Prøver at lave en .csv fil gennem tabellen.
     try {
-      File tempFile = new File(sketchPath()+"\\custom_levels\\level_"+b[0][0].get(2)+".csv");
+      File tempFile = new File(sketchPath()+"\\custom_levels\\level_"+b[0][0].get(2)+".csv"); //Opretter et objekt med den korrekte path
       if (tempFile.exists()) {
+        //Hvis denne .csv fil allerede eksisterer tjekkes der om man kan lave en fil med samme navn med '(1)' sat på enden, de tjekker tal op til 70
         for (int i = 1; i < 70; i++) {
           File t = new File(sketchPath()+"\\custom_levels\\level_"+b[0][0].get(2)+"("+i+")"+".csv");
           if (!t.exists()) { 
@@ -39,21 +43,23 @@ class FileHandler { //<>// //<>// //<>//
             break;
           }
         }
-      } else saveTable(bane, "custom_levels\\level_"+b[0][0].get(2)+".csv");
+      } else saveTable(bane, "custom_levels\\level_"+b[0][0].get(2)+".csv"); //gemmer tabellen som csv fil
     }
     catch(Exception e) {
-      println("Time: "+millis()+" Exception: "+e);
+      println("Time: "+millis()+" Exception: "+e); //Til hvis noget går galt
       return -1;
     }
     return 0;
   }
 
+  //Loader en level fil fra en .csv fil
   IntList[][] LoadLevelFile(String path) {
     IntList[][] out;
     try {
-      Table table = loadTable(path, "header");
+      Table table = loadTable(path, "header"); //Loader .csv filen ind i en tabel
       out = new IntList[table.getInt(0, "id")][table.getInt(0, "rotation")];
 
+      //tabellen konverteres til et IntList array som kan læses af bane klasen.
       for (int i = 0; i < table.getInt(0, "id"); i++) {
         for (int j = 0; j < table.getInt(0, "rotation"); j++) {
           out[i][j] = new IntList();
@@ -79,16 +85,7 @@ class FileHandler { //<>// //<>// //<>//
     return out;
   }
 
-  void listFilesForFolder(File folder) {
-    for (File fileEntry : folder.listFiles()) {
-      if (fileEntry.isDirectory()) {
-        listFilesForFolder(fileEntry);
-      } else {
-        System.out.println(fileEntry.getName());
-      }
-    }
-  }
-
+  //sørger for at de forskellige foldere og filer, som spillet skal bruge, eksisterer
   void MakeDataFolder(PApplet program) {
     try {
       //Makes data folder
@@ -97,6 +94,7 @@ class FileHandler { //<>// //<>// //<>//
         directory.mkdir();
       }
 
+      //Laver en custom_levels folder
       directory = new File(sketchPath()+"\\custom_levels");
       if (!directory.exists()) {
         directory.mkdir();
@@ -113,7 +111,8 @@ class FileHandler { //<>// //<>// //<>//
         tempFile.createNewFile();
         delay(100);
         SQLite db = new SQLite(program, sketchPath()+"\\data\\hookdb.SQLite"); 
-        db.connect(); //Opretter de forskellige tables i sqlite filen
+        db.connect();
+        //Opretter de forskellige tables i sqlite filen
         db.execute("CREATE TABLE [PW] (username text NOT NULL PRIMARY KEY UNIQUE,password text)");
       }
     }

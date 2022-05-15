@@ -23,26 +23,24 @@ class BaneScreen extends GameState {   //<>//
     super(program, kb);
     this.fileHandler = fileHandler;
 
-    box2d = new Box2DProcessing(program);  
+    box2d = new Box2DProcessing(program); //Laver en verden med physics librariet
     box2d.createWorld();
     box2d.setGravity(0, -35);
 
     bane = new Bane(box2d, fileHandler, false);
     this.kb = kb;
     timer = new Timer();
-
     player = new Player(bane, box2d, bane.getStartPos());
-
     popUp = new BanePopUp(this, program);
   }
 
   void Update() {
-    if (!done)popup = kb.getToggle(9);
-    if (kb.Shift(82)) {
+    if (!done)popup = kb.getToggle(9); //tjek om der er trykket tab
+    if (kb.Shift(82)) { //Tjek om spilleren trykker R
       reset();
       bane.ReloadBane();
     }
-    if (player.InGoalZone(kb.getToggle(72)) && playing) { //Er spilleren nået til målzonen så er dette true
+    if (player.InGoalZone(kb.getToggle(72)) && playing) { //Er spilleren nået til målzonen
       endZone = true;
       playing = false;
       done = true;
@@ -50,7 +48,7 @@ class BaneScreen extends GameState {   //<>//
     }
 
     timer.Update(playing, baneStart, endZone);
-    levelNr = bane.bane[0][0].get(2) + 1;
+    levelNr = bane.bane[0][0].get(2) + 1; //Opdater hvad levelets id er
 
     if (getRecord) {
       times = timer.getText();
@@ -63,17 +61,17 @@ class BaneScreen extends GameState {   //<>//
     }
 
 
-    if (popup) {
-      popUp.Update(done, mainLogic.username, levelNr, timer.getText());    
-      //levelNr = bane.bane[0][0].get(2) + 1;
+    if (popup) { //Hvis popup menuen er aktiv
+      popUp.Update(done, mainLogic.username, levelNr, timer.getText());
       if (bane.bane[0][0].get(2) + 1 != levelNr) {
         reset();
       }
     } else {
       if (playing) {
-        bane.Update();
+        bane.Update();//Opdater banen
+        //Opdater spilleren
         if (player.Update(kb.getKey(37) || kb.getKey(65), kb.getKey(39) || kb.getKey(68), kb.Shift(32), kb.getToggle(72), kb.getToggle(76), kb.getKey(16))) PlayerDied();
-        box2d.step();
+        box2d.step();//Kør et physics step
       }
       handleStart();
     }
@@ -83,11 +81,11 @@ class BaneScreen extends GameState {   //<>//
     background(95, 90, 100);
     pushMatrix();
     translate(0, 80);
-    bane.Draw(kb.getToggle(84), kb.getToggle(72), kb.getToggle(67));
-    player.Draw(kb.getToggle(72), bane.getKamera());
+    bane.Draw(kb.getToggle(84), kb.getToggle(72), kb.getToggle(67)); //Tegn banen
+    player.Draw(kb.getToggle(72), bane.getKamera()); ///Tegn spilleren
     popMatrix();
     if (!kb.getToggle(84)) {
-      timer.Draw(record);
+      timer.Draw(record); //Tegn timeren
     }
     if (!playing && !done) {
       textSize(100);
@@ -101,10 +99,12 @@ class BaneScreen extends GameState {   //<>//
       text("Press SPACE to start", width/2, height/2);
     }
 
+    //tegn popup menuen hvis de er aktiv
     if (popup && mainLogic.username == null) popUp.Draw(done, timer.getText(), timer.getNewRecord(), mainLogic.username);
     if (popup && mainLogic.username != null) popUp.Draw(done, timer.getText(), popUp.sb.newRecord, mainLogic.username);
-    }
+  }
 
+  //Resetter banen til da den lige var loadet
   void reset() {
     endZone = false;
     playing = false;
@@ -127,23 +127,16 @@ class BaneScreen extends GameState {   //<>//
     reset();
   }
 
+  //tjekker og handler når banen begynder
   void handleStart() {
     baneStart = false;
-    if (!playing && kb.Shift(32) && !done) {
-      endZone = false;
+    if (!playing && kb.Shift(32) && !done) { //trykkes der mellemrum begynder banen
+      endZone = false; 
       playing = true;
       baneStart = true;
       player.finalize(); //Spilleren destrueres
       player = new Player(bane, box2d, bane.getStartPos()); //Spilleren bliver genskabt
     }
-  }
-
-  void WorldSetup(PApplet program) {
-    box2d = new Box2DProcessing(program);  
-    box2d.createWorld();
-    box2d.setGravity(0, -35);
-    bane = new Bane(box2d, fileHandler, false);
-    player = new Player(bane, box2d, bane.getStartPos());
   }
 
   void ToggleTab(boolean x) {
@@ -154,12 +147,10 @@ class BaneScreen extends GameState {   //<>//
   void PlayerDied() {
     reset();
     bane.ReloadBane();
-    //Yderligere kode, måske spil en sound effekt. En eksplosion måske???
-    //Vær kreativ
   }
 
   void OnEnter() {
-    kb.setToggle(67, true);
+    kb.setToggle(67, true); //Sæt cool gfx til true
     reset();
     bane.ReloadBane();
   }

@@ -8,6 +8,7 @@ class EditorPopUp { //<>// //<>// //<>//
   Button exitButton = new Button(width/2+230, 220, 120, 60, "Main menu", color(200), color(80, 100, 80), 20, color(0, 0, 0), color(255, 105, 105));
   boolean hand;
 
+  //Timer variablerne starter i minus så fejlbeskederne ikke vises i starten af programmet
   int timer = -3000, timerTo = -10000, timerTre = -3000;
   TextField username;
   TextField number;
@@ -72,8 +73,6 @@ class EditorPopUp { //<>// //<>// //<>//
     fill(230);
     strokeWeight(3);
     rect(0, 0-200/size, width/size, height/size+200, 10);
-
-    //Til hvis menuen blev åbnet manuelt af spilleren, altså hvis spilleren ikke er i mål endnu
     textSize(30);
     fill(25);
     textAlign(LEFT, TOP);
@@ -96,7 +95,8 @@ class EditorPopUp { //<>// //<>// //<>//
     newLvl.Draw();
   }
 
-  void costumLvl() {
+  //Tjekker om der er trykket på knappen og loader banen hvis id er i tekstfeltet
+  void costumLvl() { 
     username.Input(0, 10);
     username.Update();
     if (loadCostumLvl.isClicked() && username.Input(0, 10) != null) {
@@ -106,6 +106,7 @@ class EditorPopUp { //<>// //<>// //<>//
       username.RemoveText();
     }
 
+    //Den her gemmer banen med id'et i tekstfeltet
     number.Input(0, 10);
     number.Update();
     if (saveCostumLvl.isClicked() && number.Input(0, 10) != null) {
@@ -118,6 +119,7 @@ class EditorPopUp { //<>// //<>// //<>//
     }
   }
 
+  //Loader en bestemt bane ud fra id'et, der loades en .csv fil med levelets information
   int LoadBaneNr(int baneId, boolean custom) {
     IntList[][] b;
     if (custom) b = fileHandler.LoadLevelFile("\\custom_levels\\level_"+baneId+".csv");
@@ -128,6 +130,7 @@ class EditorPopUp { //<>// //<>// //<>//
     } else return -1;
   }
 
+  //Sørger for at banen får id'et
   int SaveBaneNr(int baneId) {
     bane.bane[0][0].set(2, baneId);
     return fileHandler.MakeLevelFile(bane.bane);

@@ -31,7 +31,7 @@ class LevelSelectionScreen extends GameState {
     exitButton.Draw();
     loadCostumLvl.Draw();
     for (Button x : levelButtons) {
-      x.Draw();
+      x.Draw(); //tegner knapperne der sender dig til en bane
     }
     textAlign(LEFT);
     textSize(25);
@@ -46,6 +46,7 @@ class LevelSelectionScreen extends GameState {
   void handleButton() {
     hand = false;
 
+    //Opdaterer alle level knapperne
     for (Button x : levelButtons) {
       if (x.Update()) hand = true;
     }
@@ -57,6 +58,7 @@ class LevelSelectionScreen extends GameState {
 
     if (exitButton.isClicked()) ChangeScreen("MenuScreen");
 
+    //loader den korrekte bane alt efter hvilken knap der blev trykket på
     for (int i = 0; i < totalLevels; i++) {
       if (levelButtons.get(i).isClicked()) LoadBaneNr(i, false);
     }

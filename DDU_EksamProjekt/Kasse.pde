@@ -9,6 +9,7 @@ class Kasse {
   Kasse(Vec2 pos, Box2DProcessing box2d) {
     this.box2d = box2d;
 
+    //Opretter kassen i physics verdenen
     BodyDef bd = new BodyDef();
     ps = new PolygonShape();
     pos.addLocal(new Vec2(size/20, -size/20));
@@ -19,7 +20,7 @@ class Kasse {
     FixtureDef fd = new FixtureDef();
     fd.shape = ps;
 
-
+    //Sætter nogle vigtige konstanter
     fd.friction = 0.9; 
     fd.restitution = 0.05; 
     fd.density = 2.0; 
@@ -30,6 +31,7 @@ class Kasse {
   void Update() {
   }
 
+//Tegner kassen på det korrekste sted i banen
   void Draw(float[] kamera, boolean hitboxDebug) {
     Vec2 pos = box2d.getBodyPixelCoord(body); //Får positionen af kassen på skærmen i pixels
     float a = body.getAngle();
@@ -67,6 +69,7 @@ class Kasse {
     if (hitboxDebug) line(0, 80, pos.x, pos.y+80);
   }
 
+  //Destruerer eller disabler objektet i physics verdenen
   protected void finalize() {
     if (box2d.world.getBodyCount() < 1) {
       body.setActive(false);

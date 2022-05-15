@@ -1,4 +1,4 @@
-class BanePopUp {
+class BanePopUp { //<>//
 
   BaneScreen baneScreen;
   BaneScoreboard sb;
@@ -8,7 +8,7 @@ class BanePopUp {
   Button mainMenuButton = new Button(int(width/2-width/(2*size))+82, int(height/2-height/(2*size))+430, 170, 60, "Main menu", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
   Button baneMenuButton = new Button(int(width/2-width/(2*size))+522, int(height/2-height/(2*size))+430, 170, 60, "Levels", color(190, 210, 120), color(115, 135, 45), 20, color(0, 0, 0));
   Button nextLevelButton = new Button(int(width/2-width/(2*size))+302, int(height/2-height/(2*size))+430, 170, 60, "Next level", color(200, 200, 255), color(115, 135, 45), 20, color(0, 0, 0));
-  boolean hand;
+  boolean hand; //Hand bruges til at finde ud af om musen skal se ud som en hånd eller en pil
   int levelNr;
 
   BanePopUp(BaneScreen baneScreen, PApplet program) {
@@ -19,6 +19,7 @@ class BanePopUp {
   int Update(boolean done, String un, int lNr, String[] time) {
     levelNr = lNr;
 
+    //Opdaterer knapperne og om der er en mus på dem og sådan
     hand = false;
     if (mainMenuButton.Update()) hand = true;
     if (baneMenuButton.Update()) hand = true;
@@ -26,6 +27,7 @@ class BanePopUp {
     if (hand)cursor(HAND);
     else cursor(ARROW);
 
+    //Hvis en af knapperne trykkes så skift skærm
     if (mainMenuButton.MouseReleased()) {
       baneScreen.ChangeScreen("MenuScreen");
       baneScreen.popup = false;
@@ -36,17 +38,20 @@ class BanePopUp {
       baneScreen.popup = false;
       baneScreen.ToggleTab(false);
     }
+    //Load den næste bane hvis knappen trykkes
     if (nextLevelButton.isClicked()) {
-      baneScreen.lSelScreen.LoadBaneNr(levelNr, baneScreen.lSelScreen.getCustom()); //<>//
+      baneScreen.lSelScreen.LoadBaneNr(levelNr, baneScreen.lSelScreen.getCustom());
       nextLevelButton.clicked = false;
     }
-    
+
+    //opdater scoreboardet
     if (un != null && done) {
       sb.Update(levelNr, un, time[0], int(time[2]), baneScreen.lSelScreen.getCustom());
     }   
     return 0;
   }
 
+  //Tegner teksten og også knapperne i popup menuen
   void Draw(boolean done, String[] time, boolean newRecord, String un) {
     pushMatrix();
     resetMatrix();
@@ -63,7 +68,7 @@ class BanePopUp {
       text("Time: "+time[0]+"         Record: "+time[1], width/(2*size), -200/size + 87);
       //if (newRecord)text("New Record!", width/(2*size), -200/size + 130);
       textAlign(LEFT, TOP);
-      if(baneScreen.lSelScreen.getCustom()) text("Congratulations! Custom level "+ levelNr +" cleared.", 15, -200/size + 10);
+      if (baneScreen.lSelScreen.getCustom()) text("Congratulations! Custom level "+ levelNr +" cleared.", 15, -200/size + 10);
       else text("Congratulations! Level "+ levelNr +" cleared.", 15, -200/size + 10);
       textSize(22);
       textAlign(CENTER);
@@ -90,6 +95,8 @@ class BanePopUp {
   void drawButtons(boolean done) {
     mainMenuButton.Draw();
     baneMenuButton.Draw();
+
+    //Sørger for at next level knappen kun tegnes hvis der er et next level
     if (done && baneScreen.bane.bane[0][0].get(2)+1 < baneScreen.lSelScreen.getTotalLevels() && !baneScreen.lSelScreen.getCustom())nextLevelButton.Draw();
   }
 }

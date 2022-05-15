@@ -1,5 +1,6 @@
 import org.jbox2d.callbacks.RayCastCallback;
 
+//Dette interface implementeres så raycasting fungerer og så vi får den ønskede effekt
 class RcCallbackKasse implements RayCastCallback {
 
   Hook p;

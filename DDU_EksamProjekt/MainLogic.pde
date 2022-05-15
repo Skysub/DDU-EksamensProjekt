@@ -35,6 +35,7 @@ class MainLogic {
     //println(x);
   }
 
+  //Instantierer de forskellige skærme og sætter dem ind i gameStateManageren
   void InitializeScreens(PApplet program) {
     BaneScreen bs = new BaneScreen(program, kb, fileHandler);
     LevelSelectionScreen lss = new LevelSelectionScreen(program, kb, bs, fileHandler);

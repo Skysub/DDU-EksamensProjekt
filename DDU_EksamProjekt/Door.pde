@@ -23,6 +23,7 @@ class Door {
     on = false;
   }
 
+  //Døren skal tegnes, men ikke hvis knappen er ON, og hvis vi er i editoren skal tegnes en anden form for dør.
   void Draw(boolean HitboxDebug, boolean coolGFX, boolean editorMode) {
     noStroke();
     if (HitboxDebug) {
@@ -67,6 +68,7 @@ class Door {
     //rect(7, 2, 27, 40);
   }
 
+  //Laver dør objektet så spilleren kan kollidere med det
   void MakeBody() {    
     BodyDef bd = new BodyDef();
     PolygonShape ps = new PolygonShape();
@@ -78,6 +80,7 @@ class Door {
     body.createFixture(ps, 1);
   }
 
+  //Destruerer eller disabler objektet i physics verdenen
   protected void finalize() {
     if (box2d.world.getBodyCount() < 1) {
       body.setActive(false);

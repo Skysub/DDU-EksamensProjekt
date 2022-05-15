@@ -18,7 +18,7 @@ class LevelEditorScreen extends GameState { //<>// //<>//
   EditorPopUp popUp;
   float scrollSpeed = -0.1, arrowSpeed = 10;
   int wheel = 0, spacing = 60;
-  int storeLeft = 1, storeRight = 2;
+  int storeLeft = 1, storeRight = 2; //Variablerne der fortæller om hvilken blok brugeren har valgt
   float[] nulKamera = {0, 0, 1, 1920, 1080};
   boolean pressedPrev = false;
 
@@ -37,6 +37,7 @@ class LevelEditorScreen extends GameState { //<>// //<>//
     SetupBlokBar();
     MakeTopBarKnapper();
 
+    //Knapperne til at ændre banens størrelse
     topPlus = new BaneButton((bane.bred*40)/2+20, -30, 30, 30, "+", color(255), color(0), 20, color(0), new Vec2(-15, -15));
     topMinus = new BaneButton((bane.bred*40)/2-20, -30, 30, 30, "-", color(255), color(0), 20, color(0), new Vec2(-15, -15));
     rightPlus = new BaneButton(-30, bane.lang*20+20, 30, 30, "+", color(255), color(0), 20, color(0), new Vec2(-15, -15));
@@ -66,22 +67,25 @@ class LevelEditorScreen extends GameState { //<>// //<>//
     EditLevelBlok(bane.getKamera());
   }
 
+  //Support for at kunne scrolle
   void mouseWheel(MouseEvent event) {
     float e = event.getCount();
     println(e);
   }
+
   void Draw() {
     background(95, 90, 100);
     pushMatrix();
     translate(0, 80);
-    bane.Draw(false, kb.getToggle(72), kb.getToggle(67));
-    DrawCanvasButtons();
+    bane.Draw(false, kb.getToggle(72), kb.getToggle(67)); //Tegner banen
+    DrawCanvasButtons(); //Tegner knapper til at ændre banens størrelse
     popMatrix();
 
+    //Tegner ui'et
     DrawTopBar();
     DrawBlokBar(kb.getToggle(72), bane.getKamera(), kb.getToggle(67));
 
-    if (popup)popUp.Draw();
+    if (popup) popUp.Draw(); //Tegner popupmenuen hvis den er aktiv
   }
 
   void DrawTopBar() {
@@ -126,6 +130,7 @@ class LevelEditorScreen extends GameState { //<>// //<>//
       if (leftMinus.MouseReleased()) bane.EditCanvas(-1, 1);
     }
 
+    //Opdaterer knappernes position alt efter hvor stor banen er
     topPlus.x = (bane.bred*40)/2+20-15;
     topMinus.x = (bane.bred*40)/2-20-15;
     rightPlus.y = bane.lang*20+20-15;
@@ -141,6 +146,7 @@ class LevelEditorScreen extends GameState { //<>// //<>//
     leftMinus.y = bane.lang*20-20-15;
   }
 
+  //Support for at man kan rykke banen rundt på skærmen
   void pan() {
     if (mousePressed && (kb.getKey(16) || kb.getKey(17)) && !popup && mouseY > 88) {
       bane.setKamera(new Vec2(bane.kamera[0]+(mouseX-pmouseX), bane.kamera[1]+(mouseY-pmouseY)));
@@ -152,6 +158,7 @@ class LevelEditorScreen extends GameState { //<>// //<>//
     }
   }
 
+  //Support for at man kan zoome ved at scrolle
   void scroll() {
     if (!popup && (wheel*scrollSpeed+1) != 1) {
       float delta = (wheel*scrollSpeed+1);
@@ -173,9 +180,11 @@ class LevelEditorScreen extends GameState { //<>// //<>//
     bane.LoadBane(a);
   }
 
+  //Tegner der hvor man vælger blok type
   void DrawBlokBar(Boolean HitboxDebug, float[] kamera, boolean coolGFX) {
-    DrawTopBarKnapper();
+    DrawTopBarKnapper(); //Tegner selve knapperne
 
+    //Tegner alle ikonerne for blok typerne
     pushMatrix();
     translate(100, 15);
     scale(1.2);
@@ -225,6 +234,7 @@ class LevelEditorScreen extends GameState { //<>// //<>//
     DrawValg();
   }
 
+  //Opretter objekterne som skal bruges til ikoner
   void SetupBlokBar() {
     Vec2 pos = new Vec2(100/10, 15/10);
 
@@ -236,6 +246,7 @@ class LevelEditorScreen extends GameState { //<>// //<>//
     door = new Door(pos, -2, box2d);
   }
 
+  //tegner den blå og røde firkant der viser hvilken blok type er valgt med hvilken knap
   void DrawValg() {
     pushMatrix();
     scale(1.2);
@@ -276,6 +287,7 @@ class LevelEditorScreen extends GameState { //<>// //<>//
     }
   }
 
+  //tjekker om brugeren trykker på en tile i banen
   void EditLevelBlok(float[] kamera) {
     if (mousePressed && !popup && mouseY > 88 && !(kb.getKey(16) || kb.getKey(17))) {
       int[] pos = new int[2];
@@ -302,6 +314,6 @@ class LevelEditorScreen extends GameState { //<>// //<>//
   }
 
   void OnEnter() {
-    kb.setToggle(67, false);
+    kb.setToggle(67, false); //Sætter cool gfx til false
   }
 }

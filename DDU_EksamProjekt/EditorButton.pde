@@ -4,6 +4,7 @@ class EditorButton extends Button {
   boolean rightClicked = false;
   boolean rightClickedPrev = false;
 
+  //Denne knapklasse har support for at man også kan bruge højreklik samt nogle andre ting med farve og størrelsen
   EditorButton(int posX, int posY, int w, int h, String t, color c, color cc, int ts, color tc, int id, int idt) {
     super( posX, posY, w, h, t, c, cc, ts, tc);
     this.id = id;

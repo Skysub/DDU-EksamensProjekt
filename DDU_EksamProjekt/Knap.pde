@@ -3,7 +3,7 @@ class Knap {
   boolean on;
   boolean invert = false;
   int id;
-  ArrayList<Door> doors = new ArrayList<Door>();
+  ArrayList<Door> doors = new ArrayList<Door>(); //Knappen skal have adgang til alle dørene som den har indflydelse over
 
   Knap(Vec2 pos, int id) {
     this.pos = pos.add(new Vec2(2, 2));
@@ -19,6 +19,7 @@ class Knap {
     }
   }
 
+  //tegner knappen med support for om den tændt eller slukket
   void Draw(boolean HitboxDebug, boolean coolGFX) {
     if ((on && !invert) || (!on && invert)) fill(100, 230, 150);
     else fill(255, 150, 150);
@@ -30,6 +31,7 @@ class Knap {
     text("Button", 20, 26);
   }
 
+  //Tjekker alle kasser om de er tæt nok på knappen til at aktivere den
   boolean KnapCollision(HashMap<String, Kasse> kasser) {
     for (String x : kasser.keySet()) {
       if (kasser.get(x).body.getPosition().add(new Vec2(0, 0)).sub(pos).length() < kasser.get(x).size/10) return true;

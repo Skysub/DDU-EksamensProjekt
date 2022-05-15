@@ -29,7 +29,8 @@ class BaneButton extends Button {
     return hand;
   }
 
-  void MakeReal(float[] kamera) {
+  //Sørger for at koordinaterne passer alt efter kameraet
+  void MakeReal(float[] kamera) { 
     realX = x*kamera[2];
     realY = y*kamera[2];
     realX += kamera[0];
@@ -40,7 +41,6 @@ class BaneButton extends Button {
 
   void Draw(float[] kamera) {
     pushMatrix();
-
     translate(kamera[0], kamera[1]+80);
     scale(kamera[2]);
     translate(x, y);

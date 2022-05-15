@@ -5,6 +5,7 @@ class Blok { //<>//
   int gridSize;
   int ting = 0;
 
+  //Disse hashmaps holder banens forskellige objekter
   HashMap<String, Kasse> kasser;
   HashMap<String, Sav> save;
   HashMap<String, Knap> knapper;
@@ -21,7 +22,7 @@ class Blok { //<>//
     walls = new ArrayList<Body>();
   }
 
-  void Update() {
+  void Update() { //Opdater banens klasse elementer
     for (String x : doors.keySet()) {
       doors.get(x).StartUpdate();
     }
@@ -43,12 +44,12 @@ class Blok { //<>//
   //Vælger hvilken blok draw metode der skal bruges ud fra blok id'et
   void DrawBlok(int id, boolean HitboxDebug, String g, float[] kamera, boolean specialPass, boolean editorMode, boolean coolGFX) {
     switch (id) {
-    case 0:
-      DrawB0(coolGFX, editorMode); //Wall blok
+    case 0: //Wall blok
+      DrawB0(coolGFX, editorMode);
       break;
 
-    case 1:
-      DrawB1(editorMode, coolGFX); //Luft blok
+    case 1: //Luft blok
+      DrawB1(editorMode, coolGFX);
       break;
 
     case 2: //Mål blok
@@ -70,14 +71,14 @@ class Blok { //<>//
       else DrawB1(editorMode, coolGFX);
       break;
 
-    case 5: //Saw
+    case 5: //Lille sav
       if (specialPass && ((editorMode && coolGFX) || !editorMode)) {
         save.get(g).Draw(HitboxDebug, coolGFX);
       } else if (editorMode && !coolGFX) DrawB5(editorMode);
       else DrawB1(editorMode, coolGFX);
       break;
 
-    case 6: //Saw
+    case 6: //Stor sav
       if (specialPass && ((editorMode && coolGFX) || !editorMode)) {
         save.get(g).Draw(HitboxDebug, coolGFX);
       } else if (editorMode && !coolGFX) DrawB6(editorMode);
@@ -126,7 +127,8 @@ class Blok { //<>//
     }
   }
 
-  void MakeWall(Vec2 pos, String g) {
+  //Laver væggen i physics verdenen
+  void MakeWall(Vec2 pos) {
     BodyDef bd = new BodyDef();
     PolygonShape ps = new PolygonShape();
     pos.addLocal(new Vec2(gridSize/20, -gridSize/20));
@@ -156,6 +158,7 @@ class Blok { //<>//
     doors.put(g, new Door(pos, id, box2d));
   }
 
+  //Fjerner alle objekterne fra verdenen og laver nye hashmaps
   void DestroyStuff() {
     for (String x : kasser.keySet()) {
       kasser.get(x).finalize();
@@ -173,23 +176,6 @@ class Blok { //<>//
       }
     }
 
-    //Skal bruges hvis koden ovenover stopper med at virke
-    /*ting = 0;
-     for (Body x : walls) {
-     ting++;
-     if (box2d.world.getBodyCount() < 1) {
-     //println(box2d.world.getBodyCount());
-     println(ting);
-     } else {
-     box2d.destroyBody(x);
-     println(box2d.world.getBodyCount());
-     box2d.destroyBody(x);
-     println(box2d.world.getBodyCount());
-     }
-     }
-     println(millis());
-     println();*/
-
     walls = new ArrayList<Body>();
     save = new HashMap<String, Sav>();
     knapper = new HashMap<String, Knap>();
@@ -197,37 +183,7 @@ class Blok { //<>//
     kasser = new HashMap<String, Kasse>();
   }
 
-  void DestroyStuff(String g, int id) {
-    switch (id) {
-    case 0: //Wall blok
-      break;
-
-    case 4: //Kasse
-      kasser.get(g).finalize();
-      break;
-
-    case 5: //Saw
-      save.remove(g);
-      break;
-
-    case 6: //Saw
-      save.remove(g);
-      break;
-
-    case 7: //Knap blok
-      knapper.remove(g);
-      break;
-
-    case 8: //Dør blok
-      doors.get(g).finalize();
-      break;
-
-    default:
-      break;
-    }
-  }
-
-  //returnerer alle hitboxes fra blokken med relativt shift i forhold til blokken bilen er i
+  //returnerer alle hitboxes fra blokken
   PVector[][] GetHitboxes(int id, int blokTurn) {
     PVector[][] temp = new PVector[0][0];
     switch (id) {

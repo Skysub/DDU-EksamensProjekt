@@ -15,7 +15,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
   boolean o = false, editorMode = false;
 
   Bane(Box2DProcessing b, FileHandler fileHandler, boolean editorMode) {
-    this.editorMode = editorMode;
+    this.editorMode = editorMode; //Editormode er true hvis bane klassen er instantieret gennem level editoren
     box2d = b;
     this.fileHandler = fileHandler;
 
@@ -27,7 +27,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     blokkeIalt = blok.blokkeIalt;
 
     LavTileTestBane();
-    LavTestBaneTo();
+    LavTestBaneTo(); //Laver en default bane som level editoren starter med
 
     if (editorMode) {
       kamera[0] = 80;
@@ -41,7 +41,6 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
       kamera[0] = 0;
       kamera[1] = 0;
     }
-
     blok.Update();
   }
 
@@ -50,40 +49,40 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     pushMatrix();
     if (!tileTest) translate(kamera[0], kamera[1]);
     scale(kamera[2]);
-    //Kald funktioner her der tegner ting
-    if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug, coolGFX);
+    if (bane[0][0].get(0) != -1) DrawBane(tileTest, hitboxDebug, coolGFX); //Banen tegnes
     popMatrix();
     return 0;
   }
 
+  //Denne metode sørger for at de forskellige objekter i banen bliver instantieret
   void LavBaneIVerden() {
 
     int[] t = {0, 0};
     String gExtra = 0+","+0;
-    blok.MakeWall(GridToWorld(t), gExtra);
+    blok.MakeWall(GridToWorld(t)); //Væg ved 0,0
     for (int i=0; i<bred; i++) {
       for (int j=0; j<lang; j++) {
         if (bane[i][j] != null && !(i == 0 && j == 0)) {
           if (bane[i][j].get(0) == 0) {
             int[] temp = {i, j};
             String g = i+","+j;
-            blok.MakeWall(GridToWorld(temp), g);
+            blok.MakeWall(GridToWorld(temp)); //Væg
           } else if (bane[i][j].get(0) == 4) {
             String g = i+","+j;
             int[] temp = {i, j};
-            blok.MakeKasse(g, GridToWorld(temp));
+            blok.MakeKasse(g, GridToWorld(temp)); //Kasse
           } else if (bane[i][j].get(0) == 5 ||bane[i][j].get(0) == 6) {
             String g = i+","+j;
             int[] temp = {i, j};
-            blok.MakeSav(g, GridToWorld(temp), bane[i][j].get(0));
+            blok.MakeSav(g, GridToWorld(temp), bane[i][j].get(0)); //Sav
           } else if (bane[i][j].get(0) == 7) {
             String g = i+","+j;
             int[] temp = {i, j};
-            blok.MakeKnap(g, GridToWorld(temp), bane[i][j].get(2));
+            blok.MakeKnap(g, GridToWorld(temp), bane[i][j].get(2)); //Knap
           } else if (bane[i][j].get(0) == 8) {
             String g = i+","+j;
             int[] temp = {i, j};
-            blok.MakeDoor(g, GridToWorld(temp), bane[i][j].get(2));
+            blok.MakeDoor(g, GridToWorld(temp), bane[i][j].get(2)); //Dør
           }
         }
       }
@@ -102,13 +101,9 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
 
 
   //Beregner om et punkt p i worldspace kolliderer med en hitbox og returner hitboxens type som int
+  //Calc collision bliver kun brugt til at tjekke om hooken kolliderer med en væg
   int CalcCollision(PVector p, boolean hitboxDebug) {
     int[] gridP = WorldToGrid(p);
-    /*pushMatrix();
-     resetMatrix();
-     stroke(1);
-     line(0, 0+80, p.x, p.y+80);
-     popMatrix();*/
     PVector[][] hitBoxes;
 
     try {
@@ -177,7 +172,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
           }
         }
       }
-      //Special pass
+      //Special pass, hvor de større objekter tegnes
       for (int i=0; i<bred; i++) {
         for (int j=0; j<lang; j++) {
           if (bane[i][j] != null) {
@@ -210,7 +205,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
         }
       }
     }
-    if (editorMode) {
+    if (editorMode) { //Tegner en rød outline ome banen
       stroke(255, 50, 50);
       strokeWeight(2);
       line(0, 0, bred*40, 0);
@@ -224,6 +219,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     return kamera;
   }
 
+  //Sørger for at loade alle de relevante dele af en bane samt destruere de gamle elementer
   void LoadBane(IntList[][] b) {
     UnLoadBane();
 
@@ -231,8 +227,9 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     lang = b[0][0].get(1);
     id   = b[0][0].get(2);
     bane = b;
-    LavBaneIVerden();
+    LavBaneIVerden(); //Laver de forskellige objekter
 
+    //Bruges til at bestemme hvor spilleren skal starte
     for (int i = 0; i < bred; i++) {
       for (int j = 0; j < lang; j++) {
         if (b[i][j].get(0) == 3) {
@@ -299,7 +296,8 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     LoadBane(test);
   }
 
-  //Et kinda ordentligt level
+  //Laver et ordentligt level med fint design og nogle forskellige elementer
+  //Blev brugt meget før level editoren blev færdiggjort, bruges dog stadig
   void LavTestBaneTo() {
     IntList[][] test = new IntList[35][18];
     for (int i = 0; i < 35; i++) {
@@ -326,7 +324,6 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
           else if (j > 6 && i == 24) test[i][j].append(0); //wall
           else if (j == 12 && i > 15) test[i][j].append(0); //wall
           else if (j > 11 && i == 15) test[i][j].append(0); //wall
-
           else test[i][j].append(1); //Luft hvor der ikke er sat en blok endnu
 
           test[i][j].append(0); //Rotation of 0
@@ -335,7 +332,6 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
         }
       }
     }
-    //fileHandler.MakeLevelFile(test);
     LoadBane(test);
   }
 
@@ -381,11 +377,13 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     kamera[2] = s;
   }
 
+  //Bruges til at resette kameraet i level editoren
   void ResetKamera() {
     float[] t = {80, 80, 1, 1920, 1000};
     kamera = t;
   }
 
+  //Laver en 1x1 tom bane
   void MakeEmpty() {
     IntList[][] empty = new IntList[1][1];
     empty[0][0] = new IntList();
@@ -395,6 +393,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     LoadBane(empty);
   }
 
+  //Laver en 15x15 tom bane
   void MakeNew() {
     int emptySize = 15;
     IntList[][] out = new IntList[emptySize][emptySize];
@@ -414,11 +413,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     LoadBane(out);
   }
 
-  void RemoveStuff(int i, int j) {
-    String g = i+","+j;
-    blok.DestroyStuff(g, bane[i][j].get(0));
-  }
-
+  //Bruges til at ændre en blok i banen
   void EditBlok(int id, int rot, int extra, int[] pos) {
     if (pos[0] == 0 && pos[1] == 0) return;
 
@@ -431,16 +426,13 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
     LoadBane(bane);
   }
 
+  //Ændrer størrelsen af banen
   void EditCanvas(int ekstra, int rot) {
-    int t;
-    //if (ekstra == 0) t = -1;
-    //else
-    t = ekstra;
-
+    int t = ekstra;
     if (rot == 0 || rot == 2) lang += t;
     else bred += t;
 
-    if (bred < 1 || lang < 1) {
+    if (bred < 1 || lang < 1) { //Er banen allerede den mindste størrelse
       bred = 1; 
       lang = 1; 
       return;
@@ -448,6 +440,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
 
     IntList[][] out = new IntList[bred][lang];
 
+    //Læser informationen fra blokken til nedenunder, til venstre, ovenover eller til højre alt efter hvilken retning der laves/fjernes en række
     for (int i = 0; i < bred; i++) {
       for (int j = 0; j < lang; j++) {
         out[i][j] = new IntList();
