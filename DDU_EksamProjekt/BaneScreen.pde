@@ -50,7 +50,7 @@ class BaneScreen extends GameState {   //<>//
     timer.Update(playing, baneStart, endZone);
     levelNr = bane.bane[0][0].get(2) + 1; //Opdater hvad levelets id er
 
-    if (getRecord) {
+    if (getRecord && done) {
       //sørger for at getRecord() kun kaldes når programmer resets, for ikke at sende kommandoer til databasen hele tiden
       times = timer.getText();
       possibleRecord = times[0];
