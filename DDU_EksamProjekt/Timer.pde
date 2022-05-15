@@ -28,6 +28,11 @@ class Timer {
     recordSec = floor(record/1000f)-floor(record/60000f)*60;
     if(mainLogic.username == null)text("Record: "+recordMin+":"+recordSec+"."+(record - floor(record/1000f)*1000), 420, 30);
     else text("Record: " + loggedInrecord, 420, 30);
+    
+    textSize(30);
+    text("'TAB' for menu", 980, 35);
+    text("'R' to reset", 1300, 35);
+    text("'L' to center camera", 1540, 35);
    
     stroke(0);
     strokeWeight(2);
