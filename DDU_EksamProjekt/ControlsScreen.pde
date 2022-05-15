@@ -31,12 +31,13 @@ class ControlsScreen extends GameState {
 
     fill(0);
     textSize(30);
-    text("Use left/right arrow or A/D to aim the grapplehook", 1130, 300);
-    text("Hold 'shift' to aim slower", 1130, 360);
-    text("Use 'R' to restart the level", 1130, 420);
-    text("Use 'TAB' to open the menu", 1130, 480);
-    text("Use 'L' to lock the view to the player", 1130, 540);
-    text("You have to be logged in to save your time", 1130, 600);
+    text("Press 'SPACE' to fire grappling hook", 1130, 360);
+    text("Use left/right arrow or A/D to aim the grappling hook", 1130, 360);
+    text("Hold 'shift' to aim slower", 1130, 420);
+    text("Use 'R' to restart the level", 1130, 480);
+    text("Use 'TAB' to open the menu", 1130, 540);
+    text("Use 'L' to lock the view to the player", 1130, 600);
+    text("You have to be logged in to save your time", 1130, 660);
 
     text("Use shift+drag or the arrow keys to pan around", 70, 300);
     text("Zoom using the scroll wheel", 70, 360);
