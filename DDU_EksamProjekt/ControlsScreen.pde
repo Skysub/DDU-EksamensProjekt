@@ -31,7 +31,7 @@ class ControlsScreen extends GameState {
 
     fill(0);
     textSize(30);
-    text("Press 'SPACE' to fire grappling hook", 1130, 360);
+    text("Press 'SPACE' to fire grappling hook", 1130, 300);
     text("Use left/right arrow or A/D to aim the grappling hook", 1130, 360);
     text("Hold 'shift' to aim slower", 1130, 420);
     text("Use 'R' to restart the level", 1130, 480);
