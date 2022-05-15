@@ -221,7 +221,7 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
 
   //Sørger for at loade alle de relevante dele af en bane samt destruere de gamle elementer
   void LoadBane(IntList[][] b) {
-    UnLoadBane();
+    blok.DestroyStuff();
 
     bred = b[0][0].get(0);
     lang = b[0][0].get(1);
@@ -271,29 +271,6 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
   //Konverterer grid koordinater til world koordinater
   Vec2 GridToWorld(int[] p) {
     return new Vec2((p[0]*gridSize-(width/2))/10f, ((height/2)-p[1]*gridSize)/10f);
-  }
-
-  //Til test og debugging
-  void LavTestBane() {
-    IntList[][] test = new IntList[70][20];
-    for (int i = 0; i < 70; i++) {
-      for (int j = 0; j < 20; j++) {
-        test[i][j] = new IntList();
-        if (i == 0 && j == 0) {
-          test[0][0].append(70);
-          test[0][0].append(20);
-          test[0][0].append(-1);
-        } else {
-          if ((j > 1 && j < 6) && (i > 31 && i < 35)) test[i][j].append(2);
-          else if (j==19 || i == 60 || i == 1 || j == 1) test[i][j].append(0);
-          else test[i][j].append(1);
-          test[i][j].append(0);
-        }
-      }
-    }
-    //Til test af file handler
-    //fileHandler.MakeLevelFile(test);
-    LoadBane(test);
   }
 
   //Laver et ordentligt level med fint design og nogle forskellige elementer
