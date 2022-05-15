@@ -29,17 +29,23 @@ class BanePopUp { //<>//
 
     //Hvis en af knapperne trykkes så skift skærm
     if (mainMenuButton.MouseReleased()) {
+      baneScreen.resetRecord = true;
+      baneScreen.timer.ResetRecord();
       baneScreen.ChangeScreen("MenuScreen");
       baneScreen.popup = false;
       baneScreen.ToggleTab(false);
     }
     if (baneMenuButton.MouseReleased()) {
+      baneScreen.resetRecord = true;
+      baneScreen.timer.ResetRecord();
       baneScreen.ChangeScreen("LevelSelectionScreen"); 
       baneScreen.popup = false;
       baneScreen.ToggleTab(false);
     }
     //Load den næste bane hvis knappen trykkes
     if (nextLevelButton.isClicked()) {
+      baneScreen.resetRecord = true;
+      baneScreen.timer.ResetRecord();
       baneScreen.lSelScreen.LoadBaneNr(levelNr, baneScreen.lSelScreen.getCustom());
       nextLevelButton.clicked = false;
     }

@@ -10,7 +10,7 @@ class BaneScreen extends GameState {   //<>//
 
   Box2DProcessing box2d;
 
-  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, getRecord = true;
+  boolean playing = false, baneStart = false, endZone = false, hand = false, done = false, getRecord = true, resetRecord = false;
   int shadow = 3, levelNr, recordValue;
   IntList[][] b;
   String possibleRecord, record;
@@ -60,7 +60,9 @@ class BaneScreen extends GameState {   //<>//
       if (record == null) record = "";
       getRecord = false;
     }
+    if (record == null) record = "0:0.0";
 
+    timer.Update(playing, baneStart, endZone);
 
     if (popup) { //Hvis popup menuen er aktiv
       popUp.Update(done, mainLogic.username, levelNr, timer.getText());
@@ -75,6 +77,10 @@ class BaneScreen extends GameState {   //<>//
         box2d.step();//Kør et physics step
       }
       handleStart();
+    }
+    if(resetRecord){
+      record = "0:0.0";
+      resetRecord = false;
     }
   }
 
