@@ -78,16 +78,3 @@ class Button {
     return (!clicked && clickedPrev);
   }
 }
-/* 
- Når en knap skal instantieres:
- Button btn1;
- 
- btn1 = new Button(xPos, yPos, længde, højde, "evt. tekst", farven af selv knappen (eks color(200, 50, 50), farven når knappen klikkes, teksstørelsen, farven af teksten);
- 
- Når knappen skal bruges (i update-funktion i en klasse for eksempel:
- btn1.run();
- if(btn1.isClicked()){
- //Det der skal ske når man trykke på knappen 
- }
- 
- */
