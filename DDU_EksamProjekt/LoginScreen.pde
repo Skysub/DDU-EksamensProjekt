@@ -24,6 +24,7 @@ class LoginScreen extends GameState {
       removeText = false;
     }
     
+    //Toggler ved shift mellem de to tekstbokse
     if (kb.Shift(9) && username.isActive()) {
       username.ChangeFocus(false);
       password.ChangeFocus(true);
@@ -78,7 +79,8 @@ class LoginScreen extends GameState {
 
       enteredUsername = username.Input(minLengthUN, maxLengthUN);
       enteredPassword = password.Input(minLengthPW, 0);
-
+      
+      //Tjekker om man er ved at signe up, og om passwordet opfylder kravene
       if (toggleLogin) passwordSecure = true;
       if (!toggleLogin && enteredPassword != null && !enteredPassword.equals(enteredPassword.toLowerCase()) && !enteredPassword.equals(enteredPassword.toUpperCase()) && HasNumber(enteredPassword)) passwordSecure = true;                                         
       else if (!toggleLogin) passwordSecure = false;
@@ -87,7 +89,8 @@ class LoginScreen extends GameState {
         hashedPassword = Hash(enteredPassword);
         status = DoDB(enteredUsername, hashedPassword);
       } 
-
+      
+      //status 4 er man succesfuldt logget ind, og kan skifte tilbage til menuskærm
       if (status == 4) {
         RemoveText();
         removeText = true;
@@ -96,7 +99,8 @@ class LoginScreen extends GameState {
         mainLogic.gameStateManager.SkiftGameState("MenuScreen");
       }
     }
-
+    
+    //sikre at fejlbeskederne om brugernavnet og kodens længde, samt kodens sikkerhed fjernes når de opfyldes
     if (!username.tooShort && !username.tooLong) triedUN = false;
     if (!password.tooShort) triedPW = false;
     if (password.Input(minLengthPW, 0) != null && IsSecure(password.Input(minLengthPW, 0)) && HasNumber(password.Input(minLengthPW, 0))) triedPWS = false;
@@ -145,7 +149,8 @@ class LoginScreen extends GameState {
       md.update(pw.getBytes());
 
       byte[] byteList = md.digest();
-
+      
+      //hasher koden med SHA-256
       StringBuffer hashedValueBuffer = new StringBuffer();
       for (byte b : byteList)hashedValueBuffer.append(hex(b));
 
@@ -158,9 +163,11 @@ class LoginScreen extends GameState {
   }
 
   int DoDB(String un, String pw) {
+    //Querier SELECT med det indtastede brugernavn, for at tjekke om brugeren eksisterer
     mainLogic.db.query("SELECT username FROM PW WHERE username='"+un+"';");
     if (!toggleLogin) {
       if (!mainLogic.db.next()) {
+        //Indsætter brugernavnet og koden i db'en hvis man er på sign up og de ikke eksisterer
         sql = "INSERT INTO PW VALUES('"+un+"','"+pw+"');";
         mainLogic.db.execute(sql);
         delay(100);
@@ -183,6 +190,7 @@ class LoginScreen extends GameState {
   }
 
   boolean HasNumber(String pw) {
+    //Opdeler koden i et array af characters og tjekker for hver individuel om de er et tal
     char[] ch = pw.toCharArray();
     for (char c : ch) {
       if (Character.isDigit(c)) {
@@ -193,6 +201,7 @@ class LoginScreen extends GameState {
   }
 
   boolean IsSecure(String pw) {
+    //Tjekker om koden i tekstboksen, ikke den indtastede, opfylder sikkerhedskravene, på samme måde som HasNumber()
     char[] ch = pw.toCharArray();
     String pwNoNumbers = "";
     for (char c : ch) {
