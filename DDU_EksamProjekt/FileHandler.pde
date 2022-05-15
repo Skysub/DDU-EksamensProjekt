@@ -33,9 +33,10 @@ class FileHandler { //<>// //<>// //<>//
 
     //Prøver at lave en .csv fil gennem tabellen.
     try {
-      File tempFile = new File(sketchPath()+"\\custom_levels\\level_"+b[0][0].get(2)+".csv"); //Opretter et objekt med den korrekte path
+      //Opretter et objekt med den korrekte path
+      File tempFile = new File(sketchPath()+"\\custom_levels\\level_"+b[0][0].get(2)+".csv"); 
       if (tempFile.exists()) {
-        //Hvis denne .csv fil allerede eksisterer tjekkes der om man kan lave en fil med samme navn med '(1)' sat på enden, de tjekker tal op til 70
+        //Hvis denne fil allerede eksisterer tjekkes der om man kan lave en fil med samme navn med '(i)' sat på enden
         for (int i = 1; i < 70; i++) {
           File t = new File(sketchPath()+"\\custom_levels\\level_"+b[0][0].get(2)+"("+i+")"+".csv");
           if (!t.exists()) { 

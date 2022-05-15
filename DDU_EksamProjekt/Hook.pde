@@ -198,7 +198,6 @@ class Hook { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
     start.addLocal(new Vec2(-width/20, height/20));
 
     box2d.world.raycast(rcCallbackKasse, start, searchPoint);
-    //delay(50);
     if (kasseFixture == null) return false;
     Body b = kasseFixture.getBody();
     for (String x : bane.blok.kasser.keySet()) {

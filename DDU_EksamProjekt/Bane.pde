@@ -156,7 +156,8 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
 
   void DrawBane(boolean tileTest, boolean hitboxDebug, boolean coolGFX) {
     String g;
-    if (!tileTest) { //Banen tegnes
+    if (!tileTest) { 
+      //Banen tegnes
       for (int i=0; i<bred; i++) {
         for (int j=0; j<lang; j++) {
           if (bane[i][j] != null) {
@@ -164,8 +165,8 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
             pushMatrix();
             //flytter hen til hvor vi skal tegne på griddet
             translate((gridSize*i), (gridSize*j));
-
             if (i == 0 && j == 0) blok.DrawBlok(0, hitboxDebug, g, kamera, false, editorMode, coolGFX);
+            
             //kalder en funktion der vælger hvilken metode der skal bruges alt efter hvilken blok skal tegnes
             else blok.DrawBlok(bane[i][j].get(0), hitboxDebug, g, kamera, false, editorMode, coolGFX);
             popMatrix();
@@ -394,11 +395,11 @@ class Bane { //<>// //<>// //<>// //<>// //<>// //<>//
   void EditBlok(int id, int rot, int extra, int[] pos) {
     if (pos[0] == 0 && pos[1] == 0) return;
 
-    bane[int(pos[0])][int(pos[1])] = new IntList();
-    bane[int(pos[0])][int(pos[1])].append(id);
-    bane[int(pos[0])][int(pos[1])].append(rot);
+    bane[pos[0]][pos[1]] = new IntList();
+    bane[pos[0]][pos[1]].append(id);
+    bane[pos[0]][pos[1]].append(rot);
     if (id == 7 || id == 8) {
-      bane[int(pos[0])][int(pos[1])].append(extra);
+      bane[pos[0]][pos[1]].append(extra);
     }
     LoadBane(bane);
   }
