@@ -53,6 +53,7 @@ class BaneScreen extends GameState {   //<>//
     levelNr = bane.bane[0][0].get(2) + 1;
 
     if (getRecord) {
+      //sørger for at getRecord() kun kaldes når programmer resets, for ikke at sende kommandoer til databasen hele tiden
       times = timer.getText();
       possibleRecord = times[0];
       recordValue = int(times[2]);
